@@ -10,58 +10,40 @@
 #                                                                              #
 # **************************************************************************** #
 
-# OS			= $(shell uname)
-
 NAME		= minishell
 LIBFT_PATH	= ./libft
 LIBFT		= libft
-
 INCLUDE		= minishell.h
-
-# ifeq ($(OS), Linux)
-# 			FLAGS = -f elf64
-# else
-# 			FLAGS = -f macho64
-# endif
-
 CC			= gcc -g -Wall -Wextra -Werror
-
 RM			= rm -rf
 
-SRC = 
-OBJ			= $(SRC:.s=.o)
-
-# %.o : %.s
-# 	@$(ASM) $(FLAGS) -s $< -o $@
+SRC			= \
+				main.c \
+				read_line/read_line.c \
+				split_line/split_line.c \
+				launch/launch.c \
+				launch/execute.c		
+OBJ			= $(SRC:.c=.o)
 
 all: libft_all $(NAME)
-
 $(NAME): $(OBJ)
-	@$(CC)  $(NAME) libft.a -I./ $(OBJ) -o $@
-
+	@$(CC) libft.a -I./ $(OBJ) -o $@
 clean: libft_clean
 	@$(RM) $(NAME)
-
 fclean: libft_fclean clean
-	@$(RM) $(NAME)
-
+	@$(RM) $(OBJ)
 re: fclean all
-
 
 libft_all:
 	make -C $(LIBFT_PATH) all
 	cp ./libft/libft.a libft.a
-
 libft_clean:
 	make -C $(LIBFT_PATH) clean
-
 libft_fclean:
 	make -C $(LIBFT_PATH) fclean
 	$(RM) libft.a
 
-# test: re
-# 	$(GCC) $(GCCFLAGS) main.c -L. -lasm
-# 	./a.out
+test: all
+	@./minishell
 
 .PHONY: all clean fclean re
-
