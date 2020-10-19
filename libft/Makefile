@@ -47,8 +47,7 @@ FUNC_MAIN.c = \
 	ft_strtrim.c\
 	ft_substr.c\
 	ft_tolower.c\
-	ft_toupper.c\
-	ft_strlen_n.c
+	ft_toupper.c
 
 FUNC_BONUS.c = \
 	ft_lstnew.c\
@@ -95,8 +94,7 @@ MAIN_OBJ_FILES = \
 	ft_strtrim.o\
 	ft_substr.o\
 	ft_tolower.o\
-	ft_toupper.o\
-	ft_strlen_n.o
+	ft_toupper.o
 
 BONUS_OBJ_FILES = \
 	ft_lstnew.o\
@@ -129,9 +127,5 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
-
-so: $(MAIN_OBJ_FILES) $(BONUS_OBJ_FILES)
-	@gcc -c -fPIG $(FUNC_MAIN.c) $(FUNC_BONUS.c)
-	@gcc -shared -o libft.so $(MAIN_OBJ_FILES) $(BONUS_OBJ_FILES)
 
 re: fclean all
