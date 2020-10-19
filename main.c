@@ -17,7 +17,7 @@ void lsh_loop(void)
   char *line;
   char **args;
   int status; // wdjn
-
+// 890
   do {
     printf("> "); //  приглашение ввода
     line = lsh_read_line(); // функция для чтения входной строки
