@@ -19,7 +19,7 @@ RM			= rm -rf
 
 SRC			= \
 				main.c \
-				split_line/split_line.c \
+				parsing/parsing.c \
 				launch/launch.c \
 				launch/execute.c		
 OBJ			= $(SRC:.c=.o)
