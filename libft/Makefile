@@ -40,6 +40,7 @@ FUNC_MAIN.c = \
 	ft_strlcat.c\
 	ft_strlcpy.c\
 	ft_strlen.c\
+	ft_strlen_n.c\
 	ft_strmapi.c\
 	ft_strncmp.c\
 	ft_strnstr.c\
@@ -47,7 +48,8 @@ FUNC_MAIN.c = \
 	ft_strtrim.c\
 	ft_substr.c\
 	ft_tolower.c\
-	ft_toupper.c
+	ft_toupper.c\
+	get_next_line.c
 
 FUNC_BONUS.c = \
 	ft_lstnew.c\
@@ -87,6 +89,7 @@ MAIN_OBJ_FILES = \
 	ft_strlcat.o\
 	ft_strlcpy.o\
 	ft_strlen.o\
+	ft_strlen_n.o\
 	ft_strmapi.o\
 	ft_strncmp.o\
 	ft_strnstr.o\
@@ -94,7 +97,8 @@ MAIN_OBJ_FILES = \
 	ft_strtrim.o\
 	ft_substr.o\
 	ft_tolower.o\
-	ft_toupper.o
+	ft_toupper.o\
+	get_next_line.o
 
 BONUS_OBJ_FILES = \
 	ft_lstnew.o\
