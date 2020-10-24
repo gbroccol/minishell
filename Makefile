@@ -19,7 +19,6 @@ RM			= rm -rf
 
 SRC			= \
 				main.c \
-				read_line/read_line.c \
 				split_line/split_line.c \
 				launch/launch.c \
 				launch/execute.c		
