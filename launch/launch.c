@@ -1,6 +1,6 @@
 # include "../minishell.h"
 
-int lsh_launch(char **args)
+int launch(t_tokens *tokens)
 {
   pid_t pid, wpid;
   int status;
