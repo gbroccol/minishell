@@ -14,7 +14,7 @@
 
 void lsh_loop(void)
 {
-	char *line; // привет Катя!!!!!!ho
+	char *line;
 	int status;
     int gnl_ret;
 	int ret_parsing;
