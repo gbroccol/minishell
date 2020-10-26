@@ -52,10 +52,8 @@ typedef struct		s_tokens
 	int				redir_right;
 	int				redir_2right;
 	int				redir_left;
-
-
-	char			file;
-	t_tokens		*next;
+	char			*file;
+	struct s_tokens		*next;
 }					t_tokens;
 
 
@@ -71,10 +69,14 @@ int					parsing(char *line, t_tokens *tok, int ret_parsing);
 */
 int					execute(t_tokens *tokens);
 int					lsh_num_builtins();
-int					launch(t_tokens *tokens);
+// int					launch(t_tokens *tokens);
 
-int                 lsh_cd(char **args);
-int                 lsh_help();
-int                 lsh_exit();
+// int                 lsh_cd(char **args);
+// int                 lsh_help();
+// int                 lsh_exit();
+int 				lsh_exit();
+int 				lsh_cd(t_tokens *token);
+int 				lsh_pwd(void);
+int 				lsh_echo(t_tokens *token);
 
 #endif

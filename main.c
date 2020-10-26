@@ -27,12 +27,16 @@ void lsh_loop(void)
 	while (status)
 	{
         write(1, "> ", 2);
-	    gnl_ret = get_next_line(1, &line);
-		ret_parsing = parsing(line, &tok, ret_parsing); // функция для разбиения строки на аргументы
-		if (ret_parsing == 0)
-			status = execute(&tok); // исполняются аргументы
-		free(line); // освобождается память, выделенная под строку и аргументы
+	    gnl_ret = get_next_line(0, &line);
+		// if (gnl_ret != -1)
+		// {
+			ret_parsing = parsing(line, &tok, ret_parsing); // функция для разбиения строки на аргументы
+			if (ret_parsing == 0)
+				status = execute(&tok); // исполняются аргументы
+			free(line); // освобождается память, выделенная под строку и аргументы
+		// }
 	}
+	exit(EXIT_SUCCESS);
 }
 
 int main()

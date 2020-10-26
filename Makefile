@@ -20,8 +20,9 @@ RM			= rm -rf
 SRC			= \
 				main.c \
 				parsing/parsing.c \
-				launch/launch.c \
-				launch/execute.c		
+				launch/execute.c
+				# launch/launch.c \
+					
 OBJ			= $(SRC:.c=.o)
 
 all: libft_all $(NAME)

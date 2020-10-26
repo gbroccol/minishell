@@ -80,7 +80,7 @@ int lsh_echo(t_tokens *token);
 
 int lsh_exit()
 {
-  return 0;
+  return (0);
 }
 
 int lsh_cd(t_tokens *tokens)
@@ -119,7 +119,7 @@ int lsh_echo(t_tokens *tokens)
 	if (fd < 0)
 	{
 		strerror(errno);
-		return (0);
+		return (1);
 	}
 	if (tokens->arg)
 	{
@@ -128,10 +128,10 @@ int lsh_echo(t_tokens *tokens)
 	}
 	if (tokens->flag != 'n')
 		write(1, "\n", 1);
-	free(tokens->arg);
 	if (tokens->file)
 		free(tokens->file);
-	close(fd);
+	if (fd != 1)
+		close(fd);
 	return(1);
 }
 
@@ -153,27 +153,25 @@ int lsh_echo(t_tokens *tokens)
 //   return lsh_launch(args);
 // }
 
-int lsh_execute(t_tokens *tokens)
+int execute(t_tokens *tokens)
 {
-	if (tokens->type_func == -1) 
-	{
-    // Была введена пустая команда.
-		write (1, "\n", 1);
-    	return (1);
-	}
+	int ret;
 
+	ret = 1;
+	if (tokens->type_func == -1) 
+    	return (ret);
 	while (tokens)
 	{
-		if (tokens->type_func == 1)
-			lsh_cd(tokens);
-		else if (tokens->type_func == 2)
-			lsh_pwd();
-		else if (tokens->type_func == 3)
-			lsh_echo(tokens);
-		else if (tokens->type_func == 4)
-			lsh_exit();
+		if (tokens->type_func == TYPE_CD)
+			ret = lsh_cd(tokens);
+		else if (tokens->type_func == TYPE_PWD)
+			ret = lsh_pwd();
+		else if (tokens->type_func == TYPE_ECHO)
+			ret = lsh_echo(tokens);
+		else if (tokens->type_func == TYPE_EXIT)
+			ret = lsh_exit();
 		tokens = tokens->next;
 	}
-	return (1);
+	return (ret);
 //  return lsh_launch(args);
 }
