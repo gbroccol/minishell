@@ -69,5 +69,6 @@ char				*ft_substr(char const *s, unsigned int start, size_t len);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					get_next_line(int fd, char **line);
+int					ft_strncmp_no_cases(const char *s1, const char *s2, size_t n);
 
 #endif

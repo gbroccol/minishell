@@ -49,7 +49,8 @@ FUNC_MAIN.c = \
 	ft_substr.c\
 	ft_tolower.c\
 	ft_toupper.c\
-	get_next_line.c
+	get_next_line.c\
+	ft_strncmp_no_cases.c
 
 FUNC_BONUS.c = \
 	ft_lstnew.c\
@@ -98,7 +99,8 @@ MAIN_OBJ_FILES = \
 	ft_substr.o\
 	ft_tolower.o\
 	ft_toupper.o\
-	get_next_line.o
+	get_next_line.o\
+	ft_strncmp_no_cases.o
 
 BONUS_OBJ_FILES = \
 	ft_lstnew.o\

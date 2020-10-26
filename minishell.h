@@ -8,10 +8,10 @@
 # include <unistd.h> // write, open, read, close, chdir, fork, exec - ???, pid_t - ???
 # include <stdlib.h> // malloc, free, realloc - NO, exit, execvp - NO, EXIT_SUCCESS, EXIT_FAILURE
 # include <sys/types.h> // wait
-    // fork - 
-    // wait -
+	// fork - 
+	// wait -
 #include <sys/wait.h> // waitpid() и связанные макросы
-    // waitpid - 
+	// waitpid - 
 # include <math.h>
 # include <fcntl.h>
 # include "./libft/libft.h"
@@ -32,6 +32,7 @@
 # define TYPE_EXPORT 5
 # define TYPE_ENV 6
 # define TYPE_UNSET 7
+
 # define TYPE_BIN 8
 # define TYPE_PIPE 9
 # define TYPE_RD_DB_OUT 10
@@ -41,22 +42,39 @@
 
 
 
+
+typedef struct		s_tokens
+{
+	int				type_func;
+	char			*arg;
+	int				quote;
+	int				flag;
+	int				redir_right;
+	int				redir_2right;
+	int				redir_left;
+
+
+	char			file;
+	t_tokens		*next;
+}					t_tokens;
+
+
+
+
 /*
 **  split_line
 */
-char				**lsh_split_line(char *line);
+int					parsing(char *line, t_tokens *tok, int ret_parsing);
 
 /*
 **  launch
 */
-int					lsh_execute(char **args);
+int					execute(t_tokens *tokens);
 int					lsh_num_builtins();
-int					lsh_launch(char **args);
+int					launch(t_tokens *tokens);
 
-int lsh_cd(char **args);
-int lsh_help();
-int lsh_exit();
-
-
+int                 lsh_cd(char **args);
+int                 lsh_help();
+int                 lsh_exit();
 
 #endif

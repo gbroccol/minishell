@@ -49,6 +49,7 @@ int lsh_echo(t_tokens *token);
 /*
   Реализации встроенных функций
 */
+
 // int lsh_cd(char **args)
 // {
 //   if (args[1] == NULL) {

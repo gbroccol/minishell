@@ -15,23 +15,23 @@
 void lsh_loop(void)
 {
 	char *line;
-	char **args;
 	int status;
     int gnl_ret;
-    int fd;
+	int ret_parsing;
+	t_tokens	tok;
 
 	line = NULL;
 	status = 1;
     gnl_ret = 1;
-    fd = open("bash1.sh", O_RDONLY);
+	ret_parsing = 0;
 	while (status)
 	{
         write(1, "> ", 2);
 	    gnl_ret = get_next_line(1, &line);
-		args = lsh_split_line(line); // функция для разбиения строки на аргументы
-		status = lsh_execute(args); // исполняются аргументы
+		ret_parsing = parsing(line, &tok, ret_parsing); // функция для разбиения строки на аргументы
+		if (ret_parsing == 0)
+			status = execute(&tok); // исполняются аргументы
 		free(line); // освобождается память, выделенная под строку и аргументы
-		free(args);
 	}
 }
 
