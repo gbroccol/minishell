@@ -2,14 +2,17 @@
 echo 'Hello World!'
 echo jbkjnk
 echo abc def
-echo -n 55
 echo "123" "456"
 echo "42 ;" ; echo "24 24"
 echo "\$|$/"
 echo "$"
 echo "$|$"
+
+
+
 echo $PWD
 echo "$PWD"
+echo -n 55
 echo -n ''
 echo -n 'jbbjhhd'
 echo '$PWD'
