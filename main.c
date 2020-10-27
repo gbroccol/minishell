@@ -14,7 +14,7 @@
 
 void lsh_loop(void)
 {
-	char *line;
+	char *line; // git1
 	int status;
     int gnl_ret;
 	int ret_parsing;
