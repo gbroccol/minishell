@@ -16,18 +16,18 @@ void lsh_loop(void)
 {
 	char *line; // git2
 	int status;
-    int gnl_ret;
+    // int gnl_ret;
 	int ret_parsing;
 	t_tokens	tok;
 
 	line = NULL;
 	status = 1;
-    gnl_ret = 1;
+    // gnl_ret = 1;
 	ret_parsing = 0;
 	while (status)
 	{
         write(1, "> ", 2);
-	    gnl_ret = get_next_line(0, &line);
+	    get_next_line(0, &line);
 		// if (gnl_ret != -1)
 		// {
 			ret_parsing = parsing(line, &tok, ret_parsing); // функция для разбиения строки на аргументы

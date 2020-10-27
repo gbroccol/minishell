@@ -27,7 +27,7 @@ OBJ			= $(SRC:.c=.o)
 
 all: libft_all $(NAME)
 $(NAME): $(OBJ)
-	@$(CC) libft.a -I./ $(OBJ) -o $@
+	@$(CC) -I./ $(OBJ) libft.a -o $@
 clean: libft_clean
 	@$(RM) $(NAME)
 fclean: libft_fclean clean
