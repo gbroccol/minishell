@@ -1,20 +1,30 @@
 ###############################################################################################
+
+#       РАЗКОММЕНТИРОВАЛА ВСЁ, ЧТО РАБОТАЕТ
+
 echo 'Hello World!'
 echo jbkjnk
 echo abc def
+echo abc             def
+     echo    890     345
+ECHO 1223
 echo "123" "456"
-echo "42 ;" ; echo "24 24"
-echo "\$|$/"
 echo "$"
 echo "$|$"
 
+#  убрать \n если есть флаг                             КАТЯ
+# echo -n 55                   
+# echo -n ''
+# echo -n 'jbbjhhd'
 
 
+
+
+echo 567t6 ; 890
+echo "42 ;" ; echo "24 24"
+echo "\$|$/\n"
 echo $PWD
 echo "$PWD"
-echo -n 55
-echo -n ''
-echo -n 'jbbjhhd'
 echo '$PWD'
 echo "$PWD"
 echo -n 5 | cat -e
@@ -30,59 +40,58 @@ ls 1111111 | grep 111 | cat -e
 echo -n 5 | cat -e
 echo -n -n 23
 
+###############################################################################################
+# cd minishell
+# cd libft
+# cd ..
+# cd .
+# cd ~
+# cd Desktop
+
 
 ###############################################################################################
-cd minishell
-cd libft
-cd ..
-cd .
-cd ~
-cd Desktop
-
-
-###############################################################################################
-pwd
+# pwd
  
 ###############################################################################################
-export
+# export
 
-ex $FINAL=5
-env
+# ex $FINAL=5
+# env
 
-ex $FINAL=BASH
-env
+# ex $FINAL=BASH
+# env
 
-FINAL=SUN
-export FINAL
-env
+# FINAL=SUN
+# export FINAL
+# env
 
-final=sun
-export final
-env
-
-###############################################################################################
-unset USER42
-unset MAIL42
+# final=sun
+# export final
+# env
 
 ###############################################################################################
-env
+# unset USER42
+# unset MAIL42
 
 ###############################################################################################
-exit
-exit 23
+# env
 
 ###############################################################################################
-/bin/ls
-/bin/echo 12
-ls -la
-/bin/ls
-echo $?
-/bin/ls ffffff
-echo $?
-/bin/ls ; echo -n 42;echo 42
+# exit
+# exit 23
 
-cat
+###############################################################################################
+# /bin/ls
+# /bin/echo 12
+# ls -la
+# /bin/ls
+# echo $?
+# /bin/ls ffffff
+# echo $?
+# /bin/ls ; echo -n 42;echo 42
 
-unset PATH
-ls
-export PATH=/bin
+# cat
+
+# unset PATH
+# ls
+# export PATH=/bin
