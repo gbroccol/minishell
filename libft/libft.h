@@ -70,5 +70,7 @@ int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					get_next_line(int fd, char **line);
 int					ft_strncmp_nc(const char *s1, const char *s2, size_t n);
+int					check_divide(char smb, char *line, int null_smb);
+
 
 #endif

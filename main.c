@@ -12,34 +12,39 @@
 
 #include "minishell.h"
 
-void lsh_loop(void)
+void			lsh_loop(void)
 {
-	char *line; // git2
-	int status;
-    // int gnl_ret;
-	int ret_parsing;
-	t_tokens	tok;
+	char		*line;
+	int			status;
+	int			ret_parsing;
+	t_tokens	*tok;
+	t_pars		*pars_inf;
 
 	line = NULL;
 	status = 1;
-    // gnl_ret = 1;
 	ret_parsing = 0;
+	// tok = NULL; // ???
+	// pars_inf = NULL;
 	while (status)
 	{
         write(1, "> ", 2);
 	    get_next_line(0, &line);
-		// if (gnl_ret != -1)
-		// {
-			ret_parsing = parsing(line, &tok, ret_parsing); // функция для разбиения строки на аргументы
-			if (ret_parsing == 0)
-				status = execute(&tok); // исполняются аргументы
-			free(line); // освобождается память, выделенная под строку и аргументы
-		// }
+		if (ret_parsing == 0)
+		{
+			tok = (t_tokens *)(malloc(sizeof(t_tokens))); // обработать ошибки ЛИШНИЕ ТОКЕНЫ  // ???
+			pars_inf = (t_pars *)(malloc(sizeof(t_pars)));
+			pars_inf->quote_finish = 0;
+			pars_inf->quote_start = 0;
+		}
+		ret_parsing = parsing(line, tok, pars_inf); // функция для разбиения строки на аргументы
+		if (ret_parsing == 0)
+			status = execute(tok); // исполняются аргументы
+		free(line); // освобождается память, выделенная под строку и аргументы
 	}
 	exit(EXIT_SUCCESS);
 }
 
-int main()
+int				main()
 {
 	// Загрузка файлов конфигурации при их наличии.
 	// Запуск цикла команд.

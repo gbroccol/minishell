@@ -24,6 +24,8 @@
 ** Errors about command
 */
 
+void				error(char *str);
+
 // int		command_error(char *name, char *cmd_name, int ret);
 // int		write_msg_error(char *prg_name, char *cmd_name, char *msg);
 // int		check_too_many_args(char **str, int nb_args_max);

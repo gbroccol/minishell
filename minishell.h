@@ -25,6 +25,8 @@
 /*
 **  commands
 */
+# define TYPE_ERROR -2 // error(MSG_CMD_NOT_FOUND);
+# define TYPE_NO 0
 # define TYPE_CD 1
 # define TYPE_PWD 2
 # define TYPE_ECHO 3
@@ -39,30 +41,40 @@
 # define TYPE_RD_S_OUT 11
 # define TYPE_RD_INPUT 12
 
-
-
-
-
-typedef struct		s_tokens
+typedef struct			s_tok_pars
 {
-	int				type_func;
-	char			*arg;
-	int				quote;
-	int				flag;
-	int				redir_right;
-	int				redir_2right;
-	int				redir_left;
-	char			*file;
-	struct s_tokens		*next;
+	int					comment;
+}						t_tok_pars;
+
+typedef struct			s_pars
+{
+	int					quote_start;
+	int					quote_finish;
+}						t_pars;
+
+typedef struct			s_tokens  // каждый лист замолочен
+{
+	int					type_func;
+	char				*cmd; // command text if error (there is no such command) // malloc
+	char				*arg; // malloc
+	int					quote;
+	int					flag_n;
+	int					flag_l;
+	int					flag_a;
+	int					redir_right;
+	int					redir_2right;
+	int					redir_left;
+	char				*file; // malloc
+	struct s_tokens		*next; // malloc
+	struct s_tok_pars	pars;
 }					t_tokens;
-
-
-
 
 /*
 **  split_line
 */
-int					parsing(char *line, t_tokens *tok, int ret_parsing);
+int					parsing(char *line, t_tokens *tok, t_pars *pars_inf);
+int					command(char *line, int position, t_tokens *tok_next, t_tokens *toks, t_pars *pars_inf);
+int					parsing_echo(char *line, int pos, t_tokens *tok, t_pars *pars_inf);
 
 /*
 **  launch

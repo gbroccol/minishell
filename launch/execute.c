@@ -126,7 +126,7 @@ int lsh_echo(t_tokens *tokens)
 		write(fd, tokens->arg, ft_strlen(tokens->arg));
 		free(tokens->arg);
 	}
-	if (tokens->flag != 'n')
+	if (tokens->flag_n == 0)
 		write(1, "\n", 1);
 	if (tokens->file)
 		free(tokens->file);

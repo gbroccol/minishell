@@ -20,8 +20,10 @@ RM			= rm -rf
 SRC			= \
 				main.c \
 				parsing/parsing.c \
+				parsing/command.c \
+				parsing/parsing_echo.c \
+				parsing/error.c \
 				launch/execute.c
-				# launch/launch.c \
 					
 OBJ			= $(SRC:.c=.o)
 
