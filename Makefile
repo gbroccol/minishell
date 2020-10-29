@@ -19,9 +19,11 @@ RM			= rm -rf
 
 SRC			= \
 				main.c \
+				parsing/clear.c \
 				parsing/parsing.c \
 				parsing/command.c \
-				parsing/parsing_echo.c \
+				parsing/parsing_arg.c \
+				parsing/check_redirect.c \
 				parsing/error.c \
 				launch/execute.c
 					

@@ -112,10 +112,14 @@ int lsh_echo(t_tokens *tokens)
 	int fd;
 
 	fd = 1;
-	if (tokens->redir_right == 1)
-		fd = open(tokens->file, O_RDWR | O_CREAT, 0666);
-	if (tokens->redir_2right == 1)
-		fd = open(tokens->file, O_RDWR | O_CREAT | O_APPEND, 0666);
+	if (tokens->redir != NULL)
+	{
+		if ((ft_strncmp(tokens->redir, ">>", 3)) == 0)
+			fd = open(tokens->file, O_RDWR | O_CREAT | O_APPEND, 0666);
+		if ((ft_strncmp(tokens->redir, ">", 2)) == 0)
+			fd = open(tokens->file, O_RDWR | O_CREAT, 0666);
+		// обработать ошибку, если редирект есть но файл не подали
+	}		
 	if (fd < 0)
 	{
 		strerror(errno);

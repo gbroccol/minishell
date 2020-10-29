@@ -51,7 +51,8 @@ FUNC_MAIN.c = \
 	ft_toupper.c\
 	get_next_line.c\
 	ft_strncmp_no_cases.c \
-	check_divide.c
+	check_divide.c \
+	ft_letter_to_str.c
 
 FUNC_BONUS.c = \
 	ft_lstnew.c\
@@ -102,7 +103,8 @@ MAIN_OBJ_FILES = \
 	ft_toupper.o\
 	get_next_line.o\
 	ft_strncmp_no_cases.o \
-	check_divide.o
+	check_divide.o \
+	ft_letter_to_str.o
 
 BONUS_OBJ_FILES = \
 	ft_lstnew.o\
