@@ -12,30 +12,24 @@
 
 #include "minishell.h"
 
-void lsh_loop(char **env)
+void			lsh_loop(t_all *all, char **env)
 {
-	char *line;
-	int status;
- //   int gnl_ret;
-	int ret_parsing;
-	t_tokens	tok;
-
-	line = NULL;
-	status = 1;
- //   gnl_ret = 1;
-	ret_parsing = 0;
-	while (status)
+	while (all->ret_ex)
 	{
         write(1, "> ", 2);
-//	    gnl_ret = get_next_line(0, &line);
-		get_next_line(0, &line);
-		// if (gnl_ret != -1)
-		// {
-			ret_parsing = parsing(line, &tok, ret_parsing); // функция для разбиения строки на аргументы
-			if (ret_parsing == 0)
-				status = execute(&tok, env); // исполняются аргументы
-			free(line); // освобождается память, выделенная под строку и аргументы
-		// }
+	    get_next_line(0, &(all->gnl_line));
+		if (all->ret_pars == 0)
+		{
+			all->toks = NULL;
+			clear_parsing(all->ps, 1);
+		}
+		all->ret_pars = parsing(all->gnl_line, &all->toks, all->ps);
+		if (all->ret_pars == 0)
+		{
+			all->ret_ex = execute(all->toks, env);
+			// free_toks(toks);
+		}
+		free(all->gnl_line);
 	}
 	exit(EXIT_SUCCESS);
 }
@@ -94,19 +88,18 @@ char	**save_env(char **envp)
 
 int main(int argc, char **argv, char **envp)
 {
-	char	**env;
+	char    **env;
+  t_all		*all;
 
+	all = clear_all();
 	if (argc == 1)
 		argv[1] = "minishell";
 	if (!(env = save_env(envp)))
 		return (EXIT_FAILURE);
-	// Загрузка файлов конфигурации при их наличии.
-	// Запуск цикла команд.
-	lsh_loop(env); // циклически интерпретирует команды
+	lsh_loop(all, env);
 
-	// Выключение / очистка памяти.
 	ft_free_array(env);
+  free(all);
+	free(all->ps);
 	return (EXIT_SUCCESS);
 }
-
-// https://github.com/ska42/minishell/blob/master/includes/utils.h

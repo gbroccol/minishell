@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-int	ft_cmpcases(int a, int b)
+int	ft_cmpcases(char a, char b)
 {
-	if (a >= 97 && a <= 122)
+	if (a >= 'a' && a <= 'z')
 	{
 		a -= 32;
 		if (a == b)

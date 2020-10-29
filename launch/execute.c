@@ -15,25 +15,6 @@
 #include <errno.h> // errno
 #include <string.h> //strerror
 
-/*
-  Список встроенных команд, за которыми следуют соответствующие функции
- */
-// char *builtin_str[] = {
-//   "cd",
-//   "help",
-//   "exit"
-// };
-
-// int (*builtin_func[]) (char **) = {
-//   &lsh_cd,
-//   &lsh_help,
-//   &lsh_exit
-// };
-
-// int lsh_num_builtins() {
-//   return sizeof(builtin_str) / sizeof(char *);
-// }
-
 int lsh_cd(t_tokens *tokens, char **env)
 {
 	int	i;
@@ -75,10 +56,14 @@ int lsh_echo(t_tokens *tokens)
 	int fd;
 
 	fd = 1;
-	if (tokens->redir_right == 1)
-		fd = open(tokens->file, O_RDWR | O_CREAT, 0666);
-	if (tokens->redir_2right == 1)
-		fd = open(tokens->file, O_RDWR | O_CREAT | O_APPEND, 0666);
+	if (tokens->redir != NULL)
+	{
+		if ((ft_strncmp(tokens->redir, ">>", 3)) == 0)
+			fd = open(tokens->file, O_RDWR | O_CREAT | O_APPEND, 0666);
+		if ((ft_strncmp(tokens->redir, ">", 2)) == 0)
+			fd = open(tokens->file, O_RDWR | O_CREAT, 0666);
+		// обработать ошибку, если редирект есть но файл не подали
+	}		
 	if (fd < 0)
 	{
 		strerror(errno);
@@ -89,8 +74,8 @@ int lsh_echo(t_tokens *tokens)
 		write(fd, tokens->arg, ft_strlen(tokens->arg));
 		free(tokens->arg);
 	}
-	if (!tokens->flag || !ft_strcmp(tokens->flag, "-n"))
-		write(1, "\n", 1);
+	if (tokens->flag_n == 0)
+		write(fd, "\n", 1);
 	if (tokens->file)
 		free(tokens->file);
 	if (fd != 1)
@@ -187,24 +172,6 @@ int	lsh_unset(t_tokens *token, char **env)
 	}
 	return (1);
 }
-
-// int lsh_execute(char **args)
-// {
-//   int i;
-
-//   if (args[0] == NULL) {
-//     // Была введена пустая команда.
-//     return 1;
-//   }
-
-//   for (i = 0; i < lsh_num_builtins(); i++) {
-//     if (strcmp(args[0], builtin_str[i]) == 0) {
-//       return (*builtin_func[i])(args);
-//     }
-//   }
-
-//   return lsh_launch(args);
-// }
 
 int execute(t_tokens *tokens, char **env)
 {

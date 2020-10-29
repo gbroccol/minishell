@@ -1,109 +1,65 @@
-
 # include "../minishell.h"
 
-void clear_tokens(t_tokens *tok)
+t_tokens		*clear_tokens()
 {
+	t_tokens	*tok;
+
+	if (!(tok = (t_tokens *)malloc(sizeof(t_tokens))))
+			return (NULL);  // обработать ошибку
 	tok->type_func = -1;
+	tok->cmd = NULL;
 	tok->arg = NULL;
+	tok->flags = NULL;
+	tok->pipe = 0;
+	tok->redir = NULL;
 	tok->file = NULL;
-	tok->quote = 0;
-	tok->flag = 0;
-	tok->redir_right = 0;
-	tok->redir_2right = 0;
-	tok->redir_left = 0;
+
+
+
+
+	tok->flag_n = 0;
+	tok->pars.comment = 0;
 	tok->next = NULL;
+	return (tok);
 }
 
-void		choose_com(char *buf, int counter, t_tokens *tok)
+void	ft_lstadd_back_tokens(t_tokens **lst, t_tokens *new)
 {
-	if ((ft_strncmp_nc(buf, "cd", counter)) == 0)
-		tok->type_func = TYPE_CD;
-	else if ((ft_strncmp_nc(buf, "pwd", counter)) == 0)
-		tok->type_func = TYPE_PWD;
-	else if ((ft_strncmp_nc(buf, "echo", counter)) == 0)
-		tok->type_func = TYPE_ECHO;
-	else if ((ft_strncmp_nc(buf, "exit", counter)) == 0)
-		tok->type_func = TYPE_EXIT;
-	else if ((ft_strncmp_nc(buf, "export", counter)) == 0)
-		tok->type_func = TYPE_EXPORT;
-	else if ((ft_strncmp_nc(buf, "env", counter)) == 0)
-		tok->type_func = TYPE_ENV;
-	else if ((ft_strncmp_nc(buf, "unset", counter)) == 0)
-		tok->type_func = TYPE_UNSET;
-}
+	t_tokens *tmp;
 
-int			first_com(char *line, t_tokens *tok)
-{
-	int		counter;
-	char	buf[10];
-
-	counter = 0;
-	while (line[counter] != ' ' && line[counter] != ';' && line[counter] != '\t' && 
-			line[counter] != '\r' && line[counter] != '\a'  && counter < 10)
+	// if (!lst || !new)
+	// 	return ;
+	if (!*lst)
+		*lst = new;
+	else
 	{
-		buf[counter] = line[counter];
-		counter++;
+		tmp = *lst;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
 	}
-	choose_com(buf, counter, tok);
-	return (counter);
 }
 
-
-int				parse_arg(char *line, int pos, t_tokens *tok)
+int				parsing(char *line, t_tokens **toks, t_pars *ps)
 {
-	int			tmp_pos;
-	char		*tmp_line;
-	int			index;
+	t_tokens	*tok_next;
 
-	tmp_line = NULL;
-	while (line[pos] == ' ' || line[pos] == '\t')
-		pos++;
-	while (line[pos] != '\0')
+	ps->place = 0;
+	while (1)
 	{
-		if (line[pos] == '\'' || line[pos] == '\"')
-			tok->quote = line[pos]; 									//	check
-		tmp_pos = pos;
-		pos++;
-		while (line[pos] != tok->quote && line[pos] != '\0')
-			pos++;
-		if (!(tmp_line = (char *)malloc(sizeof(char) * (pos - tmp_pos))))
-			return (1);												// error
-		index = 0;
-		if (tok->quote != 0)
-			tmp_pos++;
-		while (index < pos - tmp_pos)
-		{
-			tmp_line[index] = line[tmp_pos + index];
-			index++;
-		}
-		tmp_line[index] = '\0';
-		// if (tok->arg)
-		// {
-		// 	free(tok->arg);
-		// }
-		tok->arg = tmp_line;
-		if (tok->quote != 0)
-		{
-			if (line[pos] == tok->quote)
-				pos++;
-			else
-				return (-1);
-		}
-		while (line[pos] == ' ' || line[pos] == '\t')
-			pos++;
+		tok_next = clear_tokens();
+		command(line, tok_next, *toks, ps);
+		parsing_arg(line, tok_next, ps);
+		ft_lstadd_back_tokens(toks, tok_next);
+		if (ps->place == -1)  // не нашла закрыв ковычку
+			return (1);
+		if (line[ps->place] != '\0')
+			ps->place++;
+		clear_parsing(ps, 0);
+		// if (toks->pars.comment == 1)
+		// 	break ;
+		if (line[ps->place] == '\0')
+			break ;
 	}
-	return (0);
-}
-
-int				parsing(char *line, t_tokens *tok, int ret_parsing)
-{
-	int			position;
-	
-	if (ret_parsing == 0)
-		clear_tokens(tok);
-	position = first_com(line, tok);
-	position = parse_arg(line, position, tok);
-	if (position == -1)
-		return (1);
 	return (0);
 }
