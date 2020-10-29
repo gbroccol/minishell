@@ -19,15 +19,19 @@ RM			= rm -rf
 
 SRC			= \
 				main.c \
+				parsing/clear.c \
 				parsing/parsing.c \
+				parsing/command.c \
+				parsing/parsing_arg.c \
+				parsing/check_redirect.c \
+				parsing/error.c \
 				launch/execute.c
-				# launch/launch.c \
 					
 OBJ			= $(SRC:.c=.o)
 
 all: libft_all $(NAME)
 $(NAME): $(OBJ)
-	@$(CC) libft.a -I./ $(OBJ) -o $@
+	@$(CC) -I./ $(OBJ) libft.a -o $@
 clean: libft_clean
 	@$(RM) $(NAME)
 fclean: libft_fclean clean
