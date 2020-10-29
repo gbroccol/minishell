@@ -1,100 +1,44 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
+/*   Updated: 2020/10/29 14:57:06 by pvivian          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-#include <sys/param.h>
-#include <errno.h>
+#include <sys/param.h> // MAXPATHLEN
+#include <errno.h> // errno
+#include <string.h> //strerror
 
-// typedef struct      s_tokens
-// {
-//     int             type_func;
-//     char            *arg;
-// 	char			*file;
-//     int             flag;
-//     int             redir_right;
-//     int             redir_2right;
-//     int             redir_left;
-//     t_tokens        *next;
-// }                   t_tokens;
-
-
-/*
-  Объявление функций для встроенных команд оболочки:
- */
-// int lsh_cd(char **args);
-// int lsh_help(char **args);
-// int lsh_exit(char **args);
-// int lsh_help();
-int lsh_exit();
-int lsh_cd(t_tokens *token);
-int lsh_pwd(void);
-int lsh_echo(t_tokens *token);
-
-/*
-  Список встроенных команд, за которыми следуют соответствующие функции
- */
-// char *builtin_str[] = {
-//   "cd",
-//   "help",
-//   "exit"
-// };
-
-// int (*builtin_func[]) (char **) = {
-//   &lsh_cd,
-//   &lsh_help,
-//   &lsh_exit
-// };
-
-// int lsh_num_builtins() {
-//   return sizeof(builtin_str) / sizeof(char *);
-// }
-
-/*
-  Реализации встроенных функций
-*/
-
-// int lsh_cd(char **args)
-// {
-//   if (args[1] == NULL) {
-//     fprintf(stderr, "lsh: ожидается аргумент для \"cd\"\n");
-//   } else {
-//     if (chdir(args[1]) != 0) {
-//       perror("lsh");
-//     }
-//   }
-//   return 1;
-// }
-
-// int lsh_help(char **args)
-// int lsh_help()
-// {
-//   int i;
-//   printf("LSH Стивена Бреннана\n");
-//   printf("Наберите название программы и её аргументы и нажмите enter.\n");
-//   printf("Вот список втсроенных команд:\n");
-
-//   for (i = 0; i < lsh_num_builtins(); i++) {
-//     printf("  %s\n", builtin_str[i]);
-//   }
-
-//   printf("Используйте команду man для получения информации по другим программам.\n");
-//   return 1;
-// }
-
-int lsh_exit()
+int lsh_cd(t_tokens *tokens, char **env)
 {
-  return (0);
-}
+	int	i;
 
-int lsh_cd(t_tokens *tokens)
-{
-
-	// if (!tokens->arg)
-	// 	write(1, $HOME, ft_strlen($HOME));
- 	// else 
-	// {
+	i = 0;
+	if (!tokens->arg)
+	{
+		while (env[i] != NULL)
+		{
+			if (!ft_strncmp(env[i], "HOME=", 5))
+				if (!(tokens->arg = ft_strdup(env[i] + 5)))
+					return (0);
+			i++;
+		}
+	}
+	printf("%s\n", tokens->arg);
     if (chdir(tokens->arg) != 0)
-      strerror(errno);
+	{
+//		strerror(errno) //macos
+		write(1, strerror(errno), ft_strlen(strerror(errno))); //wsl
+		write(1, "\n", 1); //wsl
+	}
 	free(tokens->arg);
-//   }
-  return (1);
+	return (1);
 }
 
 int lsh_pwd(void)
@@ -131,7 +75,7 @@ int lsh_echo(t_tokens *tokens)
 		free(tokens->arg);
 	}
 	if (tokens->flag_n == 0)
-		write(1, "\n", 1);
+		write(fd, "\n", 1);
 	if (tokens->file)
 		free(tokens->file);
 	if (fd != 1)
@@ -139,25 +83,97 @@ int lsh_echo(t_tokens *tokens)
 	return(1);
 }
 
-// int lsh_execute(char **args)
-// {
-//   int i;
+int lsh_exit()
+{
+  return (0);
+}
 
-//   if (args[0] == NULL) {
-//     // Была введена пустая команда.
-//     return 1;
-//   }
+int	lsh_export(t_tokens *token, char **env)
+{
+	int size;
+	int	i;
 
-//   for (i = 0; i < lsh_num_builtins(); i++) {
-//     if (strcmp(args[0], builtin_str[i]) == 0) {
-//       return (*builtin_func[i])(args);
-//     }
-//   }
+	size = 0;
+	i = 0;
+	if (!token->arg)
+	{
+		while (env[i] != NULL)
+		{
+			size = 0;
+			while (env[i][size] != '=' && env[i][size] != '\0')
+				size++;
+			size++;
+			if (size > 1)
+			{
+				write(1, "declare -x ", 11);
+				write(1, env[i], size);
+				write(1, "\"", 1);
+				write(1, env[i] + size, ft_strlen(env[i]) - size);
+				write(1, "\"", 1);
+				write(1, "\n", 1);
+			}
+			i++;
+		}
+	}
+	else
+	{
+		while (token->arg[size] != '=')
+			size++;
+		size++;
+		while (env[i] != NULL)
+		{
+			if (!ft_strncmp(token->arg, env[i], size))
+			{
+				free(env[i]);
+				if (!(env[i] = ft_strdup(token->arg)))
+					return (0);
+				break ;
+			}
+			i++;
+		}
+		free(token->arg);
+	}
+	return (1);
+}
 
-//   return lsh_launch(args);
-// }
+int	lsh_env(char **env)
+{
+	int i;
 
-int execute(t_tokens *tokens)
+	i = 0;
+	while (env[i] != NULL)
+	{
+		write(1, env[i], ft_strlen(env[i]));
+		if (ft_strlen(env[i]) > 0)
+			write(1, "\n", 1);
+		i++;
+	}
+	return (1);
+}
+
+int	lsh_unset(t_tokens *token, char **env)
+{
+	int	i;
+
+	i = 0;
+	if (token->arg)
+	{
+		while (env[i] != NULL)
+		{
+			if (ft_strcmp(env[i], token->arg) == 61)
+			{
+				free(env[i]);
+				env[i] = "";
+				break ;
+			}
+			i++;
+		}
+		free(token->arg);
+	}
+	return (1);
+}
+
+int execute(t_tokens *tokens, char **env)
 {
 	int ret;
 
@@ -167,13 +183,19 @@ int execute(t_tokens *tokens)
 	while (tokens)
 	{
 		if (tokens->type_func == TYPE_CD)
-			ret = lsh_cd(tokens);
+			ret = lsh_cd(tokens, env);
 		else if (tokens->type_func == TYPE_PWD)
 			ret = lsh_pwd();
 		else if (tokens->type_func == TYPE_ECHO)
 			ret = lsh_echo(tokens);
 		else if (tokens->type_func == TYPE_EXIT)
 			ret = lsh_exit();
+		else if (tokens->type_func == TYPE_EXPORT)
+			ret = lsh_export(tokens, env);
+		else if (tokens->type_func == TYPE_ENV)
+			ret = lsh_env(env);
+		else if (tokens->type_func == TYPE_UNSET)
+			ret = lsh_unset(tokens, env);
 		tokens = tokens->next;
 	}
 	return (ret);

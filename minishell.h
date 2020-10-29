@@ -101,7 +101,7 @@ int					check_redirect(char *line, int pos, t_tokens *tok);
 /*
 **  launch
 */
-int					execute(t_tokens *tokens);
+int					execute(t_tokens *tokens, char **env);
 int					lsh_num_builtins();
 // int					launch(t_tokens *tokens);
 
@@ -109,7 +109,7 @@ int					lsh_num_builtins();
 // int                 lsh_help();
 // int                 lsh_exit();
 int 				lsh_exit();
-int 				lsh_cd(t_tokens *token);
+int 				lsh_cd(t_tokens *token, char **env);
 int 				lsh_pwd(void);
 int 				lsh_echo(t_tokens *token);
 

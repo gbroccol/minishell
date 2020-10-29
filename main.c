@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/10/19 17:41:02 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/10/29 11:37:16 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			lsh_loop(t_all *all)
+void			lsh_loop(t_all *all, char **env)
 {
 	while (all->ret_ex)
 	{
@@ -26,7 +26,7 @@ void			lsh_loop(t_all *all)
 		all->ret_pars = parsing(all->gnl_line, &all->toks, all->ps);
 		if (all->ret_pars == 0)
 		{
-			all->ret_ex = execute(all->toks);
+			all->ret_ex = execute(all->toks, env);
 			// free_toks(toks);
 		}
 		free(all->gnl_line);
@@ -34,13 +34,72 @@ void			lsh_loop(t_all *all)
 	exit(EXIT_SUCCESS);
 }
 
-int				main()
+void	ft_free_array(char **to_free)
 {
-	t_all		*all;
+	char **tmp;
+
+	tmp = to_free;
+	while (*tmp != NULL)
+	{
+		free(*tmp);
+		tmp++;
+	}
+	free(to_free);
+}
+
+void	bzero_array(char **array, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		array[i] = NULL;
+		i++;
+	}
+	array[i] = NULL;
+	i = 0;
+}
+
+char	**save_env(char **envp)
+{
+	char 	**env;
+	int 	i;
+	int		size;
+
+	size = 0;
+	while (envp[size] != NULL)
+		size++;
+	if (!(env = (char **)malloc(sizeof(char *) * (size + 1))))
+		return (NULL);
+	bzero_array(env, size);
+	i = 0;
+	while (i < size)
+	{
+		if (!(env[i] = ft_strdup(envp[i])))
+		{
+			ft_free_array(env);
+			return (NULL);
+		}
+		i++;
+	}
+	return (env);	
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	char    **env;
+  t_all		*all;
 
 	all = clear_all();
-	lsh_loop(all);
-	free(all);
+	if (argc == 1)
+		argv[1] = "minishell";
+	if (!(env = save_env(envp)))
+		return (EXIT_FAILURE);
+	lsh_loop(all, env);
+
+	ft_free_array(env);
+  free(all);
 	free(all->ps);
-	return EXIT_SUCCESS;
+	return (EXIT_SUCCESS);
 }

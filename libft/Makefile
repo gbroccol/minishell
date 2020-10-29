@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anastasiya <anastasiya@student.42.fr>      +#+  +:+       +#+         #
+#    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/29 21:32:03 by anastasiya        #+#    #+#              #
-#    Updated: 2020/05/20 12:27:44 by anastasiya       ###   ########.fr        #
+#    Updated: 2020/10/27 15:04:29 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ FUNC_MAIN.c = \
 	ft_strlen.c\
 	ft_strlen_n.c\
 	ft_strmapi.c\
+	ft_strcmp.c\
 	ft_strncmp.c\
 	ft_strnstr.c\
 	ft_strrchr.c\
@@ -94,6 +95,7 @@ MAIN_OBJ_FILES = \
 	ft_strlen.o\
 	ft_strlen_n.o\
 	ft_strmapi.o\
+	ft_strcmp.o\
 	ft_strncmp.o\
 	ft_strnstr.o\
 	ft_strrchr.o\
