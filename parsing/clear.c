@@ -10,6 +10,7 @@ void			clear_parsing(t_pars *ps, int clear_place)
 	ps->ev_len = 0;
 	if (clear_place)
 		ps->place = 0;
+	
 }
 
 t_all			*clear_all()
