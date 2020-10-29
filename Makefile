@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/10/15 13:22:25 by gbroccol         ###   ########.fr        #
+#    Updated: 2020/10/29 14:00:02 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ OBJ			= $(SRC:.c=.o)
 
 all: libft_all $(NAME)
 $(NAME): $(OBJ)
-	@$(CC) libft.a -I./ $(OBJ) -o $@
+	@$(CC) -I./ $(OBJ) libft.a -o $@
 clean: libft_clean
 	@$(RM) $(NAME)
 fclean: libft_fclean clean

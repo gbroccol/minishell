@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp_no_cases.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/30 17:33:24 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/05/20 12:22:27 by anastasiya       ###   ########.fr       */
+/*   Updated: 2020/10/27 14:26:41 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_strncmp_nc(const char *s1, const char *s2, size_t n)
 	while (n > 0 && *s1 != '\0' && *s2 != '\0')
 	{
 		if (*s1 != *s2)
-			if (ft_cmpcases((int)s1, (int)s2) == 1)
+			if (ft_cmpcases(*s1, *s2) == 1)
 				return ((int)((unsigned char)*s1 - (unsigned char)*s2));
 		s1++;
 		s2++;

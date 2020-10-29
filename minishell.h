@@ -48,7 +48,8 @@ typedef struct		s_tokens
 	int				type_func;
 	char			*arg;
 	int				quote;
-	int				flag;
+//	int				flag;
+	char			*flag;
 	int				redir_right;
 	int				redir_2right;
 	int				redir_left;
@@ -67,7 +68,7 @@ int					parsing(char *line, t_tokens *tok, int ret_parsing);
 /*
 **  launch
 */
-int					execute(t_tokens *tokens);
+int					execute(t_tokens *tokens, char **env);
 int					lsh_num_builtins();
 // int					launch(t_tokens *tokens);
 
@@ -75,7 +76,7 @@ int					lsh_num_builtins();
 // int                 lsh_help();
 // int                 lsh_exit();
 int 				lsh_exit();
-int 				lsh_cd(t_tokens *token);
+int 				lsh_cd(t_tokens *token, char **env);
 int 				lsh_pwd(void);
 int 				lsh_echo(t_tokens *token);
 
