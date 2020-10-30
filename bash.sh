@@ -39,7 +39,7 @@ echo '||' | cat -e
 echo 42 23 | grep 4 | cat -e                     # КАТЯ
 ls 1111111 | grep 111 | cat -e                        # КАТЯ
 echo 123 > 1
-echo > 1                                # КАТЯ
+echo > 1                                # КАТЯ done
 echo "> 1"
 echo 123> 1                              # НАСТЯ
 echo 42 > 1 ; echo 22 >> 1 ; cat -e  1                      # КАТЯ

@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/10/29 14:57:06 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/10/30 18:53:35 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int lsh_cd(t_tokens *tokens, char **env)
 	int	i;
 
 	i = 0;
-	if (!tokens->arg)
+	if (ft_strlen(tokens->arg) == 0)//!tokens->arg)
 	{
 		while (env[i] != NULL)
 		{
@@ -30,9 +30,9 @@ int lsh_cd(t_tokens *tokens, char **env)
 			i++;
 		}
 	}
-	printf("%s\n", tokens->arg);
     if (chdir(tokens->arg) != 0)
 	{
+		write(1, ">: ", 3);
 //		strerror(errno) //macos
 		write(1, strerror(errno), ft_strlen(strerror(errno))); //wsl
 		write(1, "\n", 1); //wsl
@@ -57,17 +57,26 @@ int lsh_echo(t_tokens *tokens)
 	int fd;
 
 	fd = 1;
+	if (tokens->redir != NULL && !tokens->file)
+	{
+		if (tokens->arg)
+			free(tokens->arg);
+		write(1, ">: syntax error near unexpected token `newline'\n", 48);
+		return (1);
+	}
 	if (tokens->redir != NULL)
 	{
 		if ((ft_strncmp(tokens->redir, ">>", 3)) == 0)
 			fd = open(tokens->file, O_RDWR | O_CREAT | O_APPEND, 0666);
 		if ((ft_strncmp(tokens->redir, ">", 2)) == 0)
 			fd = open(tokens->file, O_RDWR | O_CREAT, 0666);
-		// обработать ошибку, если редирект есть но файл не подали
 	}		
 	if (fd < 0)
 	{
-		strerror(errno);
+		write(1, ">: ", 3);
+//		strerror(errno) //macos
+		write(1, strerror(errno), ft_strlen(strerror(errno))); //wsl
+		write(1, "\n", 1); //wsl
 		return (1);
 	}
 	if (tokens->arg)
@@ -89,29 +98,61 @@ int lsh_exit()
   return (0);
 }
 
-int	lsh_export(t_tokens *token, char **env)
+char	**new_env(t_env *env, char *str)
+{
+	int		i;
+	char	**tmp;
+
+	i = 0;
+	tmp = NULL;
+	while (env->array[i] != NULL)
+	{
+		if (ft_strlen(env->array[i]) == 0)
+		{
+			if (!(env->array[i] = ft_strdup(str)))
+				return (NULL);
+			i = 0;
+			break ;
+		}
+		i++;
+	}
+	if (i != 0)
+	{
+		if (!(tmp = save_env(env->array, 1)))
+			return (NULL);
+		ft_free_array(env->array);
+		env->array = tmp;
+		i = 0;
+		while (env->array[i] != NULL)
+			i++;
+		if (!(env->array[i] = ft_strdup(str)))
+			return (NULL);
+	}
+	return (env->array);
+}
+
+int	lsh_export(t_tokens *token, t_env *env)
 {
 	int size;
 	int	i;
 
 	size = 0;
 	i = 0;
-	if (!token->arg)
+	if (ft_strlen(token->arg) == 0)//!token->arg)
 	{
-		while (env[i] != NULL)
+		while (env->array[i] != NULL)
 		{
 			size = 0;
-			while (env[i][size] != '=' && env[i][size] != '\0')
+			while (env->array[i][size] != '=' && env->array[i][size] != '\0')
 				size++;
 			size++;
 			if (size > 1)
 			{
 				write(1, "declare -x ", 11);
-				write(1, env[i], size);
+				write(1, env->array[i], size);
 				write(1, "\"", 1);
-				write(1, env[i] + size, ft_strlen(env[i]) - size);
-				write(1, "\"", 1);
-				write(1, "\n", 1);
+				write(1, env->array[i] + size, ft_strlen(env->array[i]) - size);
+				write(1, "\"\n", 2);
 			}
 			i++;
 		}
@@ -121,16 +162,25 @@ int	lsh_export(t_tokens *token, char **env)
 		while (token->arg[size] != '=')
 			size++;
 		size++;
-		while (env[i] != NULL)
+		while (env->array[i] != NULL)
 		{
-			if (!ft_strncmp(token->arg, env[i], size))
+			if (!ft_strncmp(token->arg, env->array[i], size))
 			{
-				free(env[i]);
-				if (!(env[i] = ft_strdup(token->arg)))
+				free(env->array[i]);
+				if (!(env->array[i] = ft_strdup(token->arg)))
 					return (0);
+				i = 0;
 				break ;
 			}
 			i++;
+		}
+		if (i != 0)
+		{
+			if (!(new_env(env, token->arg)))
+			{
+				free(token->arg);
+				return (0);
+			}
 		}
 		free(token->arg);
 	}
@@ -174,7 +224,7 @@ int	lsh_unset(t_tokens *token, char **env)
 	return (1);
 }
 
-int execute(t_tokens *tokens, char **env)
+int execute(t_tokens *tokens, t_env *env)
 {
 	int ret;
 
@@ -184,7 +234,7 @@ int execute(t_tokens *tokens, char **env)
 	while (tokens)
 	{
 		if (tokens->type_func == TYPE_CD)
-			ret = lsh_cd(tokens, env);
+			ret = lsh_cd(tokens, env->array);
 		else if (tokens->type_func == TYPE_PWD)
 			ret = lsh_pwd();
 		else if (tokens->type_func == TYPE_ECHO)
@@ -194,9 +244,9 @@ int execute(t_tokens *tokens, char **env)
 		else if (tokens->type_func == TYPE_EXPORT)
 			ret = lsh_export(tokens, env);
 		else if (tokens->type_func == TYPE_ENV)
-			ret = lsh_env(env);
+			ret = lsh_env(env->array);
 		else if (tokens->type_func == TYPE_UNSET)
-			ret = lsh_unset(tokens, env);
+			ret = lsh_unset(tokens, env->array);
 		tokens = tokens->next;
 	}
 	return (ret);

@@ -6,13 +6,13 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/10/29 11:37:16 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/10/30 18:47:11 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			lsh_loop(t_all *all, char **env)
+void			lsh_loop(t_all *all, t_env *env)
 {
 	while (all->ret_ex)
 	{
@@ -61,20 +61,18 @@ void	bzero_array(char **array, int size)
 	i = 0;
 }
 
-char	**save_env(char **envp)
+char	**save_env(char **envp, int size)
 {
 	char 	**env;
 	int 	i;
-	int		size;
 
-	size = 0;
 	while (envp[size] != NULL)
 		size++;
 	if (!(env = (char **)malloc(sizeof(char *) * (size + 1))))
 		return (NULL);
 	bzero_array(env, size);
 	i = 0;
-	while (i < size)
+	while (i < size && envp[i])
 	{
 		if (!(env[i] = ft_strdup(envp[i])))
 		{
@@ -88,18 +86,19 @@ char	**save_env(char **envp)
 
 int main(int argc, char **argv, char **envp)
 {
-	char    **env;
-  t_all		*all;
+//	char    **env;
+	t_env		env;
+ 	t_all		*all;
 
 	all = clear_all();
 	if (argc == 1)
 		argv[1] = "minishell";
-	if (!(env = save_env(envp)))
+	if (!(env.array = save_env(envp, 0)))
 		return (EXIT_FAILURE);
-	lsh_loop(all, env);
+	lsh_loop(all, &env);
 
-	ft_free_array(env);
-  free(all);
+	ft_free_array(env.array);
+ 	free(all);
 	free(all->ps);
 	return (EXIT_SUCCESS);
 }

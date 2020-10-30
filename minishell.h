@@ -74,6 +74,12 @@ typedef struct			s_tokens  // каждый лист замолочен
 	struct s_tokens		*next; // malloc
 }						t_tokens;
 
+typedef struct 			s_env
+{
+	char				**array;
+}						t_env;
+
+
 typedef struct			s_all
 {
 	int					ret_ex;
@@ -101,7 +107,9 @@ int					check_redirect(char *line, int pos, t_tokens *tok);
 /*
 **  launch
 */
-int					execute(t_tokens *tokens, char **env);
+int					execute(t_tokens *tokens, t_env *env);
+char				**save_env(char **envp, int size);
+void				ft_free_array(char **to_free);
 int					lsh_num_builtins();
 // int					launch(t_tokens *tokens);
 
