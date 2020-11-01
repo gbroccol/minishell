@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/01 19:13:38 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/01 19:48:58 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,37 @@ int lsh_cd(t_tokens *tokens, char **env)
 		while (env[i] != NULL)
 		{
 			if (!ft_strncmp(env[i], "HOME=", 5))
+			{
 				if (!(tokens->arg = ft_strdup(env[i] + 5)))
 					return (0);
+				i = 0;
+				break ;
+			}
 			i++;
+		}
+		if (i != 0)
+		{
+			write(2, "HOME not set\n", 13);
+			return (1);
+		}
+	}
+	if (!ft_strcmp(tokens->arg, "-"))
+	{
+		while (env[i] != NULL)
+		{
+			if (!ft_strncmp(env[i], "OLDPWD=", 7))
+			{
+				if (!(tokens->arg = ft_strdup(env[i] + 7)))
+					return (0);
+				i = 0;
+				break ;
+			}
+			i++;
+		}
+		if (i != 0)
+		{
+			write(2, "OLDPWD not set\n", 15);
+			return (1);
 		}
 	}
     if (chdir(tokens->arg) != 0)
