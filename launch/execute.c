@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/10/30 18:53:35 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/01 16:24:04 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,7 @@ int execute(t_tokens *tokens, t_env *env)
 	ret = 1;
 	if (tokens->type_func == -1) 
     	return (ret);
+	char *str[] = {"ls", "-la", NULL};
 	while (tokens)
 	{
 		if (tokens->type_func == TYPE_CD)
@@ -247,6 +248,9 @@ int execute(t_tokens *tokens, t_env *env)
 			ret = lsh_env(env->array);
 		else if (tokens->type_func == TYPE_UNSET)
 			ret = lsh_unset(tokens, env->array);
+		else
+			printf("%d\n", execve(str[0], str, env->array));
+		printf("%s\n", strerror(errno));
 		tokens = tokens->next;
 	}
 	return (ret);

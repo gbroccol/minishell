@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/10/30 18:47:11 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/01 16:39:18 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void			lsh_loop(t_all *all, t_env *env)
 {
 	while (all->ret_ex)
 	{
-        write(1, "> ", 2);
+        write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
 	    get_next_line(0, &(all->gnl_line));
 		if (all->ret_pars == 0)
 		{
