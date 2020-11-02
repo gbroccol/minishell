@@ -34,11 +34,11 @@ void		create_bin_tok(t_tokens *tok)
 		i++;
 	}
 	tok->bin_tok[i] = NULL;
-	i = 0;
+	// i = 0;
 
-	while (tok->bin_tok[i] != NULL)
-	{
-		printf("%s\n", tok->bin_tok[i]);
-		i++;
-	}
+	// while (tok->bin_tok[i] != NULL)
+	// {
+	// 	printf("%s\n", tok->bin_tok[i]);
+	// 	i++;
+	// }
 }
