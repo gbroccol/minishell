@@ -112,6 +112,7 @@ char				**save_env(char **envp, int size);
 void				ft_free_array(char **to_free);
 int					lsh_num_builtins();
 int					launch(t_env *env/*, t_tokens *tokens*/);
+char				*find_env(char **env, char *to_find);
 
 // int                 lsh_cd(char **args);
 // int                 lsh_help();

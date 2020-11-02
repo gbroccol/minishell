@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/01 19:48:58 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/02 16:01:05 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,55 +17,26 @@
 
 int lsh_cd(t_tokens *tokens, char **env)
 {
-	int	i;
-
-	i = 0;
+	//Добавить замену PWD и OLDPWD
 	if (ft_strlen(tokens->arg) == 0)//!tokens->arg)
 	{
-		while (env[i] != NULL)
-		{
-			if (!ft_strncmp(env[i], "HOME=", 5))
-			{
-				if (!(tokens->arg = ft_strdup(env[i] + 5)))
-					return (0);
-				i = 0;
-				break ;
-			}
-			i++;
-		}
-		if (i != 0)
-		{
-			write(2, "HOME not set\n", 13);
-			return (1);
-		}
+		if(!(tokens->arg = find_env(env, "HOME=")))
+			return (0);
 	}
-	if (!ft_strcmp(tokens->arg, "-"))
-	{
-		while (env[i] != NULL)
-		{
-			if (!ft_strncmp(env[i], "OLDPWD=", 7))
-			{
-				if (!(tokens->arg = ft_strdup(env[i] + 7)))
-					return (0);
-				i = 0;
-				break ;
-			}
-			i++;
-		}
-		if (i != 0)
-		{
-			write(2, "OLDPWD not set\n", 15);
-			return (1);
-		}
-	}
+	else if (!ft_strcmp(tokens->arg, "-"))
+		if(!(tokens->arg = find_env(env, "OLDPWD=")))
+			return (0);
+	if (ft_strlen(tokens->arg) == 0)
+		return (1);
     if (chdir(tokens->arg) != 0)
 	{
-		write(1, ">: ", 3);
+		write(2, ">: ", 3);
 //		strerror(errno) //macos
-		write(1, strerror(errno), ft_strlen(strerror(errno))); //wsl
-		write(1, "\n", 1); //wsl
+		write(2, strerror(errno), ft_strlen(strerror(errno))); //wsl
+		write(2, "\n", 1); //wsl
 	}
-	free(tokens->arg);
+	if (ft_strlen(tokens->arg) != 0)
+		free(tokens->arg);
 	return (1);
 }
 
@@ -89,7 +60,7 @@ int lsh_echo(t_tokens *tokens)
 	{
 		if (tokens->arg)
 			free(tokens->arg);
-		write(1, ">: syntax error near unexpected token `newline'\n", 48);
+		write(2, ">: syntax error near unexpected token `newline'\n", 48);
 		return (1);
 	}
 	if (tokens->redir != NULL)
@@ -101,10 +72,10 @@ int lsh_echo(t_tokens *tokens)
 	}		
 	if (fd < 0)
 	{
-		write(1, ">: ", 3);
+		write(2, ">: ", 3);
 //		strerror(errno) //macos
-		write(1, strerror(errno), ft_strlen(strerror(errno))); //wsl
-		write(1, "\n", 1); //wsl
+		write(2, strerror(errno), ft_strlen(strerror(errno))); //wsl
+		write(2, "\n", 1); //wsl
 		return (1);
 	}
 	if (tokens->arg)
