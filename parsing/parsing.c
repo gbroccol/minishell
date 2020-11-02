@@ -13,12 +13,9 @@ t_tokens		*clear_tokens()
 	tok->pipe = 0;
 	tok->redir = NULL;
 	tok->file = NULL;
-
-
-
-
 	tok->flag_n = 0;
-	tok->pars.comment = 0;
+	tok->bin_tok = NULL;
+	// tok->pars.comment = 0;
 	tok->next = NULL;
 	return (tok);
 }
@@ -27,8 +24,6 @@ void	ft_lstadd_back_tokens(t_tokens **lst, t_tokens *new)
 {
 	t_tokens *tmp;
 
-	// if (!lst || !new)
-	// 	return ;
 	if (!*lst)
 		*lst = new;
 	else
@@ -40,25 +35,27 @@ void	ft_lstadd_back_tokens(t_tokens **lst, t_tokens *new)
 	}
 }
 
-int				parsing(char *line, t_tokens **toks, t_pars *ps)
+int				parsing(t_all *all, t_tokens **toks, t_pars *ps)
 {
 	t_tokens	*tok_next;
+	int			ret_arg;
 
-	ps->place = 0;
+	ps->pos = 0;
+	ret_arg = 0;
 	while (1)
 	{
 		tok_next = clear_tokens();
-		command(line, tok_next, *toks, ps);
-		parsing_arg(line, tok_next, ps);
+		command(all->gnl_line, tok_next, *toks, ps);
+		ret_arg = arguments(all->gnl_line, tok_next, ps, all->env);
+		if (tok_next->type_func == 8)
+			create_bin_tok(tok_next);
 		ft_lstadd_back_tokens(toks, tok_next);
-		if (ps->place == -1)  // не нашла закрыв ковычку
-			return (1);
-		if (line[ps->place] != '\0')
-			ps->place++;
+		// if (ps->pos == -1)
+		// 	return (1); // ???
 		clear_parsing(ps, 0);
-		// if (toks->pars.comment == 1)
-		// 	break ;
-		if (line[ps->place] == '\0')
+		if (all->gnl_line[ps->pos] == '\0')
+			break ;
+		if (ret_arg == 0)
 			break ;
 	}
 	return (0);

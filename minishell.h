@@ -45,32 +45,36 @@
 
 # define VAR_PWD 1
 
-typedef struct			s_tok_pars
+typedef struct			s_env
 {
-	int					comment;
-}						t_tok_pars;
+	int					env_line;
+	int					env_pos;
+	int					str_pos;
+	char				*str;
+}						t_env;
 
 typedef struct			s_pars
 {
-	int					place;
+	int					pos; // for gnl_line
+	int					tmp_pos;
+	int					index;
 	int					quote_start;
 	int					quote_finish;
-	int					env_var;
-	int					ev_len;
+	int					space;
+	struct s_env		*ps_env;
 }						t_pars;
 
 typedef struct			s_tokens  // каждый лист замолочен
 {
 	int					type_func;
 	char				*cmd; // command text if error (there is no such command) // malloc
-	char				*arg; // malloc
 	char				*flags;
+	char				*arg; // malloc
 	int					pipe;
 	char				*redir;
 	char				*file; // malloc
-
 	int					flag_n;
-	struct s_tok_pars	pars;
+	char				**bin_tok; // malloc
 	struct s_tokens		*next; // malloc
 }						t_tokens;
 
@@ -79,24 +83,27 @@ typedef struct			s_all
 	int					ret_ex;
 	int					ret_pars;
 	char				*gnl_line;
+	char				**env;
 	t_tokens			*toks;
 	t_pars				*ps; // структура для парсинга
 }						t_all;
 
-
-
 /*
 **  split_line
 */
-t_all				*clear_all();
-void				clear_parsing(t_pars *ps, int clear_place);
-
-int					parsing(char *line, t_tokens **tok, t_pars *pars_inf);
-void				command(char *line, t_tokens *tok_next,	t_tokens *toks, t_pars *ps);
-// int					command(char *line, int position, t_tokens *tok_next, t_tokens *toks, t_pars *pars_inf);
-// int					parsing_arg(char *line, int pos, t_tokens *tok, t_pars *pars_inf);
-void				parsing_arg(char *line, t_tokens *tok, t_pars *ps);
-int					check_redirect(char *line, int pos, t_tokens *tok);
+t_all					*clear_all();
+void					clear_parsing(t_pars *ps, int clear_place);
+int						parsing(t_all *all, t_tokens **toks, t_pars *ps);
+void					command(char *line, t_tokens *tok_next,	t_tokens *toks, t_pars *ps);
+int						arguments(char *line, t_tokens *tok, t_pars *ps, char **env);
+int						quote_no(char *line, t_tokens *tok, t_pars *ps, char **env);
+int						quote_one(char *line, t_tokens *tok, t_pars *ps);
+int						quote_two(char *line, t_tokens *tok, t_pars *ps, char **env);
+void					check_flags(char *line, t_pars *ps, t_tokens *tok);
+void					check_env(char *line, t_env *ps_env, char **env);
+int						check_redirect(char *line, int pos, t_tokens *tok);
+char					*check_shielding(char *line);
+void					create_bin_tok(t_tokens *tok);
 
 /*
 **  launch

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void			lsh_loop(t_all *all, char **env)
+void			lsh_loop(t_all *all)
 {
 	while (all->ret_ex)
 	{
@@ -23,10 +23,10 @@ void			lsh_loop(t_all *all, char **env)
 			all->toks = NULL;
 			clear_parsing(all->ps, 1);
 		}
-		all->ret_pars = parsing(all->gnl_line, &all->toks, all->ps);
+		all->ret_pars = parsing(all, &all->toks, all->ps);
 		if (all->ret_pars == 0)
 		{
-			all->ret_ex = execute(all->toks, env);
+			all->ret_ex = execute(all->toks, all->env);
 			// free_toks(toks);
 		}
 		free(all->gnl_line);
@@ -88,18 +88,19 @@ char	**save_env(char **envp)
 
 int main(int argc, char **argv, char **envp)
 {
-	char    **env;
+	// char    **env;
   t_all		*all;
 
 	all = clear_all();
 	if (argc == 1)
 		argv[1] = "minishell";
-	if (!(env = save_env(envp)))
+	if (!(all->env = save_env(envp)))
 		return (EXIT_FAILURE);
-	lsh_loop(all, env);
+	lsh_loop(all);
 
-	ft_free_array(env);
-  free(all);
+
+	ft_free_array(all->env);
 	free(all->ps);
+  	free(all);
 	return (EXIT_SUCCESS);
 }
