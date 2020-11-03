@@ -1,21 +1,21 @@
 ###############################################################################################
-echo 'Hello World!'
-echo jbkjnk
-echo abc def
-echo abc             def
-     echo    890     345
+echo 'Hello World!'                                              # +
+echo jbkjnk                                                      # +
+echo abc def                                                     # +
+echo abc             def                                         # +
+     echo    890     345                                         # +
 ECHO 1223
-echo "123" "456"
-echo "$"
-echo "$|$"
-echo -n 55                   
-echo -n ''
-echo -n 'jbbjhhd'
-echo 123 ;
+echo "123" "456"                                                 # +
+echo "$"                                                         # +
+echo "\$" '\$' \$                                                # +
+echo "$|$"                                                       # +
+echo -n 55                                                       # +
+echo -n ''                                                       # +
+echo -n 'jbbjhhd'                                                # +
+echo 123 ;                                                       # +
 echo 123 ; echo 456
 echo "42 ;" ; echo "24 24"
 echo -n -n -n 23
-#                                  ЭКРАНИРОВАНИЕ
 echo "\$ \#     |$/\n"         
 echo "\$|$/"
 echo "Это #не комментарий"
@@ -23,35 +23,148 @@ echo Это # Вот комментарий.
 echo Это \# не комментарий
 echo 567t6 ; 890 -n mk ; echo 123   #// ???
 echo 567t6 ; 890
-echo 'Это # не комментарий
-'
-echo 123 ; echo Это \# не комментарий"
-
-"
-"
-"
+echo Это # комментарий
+echo 123 ; echo Это \# не комментарий
 # пустая строка
+echo $LOGNAME
+echo $LOGNAME\ууу 
+echo $LOGNAME/ууу
+
+echo "123 $LOGNAME 456"
+echo "123 $LOGNAMEeee 456"
+echo "$LOGNAME/eee"
+
+echo '$LOGNAME/eee'
+echo '$LOGNAME\eee'
 echo '$PWD'
+echo $PWD
+echo "$PWD"
+
 echo -n 5 | cat -e
 echo 5 | cat -e
 echo "dd" | cat -e
-echo '||' | cat -e
+echo '||' | cat -e                # КАТЯ
 echo 42 23 | grep 4 | cat -e                     # КАТЯ
 ls 1111111 | grep 111 | cat -e                        # КАТЯ
+
 echo 123 > 1
-echo > 1                                # КАТЯ done
+echo '123 > 2'
+echo "123 > 1"
+echo > 1                               
 echo "> 1"
-echo 123> 1                              # НАСТЯ
+
 echo 42 > 1 ; echo 22 >> 1 ; cat -e  1                      # КАТЯ
-grep 2 < 1
+grep 2 < 1                         # как его распарсить?
 echo < 1
 grep < 1
 grep 4 < 1 | cat -e
 
-#                                       НАСТЯ
-echo $PWD
-echo "$PWD"
+export qwe=123456 ; echo $qwe
+echo "qwe"'qwe'
+echo "qwe" 'qwe'
 
+ls
+./ls
+
+# bash: syntax error near unexpected token
+# start
+;;
+;
+|
+||
+;@@;
+| |                                                     # КАТЯ
+ls;;
+ls; ;
+ls |
+ls||
+ls | |
+# finish
+echo $PWD                                                   # +
+echo $321
+echo $fdsgbkldmbklfdsmklfmd                                 # +
+echo str1"'str2'"                                           # +
+echo str1"'$str2'"                                          # +
+echo 'str1'str2"str3 $PWD str4" "str5"'$PWD' $PWD "$PWD"    # +
+echo "hello><; world"                                       # +
+echo $hfkdghldf$PWD                                         # +
+echo ' """" '                                               # +
+echo " '''''' "                                             # +
+echo """"""""                                               # +
+echo ''''''''                                               # +
+echo """"""""""              :""
+echo """""""""",         wtf     :""
+echo """""""""",         wtf     :""
+echo '"""""""""",         wtf     :""'
+echo hello                       happy                               man   # +
+export = ; echo $?
+echo $?
+export str1 2str = _3str str4=str5 
+ 'e'"x"p'o'r't'
+ec"ho" $str1 $str4
+ 'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t
+  'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r
+echo "hello;"; $q'c'"h"o $test
+echo "hello;"; $q'c'"h"o $test
+$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;
+cd -; pwd
+$lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;
+ echo         \'\"\\
+echo ~
+echo hello sad man
+echo $?
+>fil$q'1' e$w"ho" s$i"r"ing f$r$u file1
+pwd ; cat file1
+ls lskdgjdhgisdoigjiredg
+echo $?
+echo $?
+unset PWD; echo $PWD
+ls; unset PATH; ls     ;
+echo $?
+echo $?
+export PATH=/  ; ls
+echo $?
+export PATH=/bin  ; ls
+echo $?
+echo $PWD; unset PWD
+echo $PWD; export PWD=/ ; echo $PWD;
+pwd; echo $PWD
+cd; echo $PWD; cd -
+echo $PWD; echo $OLDPWD
+unset OLDPWD; echo $OLDPWD
+cd; echo $OLDPWD
+cd ; echo $PWD; echo $OLDPWD
+cd -
+ls -la
+ls "-la" ; cd -
+echo '\'                                                              # +
+echo \hello \$PWD                                                     # +
+echo '\hello \$PWD'                                                   # +
+echo "\hello \$PWD"                                                   # +
+echo \'\"\\ "\hello\$PWD"                                             # +
+echo "\$PWD" "\PWD"                                                   # +
+echo "\""                                                             # +
+echo "\'"                                                             # +
+"echo f" hello
+>"helo l" echo hell\ f
+>>"helo l" echo hell\ f ; echo hell\ f
+export t=n; echo -$t -n "-"'n' hello
+echo -$t "-n" '-''n' '-n;'         -n hello
+export a=l d=s; $a$d
+echo $PWD > as ; cat as
+echo ''\''"a|"\'q'a'\a'w'                                                         # +
+echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty
+pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2; 
+echo                                                                              # +
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1
+\ls\ ;
+echo ${PATH#*:} #Специальная переменная
+echo $(( 2#101011 )) #Преобразование системы счисления в арифметической подстановке.
+
+echo 123> 1
+echo 123jrd> 3                      # КАТЯ
+echo 123> 3
 # >, >> - перенаправление стандартного вывода программы в файл
 # < - перенаправление стандартного ввода программы из файла
 # |- перенаправление стандартного вывода программы на стандартный ввод другой программы
@@ -187,9 +300,6 @@ cat
 unset PATH
 ls
 export PATH=/bin
-
-
-
 
 #################################################################################
 ;;
