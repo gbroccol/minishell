@@ -119,7 +119,7 @@ char				*search_env(char **env, char *to_find);
 // int                 lsh_cd(char **args);
 // int                 lsh_help();
 // int                 lsh_exit();
-int 				lsh_exit();
+int 				lsh_exit(t_all *all);
 int 				lsh_cd(t_tokens *token, char **env);
 int 				lsh_pwd(void);
 int 				lsh_echo(t_tokens *token);
