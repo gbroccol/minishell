@@ -18,16 +18,27 @@ void			lsh_loop(t_all *all)
 	{
         write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
 	    get_next_line(0, &(all->gnl_line));
-		if (all->ret_pars == 0)
+		all->ps->pos = 0;
+		all->ret_pars = 1;
+		while (all->ret_pars)
 		{
-			all->toks = NULL;
-			clear_parsing(all->ps, 1);
-		}
-		all->ret_pars = parsing(all, &all->toks, all->ps);
-		if (all->ret_pars == 0)
-		{
+			all->ps->tmp_pos = 0;
+			all->ps->index = 0;
+			all->ps->quote_start = 0;
+			all->ps->quote_finish = 0;
+			all->ps->space = 0;
+
+			all->ps->ps_env->env_line = 0;
+			all->ps->ps_env->env_pos = 0;
+			all->ps->ps_env->str_pos = 0;
+			all->ps->ps_env->str = NULL;
+
+
+			all->ret_pars = parsing(all, all->ps);
 			all->ret_ex = execute(all);
 			// free_toks(toks);
+			free(all->tok);
+			all->tok = NULL;
 		}
 		free(all->gnl_line);
 	}

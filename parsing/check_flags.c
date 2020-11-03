@@ -1,6 +1,6 @@
 # include "../minishell.h"
 
-void				check_flags(char *line, t_pars *ps, t_tokens *tok)
+void				check_flags(char *line, t_pars *ps, t_token *tok)
 {
 	int			flag;
 

@@ -1,6 +1,6 @@
 # include "../minishell.h"
 
-int				quote_no(char *line, t_tokens *tok, t_pars *ps, char **env)
+int				quote_no(char *line, t_token *tok, t_pars *ps, char **env)
 {
 	char		*tmp_line;
 
@@ -53,6 +53,12 @@ int				quote_no(char *line, t_tokens *tok, t_pars *ps, char **env)
 			ps->pos++;
 		tmp_line = ft_letter_to_str(tmp_line, line[ps->pos], 0);
 		ps->pos++;
+
+
+		// if (line[ps->pos] == ' ')
+		// 	break ;
+
+
 	}
 
 	if (tmp_line)

@@ -64,7 +64,7 @@ typedef struct			s_pars
 	struct s_env		*ps_env;
 }						t_pars;
 
-typedef struct			s_tokens  // каждый лист замолочен
+typedef struct			s_token  // каждый лист замолочен
 {
 	int					type_func;
 	char				*cmd; // command text if error (there is no such command) // malloc
@@ -75,8 +75,8 @@ typedef struct			s_tokens  // каждый лист замолочен
 	char				*file; // malloc
 	int					flag_n;
 	char				**bin_tok; // malloc
-	struct s_tokens		*next; // malloc
-}						t_tokens;
+	// struct s_tokens		*next; // malloc
+}						t_token;
 
 typedef struct			s_all
 {
@@ -85,7 +85,7 @@ typedef struct			s_all
 	char				*gnl_line;
 	char				**env;
 	int					status;
-	t_tokens			*toks;
+	t_token				*tok;
 	t_pars				*ps; // структура для парсинга
 }						t_all;
 
@@ -94,17 +94,20 @@ typedef struct			s_all
 */
 t_all					*clear_all();
 void					clear_parsing(t_pars *ps, int clear_place);
-int						parsing(t_all *all, t_tokens **toks, t_pars *ps);
-void					command(char *line, t_tokens *tok_next,	t_tokens *toks, t_pars *ps);
-int						arguments(char *line, t_tokens *tok, t_pars *ps, char **env);
-int						quote_no(char *line, t_tokens *tok, t_pars *ps, char **env);
-int						quote_one(char *line, t_tokens *tok, t_pars *ps);
-int						quote_two(char *line, t_tokens *tok, t_pars *ps, char **env);
-void					check_flags(char *line, t_pars *ps, t_tokens *tok);
+int						parsing(t_all *all, t_pars *ps);
+// void					command(char *line, t_token *tok_next,	t_token *toks, t_pars *ps);
+void					command(char *line, t_token *tok, t_pars *ps);
+
+
+int						arguments(char *line, t_token *tok, t_pars *ps, char **env);
+int						quote_no(char *line, t_token *tok, t_pars *ps, char **env);
+int						quote_one(char *line, t_token *tok, t_pars *ps);
+int						quote_two(char *line, t_token *tok, t_pars *ps, char **env);
+void					check_flags(char *line, t_pars *ps, t_token *tok);
 void					check_env(char *line, t_env *ps_env, char **env);
-int						check_redirect(char *line, int pos, t_tokens *tok);
+int						check_redirect(char *line, int pos, t_token *tok);
 char					*check_shielding(char *line);
-void					create_bin_tok(t_tokens *tok);
+void					create_bin_tok(t_token *tok);
 
 /*
 **  launch
@@ -119,9 +122,9 @@ char				*search_env(char **env, char *to_find);
 // int                 lsh_cd(char **args);
 // int                 lsh_help();
 // int                 lsh_exit();
-int 				lsh_exit(t_all *all);
-int 				lsh_cd(t_tokens *token, char **env);
+int 				lsh_exit();
+int 				lsh_cd(t_token *token, char **env);
 int 				lsh_pwd(void);
-int 				lsh_echo(t_tokens *token);
+int 				lsh_echo(t_token *token);
 
 #endif
