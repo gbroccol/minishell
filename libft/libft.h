@@ -73,6 +73,6 @@ int					get_next_line(int fd, char **line);
 int					ft_strncmp_nc(const char *s1, const char *s2, size_t n);
 int					check_divide(char smb, char *line, int null_smb);
 char				*ft_letter_to_str(char *s1, char smb, int rm_double);
-
+char				*ft_str_to_str(char *s1, char *s2);
 
 #endif
