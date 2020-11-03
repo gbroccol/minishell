@@ -45,3 +45,4 @@ int			arguments(char *line, t_tokens *tok, t_pars *ps, char **env)
 	}
 	return (0);
 }
+
