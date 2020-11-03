@@ -17,7 +17,7 @@
 
 //Добавить передачу кодов выхода из встроенных команд в all->status
 
-int lsh_cd(t_tokens *tokens, char **env)
+int lsh_cd(t_token *tokens, char **env)
 {
 	//Добавить замену PWD и OLDPWD
 	if (!tokens->arg)
@@ -57,7 +57,7 @@ int lsh_pwd(void)
 	return (1);
 }
 
-int lsh_echo(t_tokens *tokens)
+int lsh_echo(t_token *tokens)
 {
 	int fd;
 
@@ -136,7 +136,7 @@ char	**new_env(t_all *all, char *str)
 	return (all->env);
 }
 
-int	lsh_export(t_tokens *token, t_all *all)
+int	lsh_export(t_token *token, t_all *all)
 {
 	int 		size;
 	int			i;
@@ -207,7 +207,7 @@ int	lsh_env(char **env)
 	return (1);
 }
 
-int	lsh_unset(t_tokens *token, char **env)
+int	lsh_unset(t_token *token, char **env)
 {
 	int	i;
 
@@ -232,15 +232,15 @@ int	lsh_unset(t_tokens *token, char **env)
 int execute(t_all *all)
 {
 	int			ret;
-	t_tokens	*tokens;
+	t_token		*tokens;
 
 	ret = 1;
-	tokens = all->toks;
+	tokens = all->tok;
 	if (tokens->type_func == -1) 
     	return (ret);
 	// printf("%s\n", tokens->bin_tok[0]);
-	while (tokens)
-	{
+	// while (tokens)
+	// {
 		if (tokens->type_func == TYPE_CD)
 			ret = lsh_cd(tokens, all->env);
 		else if (tokens->type_func == TYPE_PWD)
@@ -257,7 +257,7 @@ int execute(t_all *all)
 			ret = lsh_unset(tokens, all->env);
 		else if (tokens->type_func == TYPE_BIN)
 			ret = launch(all);
-		tokens = tokens->next;
-	}
+		// tokens = tokens->next;
+	// }
 	return (ret);
 }

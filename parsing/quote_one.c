@@ -1,6 +1,6 @@
 # include "../minishell.h"
 
-int				quote_one(char *line, t_tokens *tok, t_pars *ps)
+int				quote_one(char *line, t_token *tok, t_pars *ps)
 {
 	char		*tmp_line;
 

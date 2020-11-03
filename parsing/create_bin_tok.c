@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 
-void		create_bin_tok(t_tokens *tok)
+void		create_bin_tok(t_token *tok)
 {
 	int		i;
 

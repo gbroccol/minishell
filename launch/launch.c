@@ -141,9 +141,9 @@ int 	launch(t_all *all)
 	pid_t		pid;
 	int			status;
 	int			ret;
-	t_tokens	*tok;
+	t_token		*tok;
 
-	tok = all->toks;
+	tok = all->tok;
 	if (tok->bin_tok[0][0] != '/' && tok->bin_tok[0][0] != '.')
 	{
 		if ((ret = check_dir(all->env, tok->bin_tok)) != 0)

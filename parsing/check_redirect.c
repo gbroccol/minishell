@@ -1,6 +1,6 @@
 # include "../minishell.h"
 
-int				check_redirect(char *line, int pos, t_tokens *tok)
+int				check_redirect(char *line, int pos, t_token *tok)
 {
 	while (line[pos] == '>' || line[pos] == '<')
 	{

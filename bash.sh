@@ -1,19 +1,20 @@
 #! /bin/bash
 
 ###############################################################################################
+'Hello World!'                                                       # -
 echo 'Hello World!'                                              # +
 echo jbkjnk                                                      # +
 echo abc def                                                     # +
 echo abc             def                                         # +
      echo    890     345                                         # +
-ECHO 1223
+ECHO 1223                                                           # -
 echo "123" "456"                                                 # +
 echo "$"                                                         # +
 echo "$/"                                                        # +
 echo "$'"                                                        # +
 echo "$ "                                                        # +
 
-echo "$$"
+echo "$$"                                                            # -
 
 echo "\$" '\$' \$                                                # +
 echo "$|$"                                                       # +
@@ -21,18 +22,19 @@ echo -n 55                                                       # +
 echo -n ''                                                       # +
 echo -n 'jbbjhhd'                                                # +
 echo 123 ;                                                       # +
-echo 123 ; echo 456
-echo "42 ;" ; echo "24 24"
+echo 123 ; echo 456                                              # +
+echo "42 ;" ; echo "24 24"                                       # +
 echo -n -n -n 23                                                 # +
 echo "\$ \#     |$/\n"                                           # +    
 echo "\$|$/"                                                     # +
 echo "Это #не комментарий"                                       # +
-echo Это # Вот комментарий.                                      # +
+echo Это # Вот комментарий.                                          # - кириллица работает через раз
+echo This is # comment                                           # +
 echo Это \# не комментарий                                       # +
-echo 567t6 ; 890 -n mk ; echo 123   #// ???
-echo 567t6 ; 890
+echo 567t6 ; 890 -n mk ; echo 123                                # +
+echo 567t6 ; 890                                                 # +
 echo Это # комментарий                                           # +
-echo 123 ; echo Это \# не комментарий
+echo 123 ; echo Это \# не комментарий                            # +
 # пустая строка                                                  # +
 echo $LOGNAME                                                    # +
 echo $LOGNAME\ууу                                                # +
@@ -48,9 +50,12 @@ echo '$PWD'                                                      # +
 echo $PWD                                                        # +
 echo "$PWD"                                                      # +
 
-echo -n 5 | cat -e
-echo 5 | cat -e
-echo "dd" | cat -e
+
+# НАСТЯ не обработаны пайпы завтра буду делать
+
+echo -n 5 | cat -e                                              # КАТЯ 
+echo 5 | cat -e                                                 # КАТЯ
+echo "dd" | cat -e                                              # КАТЯ
 echo '||' | cat -e                                              # КАТЯ
 echo 42 23 | grep 4 | cat -e                                    # КАТЯ
 ls 1111111 | grep 111 | cat -e                                  # КАТЯ
@@ -112,8 +117,8 @@ export str1 2str = _3str str4=str5                                              
 ec"ho" $str1 $str4                                                              # - работает неправильно
  'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # - работает неправильно
   'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # - работает неправильно
-echo "hello;"; $q'c'"h"o $test                                                  # - сега
-echo "hello;"; $q'c'"h"o $test                                                  # - сега
+echo "hello;"; $q'c'"h"o $test                                                  # - 
+echo "hello;"; $q'c'"h"o $test                                                  # - 
 $q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # - работает неправильно
 cd -; pwd                                                                       # - сега
 $lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # - работает неправильно
@@ -122,11 +127,11 @@ echo ~                                                                          
 echo hello sad man                                                              # +
 echo $?
 >fil$q'1' e$w"ho" s$i"r"ing f$r$u file1                                         # - работает неправильно
-pwd ; cat file1                                                                 # - сега
+pwd ; cat file1                                                                 # - 
 ls lskdgjdhgisdoigjiredg                                                        # + скорректировать сообщение об ошибке КАТЯ
 echo $?
 echo $?
-unset PWD; echo $PWD                                                            # - сега
+unset PWD; echo $PWD                                                            # - 
 ls; unset PATH; ls     ;                                                        # - работает неправильно
 echo $?
 echo $?
