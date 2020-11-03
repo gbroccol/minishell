@@ -56,3 +56,4 @@ int			arguments(char *line, t_token *tok, t_pars *ps, char **env)
 	}
 	return (0);
 }
+
