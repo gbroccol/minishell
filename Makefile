@@ -6,7 +6,7 @@
 #    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/10/29 14:00:02 by pvivian          ###   ########.fr        #
+#    Updated: 2020/11/01 17:58:39 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ SRC			= \
 				parsing/check_shielding.c \
 				parsing/create_bin_tok.c \
 				parsing/error.c \
-				launch/execute.c
+				launch/execute.c \
+				launch/launch.c
 					
 OBJ			= $(SRC:.c=.o)
 

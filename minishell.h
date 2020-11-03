@@ -78,6 +78,12 @@ typedef struct			s_tokens  // каждый лист замолочен
 	struct s_tokens		*next; // malloc
 }						t_tokens;
 
+typedef struct 			s_env
+{
+	char				**array;
+}						t_env;
+
+
 typedef struct			s_all
 {
 	int					ret_ex;
@@ -108,9 +114,12 @@ void					create_bin_tok(t_tokens *tok);
 /*
 **  launch
 */
-int					execute(t_tokens *tokens, char **env);
+int					execute(t_tokens *tokens, t_env *env);
+char				**save_env(char **envp, int size);
+void				ft_free_array(char **to_free);
 int					lsh_num_builtins();
-// int					launch(t_tokens *tokens);
+int					launch(t_env *env/*, t_tokens *tokens*/);
+char				*find_env(char **env, char *to_find);
 
 // int                 lsh_cd(char **args);
 // int                 lsh_help();
