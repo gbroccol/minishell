@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/02 16:01:05 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/03 20:56:55 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,23 @@
 #include <errno.h> // errno
 #include <string.h> //strerror
 
+//Добавить передачу кодов выхода из встроенных команд в all->status
+
 int lsh_cd(t_tokens *tokens, char **env)
 {
 	//Добавить замену PWD и OLDPWD
-	if (ft_strlen(tokens->arg) == 0)//!tokens->arg)
+	if (!tokens->arg)
 	{
-		if(!(tokens->arg = find_env(env, "HOME=")))
+		if(!(tokens->arg = search_env(env, "HOME=")))
 			return (0);
 	}
 	else if (!ft_strcmp(tokens->arg, "-"))
-		if(!(tokens->arg = find_env(env, "OLDPWD=")))
+	{
+		if(!(tokens->arg = search_env(env, "OLDPWD=")))
 			return (0);
+		write (1, tokens->arg, ft_strlen(tokens->arg));
+		write(1, "\n", 1);
+	}
 	if (ft_strlen(tokens->arg) == 0)
 		return (1);
     if (chdir(tokens->arg) != 0)
@@ -94,21 +100,21 @@ int lsh_echo(t_tokens *tokens)
 
 int lsh_exit()
 {
-  return (0);
+	return (0);
 }
 
-char	**new_env(t_env *env, char *str)
+char	**new_env(t_all *all, char *str)
 {
 	int		i;
 	char	**tmp;
 
 	i = 0;
 	tmp = NULL;
-	while (env->array[i] != NULL)
+	while (all->env[i] != NULL)
 	{
-		if (ft_strlen(env->array[i]) == 0)
+		if (ft_strlen(all->env[i]) == 0)
 		{
-			if (!(env->array[i] = ft_strdup(str)))
+			if (!(all->env[i] = ft_strdup(str)))
 				return (NULL);
 			i = 0;
 			break ;
@@ -117,40 +123,40 @@ char	**new_env(t_env *env, char *str)
 	}
 	if (i != 0)
 	{
-		if (!(tmp = save_env(env->array, 1)))
+		if (!(tmp = save_env(all->env, 1)))
 			return (NULL);
-		ft_free_array(env->array);
-		env->array = tmp;
+		ft_free_array(all->env);
+		all->env = tmp;
 		i = 0;
-		while (env->array[i] != NULL)
+		while (all->env[i] != NULL)
 			i++;
-		if (!(env->array[i] = ft_strdup(str)))
+		if (!(all->env[i] = ft_strdup(str)))
 			return (NULL);
 	}
-	return (env->array);
+	return (all->env);
 }
 
-int	lsh_export(t_tokens *token, t_env *env)
+int	lsh_export(t_tokens *token, t_all *all)
 {
-	int size;
-	int	i;
+	int 		size;
+	int			i;
 
 	size = 0;
 	i = 0;
-	if (ft_strlen(token->arg) == 0)//!token->arg)
+	if (!token->arg)
 	{
-		while (env->array[i] != NULL)
+		while (all->env[i] != NULL)
 		{
 			size = 0;
-			while (env->array[i][size] != '=' && env->array[i][size] != '\0')
+			while (all->env[i][size] != '=' && all->env[i][size] != '\0')
 				size++;
 			size++;
 			if (size > 1)
 			{
 				write(1, "declare -x ", 11);
-				write(1, env->array[i], size);
+				write(1, all->env[i], size);
 				write(1, "\"", 1);
-				write(1, env->array[i] + size, ft_strlen(env->array[i]) - size);
+				write(1, all->env[i] + size, ft_strlen(all->env[i]) - size);
 				write(1, "\"\n", 2);
 			}
 			i++;
@@ -161,12 +167,12 @@ int	lsh_export(t_tokens *token, t_env *env)
 		while (token->arg[size] != '=')
 			size++;
 		size++;
-		while (env->array[i] != NULL)
+		while (all->env[i] != NULL)
 		{
-			if (!ft_strncmp(token->arg, env->array[i], size))
+			if (!ft_strncmp(token->arg, all->env[i], size))
 			{
-				free(env->array[i]);
-				if (!(env->array[i] = ft_strdup(token->arg)))
+				free(all->env[i]);
+				if (!(all->env[i] = ft_strdup(token->arg)))
 					return (0);
 				i = 0;
 				break ;
@@ -175,7 +181,7 @@ int	lsh_export(t_tokens *token, t_env *env)
 		}
 		if (i != 0)
 		{
-			if (!(new_env(env, token->arg)))
+			if (!(new_env(all, token->arg)))
 			{
 				free(token->arg);
 				return (0);
@@ -223,17 +229,20 @@ int	lsh_unset(t_tokens *token, char **env)
 	return (1);
 }
 
-int execute(t_tokens *tokens, t_env *env)
+int execute(t_all *all)
 {
-	int ret;
+	int			ret;
+	t_tokens	*tokens;
 
 	ret = 1;
+	tokens = all->toks;
 	if (tokens->type_func == -1) 
     	return (ret);
+	// printf("%s\n", tokens->bin_tok[0]);
 	while (tokens)
 	{
 		if (tokens->type_func == TYPE_CD)
-			ret = lsh_cd(tokens, env->array);
+			ret = lsh_cd(tokens, all->env);
 		else if (tokens->type_func == TYPE_PWD)
 			ret = lsh_pwd();
 		else if (tokens->type_func == TYPE_ECHO)
@@ -241,13 +250,13 @@ int execute(t_tokens *tokens, t_env *env)
 		else if (tokens->type_func == TYPE_EXIT)
 			ret = lsh_exit();
 		else if (tokens->type_func == TYPE_EXPORT)
-			ret = lsh_export(tokens, env);
+			ret = lsh_export(tokens, all);
 		else if (tokens->type_func == TYPE_ENV)
-			ret = lsh_env(env->array);
+			ret = lsh_env(all->env);
 		else if (tokens->type_func == TYPE_UNSET)
-			ret = lsh_unset(tokens, env->array);
+			ret = lsh_unset(tokens, all->env);
 		else
-			ret = launch(env/*, tokens*/);
+			ret = launch(all);
 		tokens = tokens->next;
 	}
 	return (ret);

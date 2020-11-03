@@ -3,7 +3,7 @@
 #include <string.h> //strerror
 #include <dirent.h> //opendir, readdir, closedir
 
-char	*find_env(char **env, char *to_find)
+char	*search_env(char **env, char *to_find)
 {
 	int		i;
 	int		size;
@@ -37,7 +37,7 @@ int		check_dir(char **env, char **executable)
 	DIR				*dir;
 	struct dirent	*subdir;
 
-	pwd = find_env(env, "PWD=");
+	pwd = search_env(env, "PWD=");
 	dir = opendir(pwd);
 	errno = 0;
 	if (!dir)
@@ -116,7 +116,7 @@ int		find_path(char **env, char **executable)
 	char	**tmp;
 	char	*prefix;
 
-	if (!(path = find_env(env, "PATH=")))
+	if (!(path = search_env(env, "PATH=")))
 		return (0);
 	if (ft_strlen(path) == 0)
 		return (1);
@@ -126,27 +126,29 @@ int		find_path(char **env, char **executable)
 		return (1);
 	ft_free_array(tmp);
 	free(path);
-	// tmp = executable[0];
+	// *tmp = executable[0];
 	path = ft_strjoin(prefix, executable[0]);
 	executable[0] = path;
-	// free(tmp);
+	// free(*tmp);
 	free(prefix);
 	ft_free_array(dirs);
+// }
 	return (2);
 }
 
-int 	launch(t_env *env/*, t_tokens *tokens*/)
+int 	launch(t_all *all)
 {
-	pid_t pid;
-	int status;
-	int	ret;
+	pid_t		pid;
+	int			status;
+	int			ret;
+	t_tokens	*tok;
 
-	char *str[] = {"ls", NULL}; //
-	if (str[0][0] != '/')
+	tok = all->toks;
+	if (tok->bin_tok[0][0] != '/' && tok->bin_tok[0][0] != '.')
 	{
-		if ((ret = check_dir(env->array, str)) != 0)
-		{;
-			if (!(ret = find_path(env->array, str)))
+		if ((ret = check_dir(all->env, tok->bin_tok)) != 0)
+		{
+			if (!(ret = find_path(all->env, tok->bin_tok)))
 				return (0);
 			else if (ret == 1)
 				return (1);
@@ -155,7 +157,7 @@ int 	launch(t_env *env/*, t_tokens *tokens*/)
 	pid = fork();
 	if (pid == 0) 
 	{
-		if (execve(str[0], str, env->array) == -1)
+		if (execve( tok->bin_tok[0],  tok->bin_tok, all->env) == -1)
 		{
       		write(2, strerror(errno), ft_strlen(strerror(errno)));
 			write(2, "\n", 1);
@@ -172,6 +174,10 @@ int 	launch(t_env *env/*, t_tokens *tokens*/)
 		waitpid(pid, &status, WUNTRACED);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
      		waitpid(pid, &status, WUNTRACED);
+		if (WEXITSTATUS(status) != 1)
+			all->status = WEXITSTATUS(status);
+		else 
+			all->status = 127;
   	}
 	return (1);
 }

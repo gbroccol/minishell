@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/01 16:39:18 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/03 20:55:09 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void			lsh_loop(t_all *all)
 		all->ret_pars = parsing(all, &all->toks, all->ps);
 		if (all->ret_pars == 0)
 		{
-			all->ret_ex = execute(all->toks, all->env);
+			all->ret_ex = execute(all);
 			// free_toks(toks);
 		}
 		free(all->gnl_line);
 	}
-	exit(EXIT_SUCCESS);
+	exit(all->status);
 }
 
 void	ft_free_array(char **to_free)

@@ -54,6 +54,7 @@ t_all			*clear_all()
 	all->gnl_line = NULL;
 	all->env = NULL;
 	all->toks = NULL;
+	all->status = 0;
 	if(!(all->ps = (t_pars *)(malloc(sizeof(t_pars)))))
 		return (NULL);
 	clear_parsing(all->ps, 1);
