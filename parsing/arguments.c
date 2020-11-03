@@ -34,6 +34,7 @@ int			arguments(char *line, t_tokens *tok, t_pars *ps, char **env)
 	}
 	if (line[ps->pos] == ';')
 	{
+		ps->pos++;
 		return (1);
 	}
 	if (line[ps->pos] == '|')

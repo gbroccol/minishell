@@ -255,7 +255,7 @@ int execute(t_all *all)
 			ret = lsh_env(all->env);
 		else if (tokens->type_func == TYPE_UNSET)
 			ret = lsh_unset(tokens, all->env);
-		else
+		else if (tokens->type_func == TYPE_BIN)
 			ret = launch(all);
 		tokens = tokens->next;
 	}

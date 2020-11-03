@@ -9,20 +9,26 @@ int				quote_two(char *line, t_tokens *tok, t_pars *ps, char **env)
 	{
 		if (line[ps->pos] == '$')
 		{
-			ps->pos++;
+			if (line[ps->pos + 1] != '\"' && line[ps->pos + 1] != '/' &&
+					line[ps->pos + 1] != '\'' &&
+					line[ps->pos + 1] != ' ' &&
+					line[ps->pos + 1] != '\t' &&
+					line[ps->pos + 1] != '|')
+			{
+				ps->pos++;
+				ps->ps_env->env_line = 0;
+				ps->ps_env->env_pos = 0;
+				ps->ps_env->str_pos = ps->pos;
+				ps->ps_env->str = NULL;
+				
+				check_env(line, ps->ps_env, env);
 
-			ps->ps_env->env_line = 0;
-			ps->ps_env->env_pos = 0;
-			ps->ps_env->str_pos = ps->pos;
-			ps->ps_env->str = NULL;
-			
-			check_env(line, ps->ps_env, env);
+				ps->pos = ps->ps_env->str_pos;
 
-			ps->pos = ps->ps_env->str_pos;
-
-			if (ps->ps_env->str != NULL)
-				tmp_line = ft_str_to_str(tmp_line, ps->ps_env->str);
-			continue ;
+				if (ps->ps_env->str != NULL)
+					tmp_line = ft_str_to_str(tmp_line, ps->ps_env->str);
+				continue ;
+			}
 		}
 		if (line[ps->pos] == '\\' && line[ps->pos + 1] == '$')
 		{
