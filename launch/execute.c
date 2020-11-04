@@ -98,8 +98,24 @@ int lsh_echo(t_token *tokens)
 	return(1);
 }
 
-int lsh_exit()
+int lsh_exit(t_all *all)
 {
+	int	i;
+
+	i = 0;
+	if (all->tok->arg)
+	{
+		while (all->tok->arg[i] != '\0')
+		{
+			if (!ft_isdigit(all->tok->arg[i]))
+			{
+				all->status = 255;
+				return (0);
+			}
+			i++;
+		}
+		all->status = ft_atoi(all->tok->arg);
+	}
 	return (0);
 }
 
@@ -248,7 +264,7 @@ int execute(t_all *all)
 		else if (tokens->type_func == TYPE_ECHO)
 			ret = lsh_echo(tokens);
 		else if (tokens->type_func == TYPE_EXIT)
-			ret = lsh_exit();
+			ret = lsh_exit(all);
 		else if (tokens->type_func == TYPE_EXPORT)
 			ret = lsh_export(tokens, all);
 		else if (tokens->type_func == TYPE_ENV)
