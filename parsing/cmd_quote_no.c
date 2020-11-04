@@ -45,7 +45,6 @@ int				cmd_quote_no(char *line, t_token *tok, t_pars *ps, char **env)
 				continue ;
 			}
 		}
-
 		if (line[ps->pos] == '$' && line[ps->pos + 1] == '?')
 		{
 			tmp_line = ft_str_to_str(tmp_line, ps->status);
@@ -60,19 +59,12 @@ int				cmd_quote_no(char *line, t_token *tok, t_pars *ps, char **env)
 		tmp_line = ft_letter_to_str(tmp_line, line[ps->pos], 0);
 		ps->pos++;
 	}
-	// if (tmp_line)
-	// {
-	// 	if (tok->cmd)
-	// 		tok->cmd = ft_str_to_str(tok->cmd, tmp_line);
-	// 	else
-	// 		tok->cmd = tmp_line;
-	// }
-
-	if (tok->args[0])
-		tok->args[0] = ft_str_to_str(tok->args[0], tmp_line);
-	else
-		tok->args[0] = tmp_line;
-
-
+	if (tmp_line)
+	{	
+		if (tok->tmp)
+			tok->tmp = ft_str_to_str(tok->tmp, tmp_line);
+		else
+			tok->tmp = tmp_line;
+	}
 	return (0);
 }

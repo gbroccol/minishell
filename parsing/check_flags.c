@@ -1,9 +1,8 @@
 # include "../minishell.h"
 
-void				check_flags(char *line, t_pars *ps, t_token *tok)
+void				check_flags(char *line, t_pars *ps, t_token *tok, char **env)
 {
 	int			flag;
-	// char		**new;
 
 	flag = ps->pos;
 	while (line[ps->pos] == ' ' || line[ps->pos] == '\t')
@@ -12,7 +11,7 @@ void				check_flags(char *line, t_pars *ps, t_token *tok)
 	{
 		while (line[ps->pos] == '-')
 		{
-			if (line[ps->pos] == '-' && line[ps->pos + 1] == 'n')
+			if (line[ps->pos + 1] == 'n')
 			{
 				tok->flag_n = 1;
 				ps->pos = ps->pos + 2;
@@ -26,12 +25,34 @@ void				check_flags(char *line, t_pars *ps, t_token *tok)
 				while (line[ps->pos] == ' ' || line[ps->pos] == '\t')
 					ps->pos++;
 			}
+			else if (line[ps->pos + 1] == '$')
+			{
+				is_env(line, ps, env);
+				
+				if (ps->ps_env->str != NULL)
+					if ((ft_strncmp(ps->ps_env->str, "n", 2)) == 0)
+					{
+						tok->flag_n = 1;
+						// ps->pos = ;
+						while (line[ps->pos] == 'n')
+							ps->pos++;
+					}
+					
+				// if (line[ps->pos] != ' ' && line[ps->pos] != '\t')
+				// {
+				// 	ps->pos = flag;
+				// 	return ;
+				// }
+				while (line[ps->pos] == ' ' || line[ps->pos] == '\t')
+					ps->pos++;
+			}
+			else
+				break ;
 		}
 	}
 	else
 	{
 		flag = 0;
-		
 		while (line[ps->pos] == '-')
 		{
 			if (flag == 0)
@@ -48,9 +69,10 @@ void				check_flags(char *line, t_pars *ps, t_token *tok)
 			while (line[ps->pos] == ' ' || line[ps->pos] == '\t')
 				ps->pos++;
 		}
+		tok->args = ft_str_to_array(tok->args, tok->flags);
 
-		
 
+		tok->flags = NULL;
 	}
 	return ;
 }

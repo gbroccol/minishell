@@ -70,12 +70,13 @@ int				cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 	// 	else
 	// 		tok->cmd = tmp_line;
 	// }
-	
-	if (tok->args[0])
-		tok->args[0] = ft_str_to_str(tok->args[0], tmp_line);
-	else
-		tok->args[0] = tmp_line;
-
+	if (tmp_line)
+	{
+		if (tok->tmp)
+			tok->tmp = ft_str_to_str(tok->tmp, tmp_line);
+		else
+			tok->tmp = tmp_line;
+	}
 	if (line[ps->pos] == '\"')
 	{
 		// ps->quote_finish = 1;

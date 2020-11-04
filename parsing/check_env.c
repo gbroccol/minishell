@@ -17,7 +17,8 @@ int				find_env(char *line, t_env *ps_env, char **env)
 						line[ps_env->str_pos + ps_env->env_pos] == '$' ||
 						line[ps_env->str_pos + ps_env->env_pos] == '\"' ||
 						line[ps_env->str_pos + ps_env->env_pos] == '\'' ||
-						line[ps_env->str_pos + ps_env->env_pos] == '\\')
+						line[ps_env->str_pos + ps_env->env_pos] == '\\' ||
+						line[ps_env->str_pos + ps_env->env_pos] == ';')
 					return (0);
 				// else if (line[ps_env->str_pos + ps_env->env_pos] == '\\')
 				// 	return (0);
@@ -26,6 +27,8 @@ int				find_env(char *line, t_env *ps_env, char **env)
 			}
 			else if (env[ps_env->env_line][ps_env->env_pos] != '=')
 			{
+				if (line[ps_env->str_pos + ps_env->env_pos] == '\0')
+					break ;
 				if (env[ps_env->env_line][ps_env->env_pos] != line[ps_env->str_pos + ps_env->env_pos])
 					break ;
 			}
@@ -43,7 +46,7 @@ void			check_env(char *line, t_env *ps_env, char **env)
 	while (line[ps_env->str_pos] != ' ' && line[ps_env->str_pos] != '\0' &&
 			line[ps_env->str_pos] != '\\' && line[ps_env->str_pos] != '/' &&
 			line[ps_env->str_pos] != '\'' && line[ps_env->str_pos] != '\"' &&
-			line[ps_env->str_pos] != '$')
+			line[ps_env->str_pos] != '$' && line[ps_env->str_pos] != ';')
 		ps_env->str_pos++;
 
 	if (line[ps_env->str_pos] == '\\')

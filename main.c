@@ -12,19 +12,6 @@
 
 #include "minishell.h"
 
-void	ft_free_array(char **to_free)
-{
-	char **tmp;
-
-	tmp = to_free;
-	while (*tmp != NULL)
-	{
-		free(*tmp);
-		tmp++;
-	}
-	free(to_free);
-}
-
 void			free_tok(t_token *tok)
 {
 	// if (tok->cmd)
@@ -47,7 +34,9 @@ void			free_tok(t_token *tok)
 
 void			lsh_loop(t_all *all)
 {
-	// int i;
+	int i;
+
+	all->wait_cmd = 0;
 
 	while (all->ret_ex)
 	{
@@ -73,16 +62,23 @@ void			lsh_loop(t_all *all)
 			all->ret_pars = parsing(all, all->ps);
 
 
-			// i = 0;
-			// while (all->tok->args != NULL && all->tok->args[i])
-			// {
-			// 	printf("%s\n", all->tok->args[i]);
-			// 	i++;
-			// }
+			i = 0;
+			while (all->tok->args != NULL && all->tok->args[i])
+			{
+				printf("%s\n", all->tok->args[i]);
+				i++;
+			}
+			i = 0;
+			while (all->tok->redirect != NULL && all->tok->redirect[i])
+			{
+				printf("redirect* %s\n", all->tok->redirect[i]);
+				i++;
+			}
+			printf("__________________________________________________\n");
 			
 
 
-			all->ret_ex = execute(all);
+			// all->ret_ex = execute(all);
 			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
 			all->tok = NULL;
 			// free(all->ps->status);
