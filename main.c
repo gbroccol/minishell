@@ -47,7 +47,7 @@ void			free_tok(t_token *tok)
 
 void			lsh_loop(t_all *all)
 {
-	int i;
+	// int i;
 
 	while (all->ret_ex)
 	{
@@ -73,16 +73,16 @@ void			lsh_loop(t_all *all)
 			all->ret_pars = parsing(all, all->ps);
 
 
-			i = 0;
-			while (all->tok->args != NULL && all->tok->args[i])
-			{
-				printf("%s\n", all->tok->args[i]);
-				i++;
-			}
+			// i = 0;
+			// while (all->tok->args != NULL && all->tok->args[i])
+			// {
+			// 	printf("%s\n", all->tok->args[i]);
+			// 	i++;
+			// }
 			
 
 
-			// all->ret_ex = execute(all);
+			all->ret_ex = execute(all);
 			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
 			all->tok = NULL;
 			// free(all->ps->status);
@@ -148,4 +148,4 @@ int main(int argc, char **argv, char **envp)
 
 
 
-// подсветка синтаксиса при выводе ls (нужно ?)
+// подсветка синтаксиса при выводе ls (нужно ?) неа, ифыр на маке ничего не подсвечивает

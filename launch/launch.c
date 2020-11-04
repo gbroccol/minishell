@@ -142,11 +142,11 @@ int 	launch(t_all *all)
 	t_token		*tok;
 
 	tok = all->tok;
-	if (tok->bin_tok[0][0] != '/' && tok->bin_tok[0][0] != '.')
+	if (tok->args[0][0] != '/' && tok->args[0][0] != '.')
 	{
-		if ((ret = check_dir(all->env, tok->bin_tok)) != 0)
+		if ((ret = check_dir(all->env, tok->args)) != 0)
 		{
-			if (!(ret = find_path(all->env, tok->bin_tok)))
+			if (!(ret = find_path(all->env, tok->args)))
 				return (0);
 			else if (ret == 1)
 				return (1);
@@ -160,7 +160,7 @@ int 	launch(t_all *all)
 			dup2(all->fds[1], 1);
 			close(all->fds[0]);
 		}
-		if (execve( tok->bin_tok[0],  tok->bin_tok, all->env) == -1)
+		if (execve( tok->args[0],  tok->args, all->env) == -1)
 		{
       		write(2, strerror(errno), ft_strlen(strerror(errno)));
 			write(2, "\n", 1);

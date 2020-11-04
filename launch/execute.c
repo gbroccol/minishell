@@ -255,8 +255,8 @@ int execute(t_all *all)
 	token = all->tok;
 	if (token->type_func == -1) 
     	return (ret);
-	// if (token->pipe)
-	// 	pipe (all->fds);
+	if (token->pipe)
+		pipe (all->fds);
 	if (token->type_func >= TYPE_CD && token->type_func <= TYPE_UNSET)
 	{
 		// if (token->pipe)
