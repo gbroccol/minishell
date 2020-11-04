@@ -61,6 +61,7 @@ typedef struct			s_pars
 	int					quote_start;
 	int					quote_finish;
 	int					space;
+	char				*status;
 	struct s_env		*ps_env;
 }						t_pars;
 
@@ -69,7 +70,11 @@ typedef struct			s_token  // каждый лист замолочен
 	int					type_func;
 	char				*cmd; // command text if error (there is no such command) // malloc
 	char				*flags;
+
 	char				*arg; // malloc
+	char				**args;
+	char				*tmp;
+
 	int					pipe;
 	char				*redir;
 	char				*file; // malloc
@@ -98,13 +103,19 @@ t_all					*clear_all();
 void					clear_parsing(t_pars *ps, int clear_place);
 int						parsing(t_all *all, t_pars *ps);
 // void					command(char *line, t_token *tok_next,	t_token *toks, t_pars *ps);
-void					command(char *line, t_token *tok, t_pars *ps);
+void					command(char *line, t_token *tok, t_pars *ps, char **env);
 
 
 int						arguments(char *line, t_token *tok, t_pars *ps, char **env);
+
 int						quote_no(char *line, t_token *tok, t_pars *ps, char **env);
 int						quote_one(char *line, t_token *tok, t_pars *ps);
 int						quote_two(char *line, t_token *tok, t_pars *ps, char **env);
+
+int						cmd_quote_no(char *line, t_token *tok, t_pars *ps, char **env);
+int						cmd_quote_one(char *line, t_token *tok, t_pars *ps);
+int						cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env);
+
 void					check_flags(char *line, t_pars *ps, t_token *tok);
 void					check_env(char *line, t_env *ps_env, char **env);
 int						check_redirect(char *line, int pos, t_token *tok);

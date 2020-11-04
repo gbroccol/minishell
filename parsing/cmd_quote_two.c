@@ -1,6 +1,6 @@
 # include "../minishell.h"
 
-int				quote_two(char *line, t_token *tok, t_pars *ps, char **env)
+int				cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 {
 	char		*tmp_line;
 
@@ -65,26 +65,17 @@ int				quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 	}
 	// if (tmp_line)
 	// {
-	// 	if (tok->arg)
-	// 	{
-	// 		if (ps->space == 1)
-	// 			tok->arg = ft_letter_to_str(tok->arg, ' ', 0);
-	// 		tok->arg = ft_str_to_str(tok->arg, tmp_line);
-	// 	}
+	// 	if (tok->cmd)
+	// 		tok->cmd = ft_str_to_str(tok->cmd, tmp_line);
 	// 	else
-	// 		tok->arg = tmp_line;
+	// 		tok->cmd = tmp_line;
 	// }
-
-
-	if (tok->tmp)
-	{
-		tok->tmp = ft_str_to_str(tok->tmp, tmp_line);
-	}
-	else
-	{
-		tok->tmp = tmp_line;
-	}
 	
+	if (tok->args[0])
+		tok->args[0] = ft_str_to_str(tok->args[0], tmp_line);
+	else
+		tok->args[0] = tmp_line;
+
 	if (line[ps->pos] == '\"')
 	{
 		// ps->quote_finish = 1;

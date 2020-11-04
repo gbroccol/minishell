@@ -1,6 +1,6 @@
 # include "../minishell.h"
 
-int				quote_no(char *line, t_token *tok, t_pars *ps, char **env)
+int				cmd_quote_no(char *line, t_token *tok, t_pars *ps, char **env)
 {
 	char		*tmp_line;
 
@@ -53,66 +53,26 @@ int				quote_no(char *line, t_token *tok, t_pars *ps, char **env)
 			ps->pos++;
 			continue ;
 		}
-
-		if (line[ps->pos] == '>' || line[ps->pos] == '<')
-		{
-			while (line[ps->pos] == '>' || line[ps->pos] == '<')
-			{
-				tok->redir = ft_letter_to_str(tok->redir, line[ps->pos], 0);
-				ps->pos++;
-			}
-			while (line[ps->pos] == ' ' || line[ps->pos] == '\t' || line[ps->pos] == '\0')
-				ps->pos++;
-			while (line[ps->pos] != ' ' && line[ps->pos] != '\t' && line[ps->pos] != '\0')
-			{
-				tok->file = ft_letter_to_str(tok->file, line[ps->pos], 0);
-				ps->pos++;
-			}
-			continue ;
-		}
-
 		if (line[ps->pos] == '\\' && line[ps->pos + 1] != '\\')
 			ps->pos++;
 		if (line[ps->pos] == '\\' && line[ps->pos + 1] == '#')
 			ps->pos++;
 		tmp_line = ft_letter_to_str(tmp_line, line[ps->pos], 0);
 		ps->pos++;
-
-
-		// if (line[ps->pos] == ' ')
-		// 	break ;
-
-
 	}
+	// if (tmp_line)
+	// {
+	// 	if (tok->cmd)
+	// 		tok->cmd = ft_str_to_str(tok->cmd, tmp_line);
+	// 	else
+	// 		tok->cmd = tmp_line;
+	// }
 
-	if (tmp_line)
-	{
-		// if (tok->arg)
-		// {
-			// if (ps->space == 1)
-		// 		tok->arg = ft_letter_to_str(tok->arg, ' ', 0);
-		// 	tok->arg = ft_str_to_str(tok->arg, tmp_line);
-		// }
-		// else
-		// {
-		// 	if (ps->space == 1)
-		// 	{
-		// 		tok->arg = ft_letter_to_str(tok->arg, ' ', 0);
-		// 		tok->arg = ft_str_to_str(tok->arg, tmp_line);
-		// 	}	
-		// 	else
-		// 		tok->arg = tmp_line;
-		// }
+	if (tok->args[0])
+		tok->args[0] = ft_str_to_str(tok->args[0], tmp_line);
+	else
+		tok->args[0] = tmp_line;
 
-		if (tok->tmp)
-		{
-			tok->tmp = ft_str_to_str(tok->tmp, tmp_line);
-		}
-		else
-		{
-			tok->tmp = tmp_line;
-		}
 
-	}
 	return (0);
 }

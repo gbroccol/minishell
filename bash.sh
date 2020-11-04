@@ -1,20 +1,20 @@
 #! /bin/bash
 
 ###############################################################################################
-'Hello World!'                                                       # -
+'Hello World!'                                                       # - НАСТЯ
 echo 'Hello World!'                                              # +
 echo jbkjnk                                                      # +
 echo abc def                                                     # +
 echo abc             def                                         # +
      echo    890     345                                         # +
-ECHO 1223                                                           # -
+ECHO 1223                                                           # - НАСТЯ
 echo "123" "456"                                                 # +
 echo "$"                                                         # +
 echo "$/"                                                        # +
 echo "$'"                                                        # +
 echo "$ "                                                        # +
 
-echo "$$"                                                            # -
+echo "$$"                                                            # - НАСТЯ
 
 echo "\$" '\$' \$                                                # +
 echo "$|$"                                                       # +
@@ -29,7 +29,7 @@ echo "\$ \#     |$/\n"                                           # +
 echo "\$|$/"                                                     # +
 echo "Это #не комментарий"                                       # +
 echo Это # Вот комментарий.                                          # - кириллица работает через раз
-echo This is # comment                                           # +
+echo This              is # comment                              # +
 echo Это \# не комментарий                                       # +
 echo 567t6 ; 890 -n mk ; echo 123                                # +
 echo 567t6 ; 890                                                 # +
@@ -45,13 +45,10 @@ echo "123 $LOGNAMEeee 456"                                       # +
 echo "$LOGNAME/eee"                                              # +
 
 echo '$LOGNAME/eee'                                              # +
-echo '$LOGNAME\eee'                                              # +
+echo '$LOGNAME\eee   |'                                          # +
 echo '$PWD'                                                      # +
 echo $PWD                                                        # +
 echo "$PWD"                                                      # +
-
-
-# НАСТЯ не обработаны пайпы завтра буду делать
 
 echo -n 5 | cat -e                                              # - КАТЯ 
 echo 5 | cat -e                                                 # - КАТЯ
@@ -66,6 +63,7 @@ echo "123 > 1"                                                  # +
 echo > 1                                                        # +
 echo "> 1"                                                      # +
 
+
 echo 42 > 1 ; echo 22 >> 1 ; cat -e  1                          # - ошибка malloc
 grep 2 < 1                                                      # - как его распарсить? - каждый аргумент в отдельной строке двумерного массива {"grep", "2", "<", "1", NULL}
 echo < 1                                                        # - не выводится сообщение об ошибке, если файл не существует КАТЯ
@@ -73,6 +71,7 @@ grep < 1                                                        # +
 grep 4 < 1 | cat -e                                             # -
 
 export qwe=123456 ; echo $qwe                                   # +
+
 echo "qwe"'qwe'                                                 # +
 echo "qwe" 'qwe'                                                # +
 
@@ -81,20 +80,36 @@ ls                                                              # +
 
 # bash: syntax error near unexpected token
 # start
-;;
-;
-|
-||
-;@@;
-| |                                                                             # КАТЯ
-ls;;
-ls; ;
-ls |
-ls||
-ls | |
+;;                                                                              # НАСТЯ
+;                                                                               # НАСТЯ
+|                                                                               # НАСТЯ
+||                                                                              # НАСТЯ
+;@@;                                                                            # НАСТЯ
+| |                                                                             # НАСТЯ
+ls;;                                                                            # НАСТЯ
+ls; ;                                                                           # НАСТЯ
+ls |                                                                            # НАСТЯ
+ls||                                                                            # НАСТЯ
+ls | |                                                                          # НАСТЯ
 # finish
+
 echo $PWD                                                                       # +
-echo $321                                                                       # - работает неправильно
+echo $321                                                                       # +
+
+echo $\321                                                                      # +
+echo $|                                                                         # -
+echo $|cat                                                                      # -
+echo $|cat -e                                                                   # -
+echo $|321                                                                      # -
+echo $;321                                                                      # -
+echo $/321                                                                      # +
+echo $'321                                                                      # +
+'
+echo $ 321                                                                      # +
+echo $"321                                                                      # +
+"
+echo "$'321"                                                                    # +
+
 echo $fdsgbkldmbklfdsmklfmd                                                     # +
 echo str1"'str2'"                                                               # +
 echo str1"'$str2'"                                                              # +
@@ -105,15 +120,34 @@ echo ' """" '                                                                   
 echo " '''''' "                                                                 # +
 echo """"""""                                                                   # +
 echo ''''''''                                                                   # +
-echo """"""""""              :""                                                # - сега
-echo """""""""",         wtf     :""                                            # - сега
-echo """""""""",         wtf     :""                                            # - сега
+echo """"""""""              :""                                                # +
+echo """""""""",         wtf     :""                                            # +
+echo """""""""",         wtf     :""                                            # +
 echo '"""""""""",         wtf     :""'                                          # +
 echo hello                       happy                               man        # +
 export = ; echo $?
-echo $?                                                                         # - НАСТЯ: при парсинге вместо $? запиши с помощи itoa в аргумент зачение переменной all->status
+
+echo $?                                                                         # +
+echo '$?'                                                                       # +
+echo "$?"                                                                       # +
+echo $?$PWD                                                                     # +
+echo $?$.                                                                       # +
+echo $.                                                                         # +
+echo $?123                                                                      # +
+echo "$?123"                                                                    # +
+echo $? | cat - e                                                               # - КАТЯ
+echo $? | cat -e                                                                # - КАТЯ
+echo $? ; ls ; echo $?...                                                       # +
+
+'e'c"h"o 5                                                                      # +
+'echo' 5                                                                        # +
+'ec"h"o' 5                                                                      # +
+
+...$?...                                                                        # - КАТЯ
+echo $? ; ls ; ...$?...                                                         # - КАТЯ
+
 export str1 2str = _3str str4=str5                                              # - нет сообщений об ошибках, невалидные переменные создались КАТЯ
- 'e'"x"p'o'r't'                                                                 # - работает неправильно
+ 'e'"x"p'o'r't'                                                                 # +
 ec"ho" $str1 $str4                                                              # - работает неправильно
  'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # - работает неправильно
   'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # - работает неправильно
