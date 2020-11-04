@@ -54,6 +54,8 @@ t_all			*clear_all()
 	all->gnl_line = NULL;
 	all->env = NULL;
 	all->status = 0;
+	all->temp_0 = dup(0);
+	all->fds[1] = 1;
 	all->tok = NULL;
 	
 

@@ -53,12 +53,12 @@ echo "$PWD"                                                      # +
 
 # НАСТЯ не обработаны пайпы завтра буду делать
 
-echo -n 5 | cat -e                                              # КАТЯ 
-echo 5 | cat -e                                                 # КАТЯ
-echo "dd" | cat -e                                              # КАТЯ
-echo '||' | cat -e                                              # КАТЯ
-echo 42 23 | grep 4 | cat -e                                    # КАТЯ
-ls 1111111 | grep 111 | cat -e                                  # КАТЯ
+echo -n 5 | cat -e                                              # - КАТЯ 
+echo 5 | cat -e                                                 # - КАТЯ
+echo "dd" | cat -e                                              # - КАТЯ
+echo '||' | cat -e                                              # - КАТЯ
+echo 42 23 | grep 4 | cat -e                                    # - КАТЯ
+ls 1111111 | grep 111 | cat -e                                  # +
 
 echo 123 > 1                                                    # +
 echo '123 > 2'                                                  # +
@@ -66,13 +66,13 @@ echo "123 > 1"                                                  # +
 echo > 1                                                        # +
 echo "> 1"                                                      # +
 
-echo 42 > 1 ; echo 22 >> 1 ; cat -e  1                          # КАТЯ
-grep 2 < 1                                                      # как его распарсить?
+echo 42 > 1 ; echo 22 >> 1 ; cat -e  1                          # - ошибка malloc
+grep 2 < 1                                                      # - как его распарсить? - каждый аргумент в отдельной строке двумерного массива {"grep", "2", "<", "1", NULL}
 echo < 1                                                        # - не выводится сообщение об ошибке, если файл не существует КАТЯ
-grep < 1
-grep 4 < 1 | cat -e
+grep < 1                                                        # +
+grep 4 < 1 | cat -e                                             # -
 
-export qwe=123456 ; echo $qwe                                   # -
+export qwe=123456 ; echo $qwe                                   # +
 echo "qwe"'qwe'                                                 # +
 echo "qwe" 'qwe'                                                # +
 
@@ -120,9 +120,9 @@ ec"ho" $str1 $str4                                                              
 echo "hello;"; $q'c'"h"o $test                                                  # - 
 echo "hello;"; $q'c'"h"o $test                                                  # - 
 $q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # - работает неправильно
-cd -; pwd                                                                       # - сега
+cd -; pwd                                                                       # - работает неправильно
 $lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # - работает неправильно
- echo         \'\"\\                                                            # - сега
+ echo         \'\"\\                                                            # +
 echo ~                                                                          # - работает неправильно
 echo hello sad man                                                              # +
 echo $?
@@ -131,22 +131,22 @@ pwd ; cat file1                                                                 
 ls lskdgjdhgisdoigjiredg                                                        # + скорректировать сообщение об ошибке КАТЯ
 echo $?
 echo $?
-unset PWD; echo $PWD                                                            # - 
+unset PWD; echo $PWD                                                            # +
 ls; unset PATH; ls     ;                                                        # - работает неправильно
 echo $?
 echo $?
-export PATH=/  ; ls                                                             # - сега
+export PATH=/  ; ls                                                             # +
 echo $?
-export PATH=/bin  ; ls                                                          # - сега
+export PATH=/bin  ; ls                                                          # +
 echo $?
 echo $PWD; unset PWD                                                            # - работает неправильно
-echo $PWD; export PWD=/ ; echo $PWD;                                            # - сега
+echo $PWD; export PWD=/ ; echo $PWD;                                            # - работает неправильно
 pwd; echo $PWD                                                                  # - работает неправильно: точка с запятой приклеивается к команде НАСТЯ
 cd; echo $PWD; cd -                                                             # - работает неправильно: точка с запятой приклеивается к команде НАСТЯ
 echo $PWD; echo $OLDPWD                                                         # - работает неправильно
-unset OLDPWD; echo $OLDPWD                                                      # - сега
+unset OLDPWD; echo $OLDPWD                                                      # +
 cd; echo $OLDPWD                                                                # - работает неправильно: точка с запятой приклеивается к команде НАСТЯ
-cd ; echo $PWD; echo $OLDPWD                                                    # - сега
+cd ; echo $PWD; echo $OLDPWD                                                    # - работает неправильно
 cd -                                                                            # - работает неправильно: не считывается '-' при парсинге НАСТЯ
 ls -la                                                                          # +
 ls "-la" ; cd -                                                                 # - работает неправильно: не считывается '-' при парсинге НАСТЯ
@@ -161,16 +161,16 @@ echo "\'"                                                                       
 "echo f" hello                                                                  # + различаются сообщения об ошибке из-за того, что в качестве команды подается "echo , а не echo f
 >"helo l" echo hell\ f                                                          # - работает неправильно
 >>"helo l" echo hell\ f ; echo hell\ f                                          # - работает неправильно
-export t=n; echo -$t -n "-"'n' hello                                            # - сега
+export t=n; echo -$t -n "-"'n' hello                                            # - работает неправильно
 echo -$t "-n" '-''n' '-n;'         -n hello                                     # - работает неправильно
-export a=l d=s; $a$d                                                            # - сега
-echo $PWD > as ; cat as                                                         # - сега
+export a=l d=s; $a$d                                                            # - работает неправильно
+echo $PWD > as ; cat as                                                         # +
 echo ''\''"a|"\'q'a'\a'w'                                                       # +
-echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty                              # - сега
-pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2;            # - сега
+echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty                              # - работает неправильно
+pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2;            # - работает неправильно
 echo                                                                            # +
 echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # - работает неправильно
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # - сега
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # - работает неправильно
 \ls\ ;                                                                          # - работает неправильно
 echo ${PATH#*:}                                                                 # - Специальная переменная
 echo $(( 2#101011 ))                                                            # - Преобразование системы счисления в арифметической подстановке

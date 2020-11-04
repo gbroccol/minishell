@@ -66,7 +66,6 @@ int		check_dir(char **env, char **executable)
 char 	*find_prefix(char **dirs, char *executable)
 {
 	char			*prefix;
-	// char			*tmp;
 	DIR				*dir;
 	struct dirent	*subdir;
 	int				i;
@@ -132,7 +131,6 @@ int		find_path(char **env, char **executable)
 	// free(*tmp);
 	free(prefix);
 	ft_free_array(dirs);
-// }
 	return (2);
 }
 
@@ -157,20 +155,32 @@ int 	launch(t_all *all)
 	pid = fork();
 	if (pid == 0) 
 	{
+		if (tok->pipe)
+		{
+			dup2(all->fds[1], 1);
+			close(all->fds[0]);
+		}
 		if (execve( tok->bin_tok[0],  tok->bin_tok, all->env) == -1)
 		{
       		write(2, strerror(errno), ft_strlen(strerror(errno)));
 			write(2, "\n", 1);
 			exit(EXIT_FAILURE);
 		}
+		close(all->fds[1]);
   	}
 	else if (pid < 0)
 	{
 		write(2, strerror(errno), ft_strlen(strerror(errno)));
 		write(2, "\n", 1);
+		close(all->fds[0]);
+		close(all->fds[1]);
   	}
 	else
 	{
+		if (tok->pipe)
+			dup2(all->fds[0], 0);
+		if (all->fds[1] != 1)
+			close(all->fds[1]);
 		waitpid(pid, &status, WUNTRACED);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
      		waitpid(pid, &status, WUNTRACED);
@@ -178,6 +188,9 @@ int 	launch(t_all *all)
 			all->status = WEXITSTATUS(status);
 		else 
 			all->status = 127;
+		close(all->fds[0]);
+		if (!tok->pipe)
+			dup2(all->temp_0, 0);
   	}
 	return (1);
 }
