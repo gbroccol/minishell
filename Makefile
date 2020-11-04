@@ -22,6 +22,9 @@ SRC			= \
 				parsing/clear.c \
 				parsing/parsing.c \
 				parsing/command.c \
+				parsing/cmd_quote_no.c \
+				parsing/cmd_quote_one.c \
+				parsing/cmd_quote_two.c \
 				parsing/arguments.c \
 				parsing/quote_no.c \
 				parsing/quote_one.c \

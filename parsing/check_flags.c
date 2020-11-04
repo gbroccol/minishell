@@ -3,6 +3,7 @@
 void				check_flags(char *line, t_pars *ps, t_token *tok)
 {
 	int			flag;
+	// char		**new;
 
 	flag = ps->pos;
 	while (line[ps->pos] == ' ' || line[ps->pos] == '\t')
@@ -47,6 +48,9 @@ void				check_flags(char *line, t_pars *ps, t_token *tok)
 			while (line[ps->pos] == ' ' || line[ps->pos] == '\t')
 				ps->pos++;
 		}
+
+		
+
 	}
 	return ;
 }

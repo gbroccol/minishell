@@ -1,72 +1,56 @@
 # include "../minishell.h"
 
-void		choose_com(char *new_line, t_token *tok)
+void		choose_com(t_token *tok)
 {
-	if ((ft_strncmp(new_line, "cd", 3)) == 0)
+	if (tok->args[0] == NULL)
+		tok->type_func = TYPE_NO;
+	else if ((ft_strncmp(tok->args[0], "cd", 3)) == 0)
 		tok->type_func = TYPE_CD;
-	else if ((ft_strncmp(new_line, "pwd", 4)) == 0)
+	else if ((ft_strncmp(tok->args[0], "pwd", 4)) == 0)
 		tok->type_func = TYPE_PWD;
-	else if ((ft_strncmp(new_line, "echo", 5)) == 0)
+	else if ((ft_strncmp(tok->args[0], "echo", 5)) == 0)
 		tok->type_func = TYPE_ECHO;
-	else if ((ft_strncmp(new_line, "exit", 5)) == 0)
+	else if ((ft_strncmp(tok->args[0], "exit", 5)) == 0)
 		tok->type_func = TYPE_EXIT;
-	else if ((ft_strncmp(new_line, "export", 7)) == 0)
+	else if ((ft_strncmp(tok->args[0], "export", 7)) == 0)
 		tok->type_func = TYPE_EXPORT;
-	else if ((ft_strncmp(new_line, "env", 4)) == 0)
+	else if ((ft_strncmp(tok->args[0], "env", 4)) == 0)
 		tok->type_func = TYPE_ENV;
-	else if ((ft_strncmp(new_line, "unset", 6)) == 0)
+	else if ((ft_strncmp(tok->args[0], "unset", 6)) == 0)
 		tok->type_func = TYPE_UNSET;
-	else if ((ft_strncmp(new_line, "", 1)) == 0)
+	else if ((ft_strncmp(tok->args[0], "", 1)) == 0)
 		tok->type_func = TYPE_NO;
 	else
 		tok->type_func = TYPE_BIN;
-	tok->cmd = new_line;
 }
 
-// void		the_same_command(t_token *tok, t_token *tok_next)
-// {
-// 	while (toks->next)
-// 	{
-// 		toks = toks->next;
-// 	}
-// 	tok_next->type_func = toks->type_func;
-// }
-
-void			command(char *line, t_token *tok, t_pars *ps)
+void			command(char *line, t_token *tok, t_pars *ps, char **env)
 {
-	int		counter;
-	char	*new_line;
-	int		index;
+	if (!(tok->args = (char **)malloc(sizeof(char *) * 2)))
+		return ; // error
+	tok->args[0] = NULL;
+	tok->args[1] = NULL;
 
-	// if (ps->quote_start != 0 && ps->quote_finish == 0)
-	// 	return (the_same_command(toks, tok_next));
-	
-	while (check_divide(line[ps->pos], " \t\r\a", 1))
-		ps->pos++;
-	counter = ps->pos;
-	while (check_divide(line[ps->pos], " \t\r\a", 1) == 0)
+	while (line[ps->pos] != '\0' &&
+			line[ps->pos] != ';' &&
+			line[ps->pos] != '|' &&
+			line[ps->pos] != ' ')
 	{
-		if (line[ps->pos] != '\0')
+		if (line[ps->pos] == '\'')
+		{
 			ps->pos++;
+			cmd_quote_one(line, tok, ps);
+		}	
+		else if (line[ps->pos] == '\"')
+		{
+			ps->pos++;
+			cmd_quote_two(line, tok, ps, env);
+		}
 		else
+			cmd_quote_no(line, tok, ps, env);
+
+		if (line[ps->pos] == ' ' || line[ps->pos] == '\t')
 			break ;
 	}
-	if (!(new_line = (char *)malloc(sizeof(char) * (ps->pos - counter + 1))))
-	{
-		ps->pos = 1;
-		return ; // error
-	}
-	index = 0;
-	// ft_memchr(new_line, '\0', (position - counter + 1));
-	while (index < (ps->pos - counter + 1))
-		new_line[++index] = '\0'; // ???
-	index = 0;
-	while (counter + index < ps->pos)
-	{
-		new_line[index] = line[counter + index];
-		index++;
-	}
-	new_line[ps->pos] = '\0';
-	choose_com(new_line, tok);
-	return ;
+	choose_com(tok);
 }

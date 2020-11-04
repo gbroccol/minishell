@@ -12,8 +12,43 @@
 
 #include "minishell.h"
 
+void	ft_free_array(char **to_free)
+{
+	char **tmp;
+
+	tmp = to_free;
+	while (*tmp != NULL)
+	{
+		free(*tmp);
+		tmp++;
+	}
+	free(to_free);
+}
+
+void			free_tok(t_token *tok)
+{
+	// if (tok->cmd)
+	// 	free(tok->cmd);
+	// if (tok->flags)
+	// 	free(tok->flags);
+	// if (tok->arg != NULL)
+	// 	free(tok->arg);
+	// if (tok->redir)
+	// 	free(tok->redir);
+	// if (tok->file)
+	// 	free(tok->file);
+	// if (tok->type_func == TYPE_BIN)
+	// 	ft_free_array(tok->bin_tok);
+	if (tok->args != NULL)
+		ft_free_array(tok->args);
+	tok->args = NULL;
+	free(tok);
+}
+
 void			lsh_loop(t_all *all)
 {
+	int i;
+
 	while (all->ret_ex)
 	{
         write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
@@ -27,6 +62,7 @@ void			lsh_loop(t_all *all)
 			all->ps->quote_start = 0;
 			all->ps->quote_finish = 0;
 			all->ps->space = 0;
+			all->ps->status = ft_itoa(all->status);
 
 			all->ps->ps_env->env_line = 0;
 			all->ps->ps_env->env_pos = 0;
@@ -35,27 +71,26 @@ void			lsh_loop(t_all *all)
 
 
 			all->ret_pars = parsing(all, all->ps);
-			all->ret_ex = execute(all);
-			// free_toks(toks);
-			free(all->tok);
+
+
+			i = 0;
+			while (all->tok->args != NULL && all->tok->args[i])
+			{
+				printf("%s\n", all->tok->args[i]);
+				i++;
+			}
+			
+
+
+			// all->ret_ex = execute(all);
+			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
 			all->tok = NULL;
+			// free(all->ps->status);
 		}
 		free(all->gnl_line);
+		all->gnl_line = NULL;
 	}
 	exit(all->status);
-}
-
-void	ft_free_array(char **to_free)
-{
-	char **tmp;
-
-	tmp = to_free;
-	while (*tmp != NULL)
-	{
-		free(*tmp);
-		tmp++;
-	}
-	free(to_free);
 }
 
 void	bzero_array(char **array, int size)
@@ -110,3 +145,7 @@ int main(int argc, char **argv, char **envp)
   	free(all);
 	return (EXIT_SUCCESS);
 }
+
+
+
+// подсветка синтаксиса при выводе ls (нужно ?)
