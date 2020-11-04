@@ -37,9 +37,8 @@ int lsh_cd(t_token *tokens, char **env)
     if (chdir(tokens->arg) != 0)
 	{
 		write(2, ">: ", 3);
-//		strerror(errno) //macos
-		write(2, strerror(errno), ft_strlen(strerror(errno))); //wsl
-		write(2, "\n", 1); //wsl
+		write(2, strerror(errno), ft_strlen(strerror(errno)));
+		write(2, "\n", 1);
 	}
 	if (ft_strlen(tokens->arg) != 0)
 		free(tokens->arg);
@@ -57,11 +56,11 @@ int lsh_pwd(void)
 	return (1);
 }
 
-int lsh_echo(t_token *tokens)
+int lsh_echo(t_token *tokens, t_all *all)
 {
 	int fd;
 
-	fd = 1;
+	fd = all->fds[1];
 	if (tokens->redir != NULL && !tokens->file)
 	{
 		if (tokens->arg)
@@ -93,13 +92,30 @@ int lsh_echo(t_token *tokens)
 		write(fd, "\n", 1);
 	if (tokens->file)
 		free(tokens->file);
-	if (fd != 1)
+	if (fd != all->fds[1])
 		close(fd);
+	all->status = 0;
 	return(1);
 }
 
-int lsh_exit()
+int lsh_exit(t_all *all)
 {
+	int	i;
+
+	i = 0;
+	if (all->tok->arg)
+	{
+		while (all->tok->arg[i] != '\0')
+		{
+			if (!ft_isdigit(all->tok->arg[i]))
+			{
+				all->status = 255;
+				return (0);
+			}
+			i++;
+		}
+		all->status = ft_atoi(all->tok->arg);
+	}
 	return (0);
 }
 
@@ -140,6 +156,7 @@ int	lsh_export(t_token *token, t_all *all)
 {
 	int 		size;
 	int			i;
+	
 
 	size = 0;
 	i = 0;
@@ -232,32 +249,43 @@ int	lsh_unset(t_token *token, char **env)
 int execute(t_all *all)
 {
 	int			ret;
-	t_token		*tokens;
+	t_token		*token;
 
 	ret = 1;
-	tokens = all->tok;
-	if (tokens->type_func == -1) 
+	token = all->tok;
+	if (token->type_func == -1) 
     	return (ret);
-	// printf("%s\n", tokens->bin_tok[0]);
-	// while (tokens)
-	// {
-		if (tokens->type_func == TYPE_CD)
-			ret = lsh_cd(tokens, all->env);
-		else if (tokens->type_func == TYPE_PWD)
+	// if (token->pipe)
+	// 	pipe (all->fds);
+	if (token->type_func >= TYPE_CD && token->type_func <= TYPE_UNSET)
+	{
+		// if (token->pipe)
+		// 	dup2(all->fds[1], 1);	
+		if (token->type_func == TYPE_CD)
+			ret = lsh_cd(token, all->env);
+		else if (token->type_func == TYPE_PWD)
 			ret = lsh_pwd();
-		else if (tokens->type_func == TYPE_ECHO)
-			ret = lsh_echo(tokens);
-		else if (tokens->type_func == TYPE_EXIT)
-			ret = lsh_exit();
-		else if (tokens->type_func == TYPE_EXPORT)
-			ret = lsh_export(tokens, all);
-		else if (tokens->type_func == TYPE_ENV)
+		else if (token->type_func == TYPE_ECHO)
+			ret = lsh_echo(token, all);
+		else if (token->type_func == TYPE_EXIT)
+			ret = lsh_exit(all);
+		else if (token->type_func == TYPE_EXPORT)
+			ret = lsh_export(token, all);
+		else if (token->type_func == TYPE_ENV)
 			ret = lsh_env(all->env);
-		else if (tokens->type_func == TYPE_UNSET)
-			ret = lsh_unset(tokens, all->env);
-		else if (tokens->type_func == TYPE_BIN)
-			ret = launch(all);
-		// tokens = tokens->next;
-	// }
+		else if (token->type_func == TYPE_UNSET)
+			ret = lsh_unset(token, all->env);
+		// if (token->pipe)
+		// 	dup2(all->fds[0], 0);
+		// else
+		// 	dup2(all->temp_0, 0);
+		// if (all->fds[1] != 1)
+		// {
+		// 	close(all->fds[1]);
+		// 	close(all->fds[0]);
+		// }
+	}
+	else if (token->type_func == TYPE_BIN)
+		ret = launch(all);
 	return (ret);
 }

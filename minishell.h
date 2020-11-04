@@ -90,6 +90,8 @@ typedef struct			s_all
 	char				*gnl_line;
 	char				**env;
 	int					status;
+	int					fds[2];
+	int					temp_0;
 	t_token				*tok;
 	t_pars				*ps; // структура для парсинга
 }						t_all;
@@ -133,9 +135,9 @@ char				*search_env(char **env, char *to_find);
 // int                 lsh_cd(char **args);
 // int                 lsh_help();
 // int                 lsh_exit();
-int 				lsh_exit();
+int 				lsh_exit(t_all *all);
 int 				lsh_cd(t_token *token, char **env);
 int 				lsh_pwd(void);
-int 				lsh_echo(t_token *token);
+int 				lsh_echo(t_token *token, t_all *all);
 
 #endif

@@ -136,7 +136,7 @@ int main(int argc, char **argv, char **envp)
 
 	all = clear_all();
 	if (argc == 1)
-		argv[1] = "minishell";
+		argv[1] = "minishell"; // костыль
 	if (!(all->env = save_env(envp, 0)))
 		return (EXIT_FAILURE);
 	lsh_loop(all);
