@@ -1,7 +1,16 @@
-# include "../minishell.h"
-#include <errno.h> // errno
-#include <string.h> //strerror
-#include <dirent.h> //opendir, readdir, closedir
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   launch.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
+/*   Updated: 2020/11/05 18:43:34 by pvivian          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell.h"
 
 char	*search_env(char **env, char *to_find)
 {
@@ -60,10 +69,9 @@ int		check_dir(char **env, char **executable)
 	closedir(dir);
 	free(pwd);
 	return (1);
-	
 }
 
-char 	*find_prefix(char **dirs, char *executable)
+char	*find_prefix(char **dirs, char *executable)
 {
 	char			*prefix;
 	DIR				*dir;
@@ -121,7 +129,7 @@ int		find_path(char **env, char **executable)
 		return (1);
 	tmp = ft_split(path, '=');
 	dirs = ft_split(tmp[0], ':');
-	if(!(prefix = find_prefix(dirs, executable[0])))
+	if (!(prefix = find_prefix(dirs, executable[0])))
 		return (1);
 	ft_free_array(tmp);
 	free(path);
@@ -134,7 +142,7 @@ int		find_path(char **env, char **executable)
 	return (2);
 }
 
-int 	launch(t_all *all)
+int		launch(t_all *all)
 {
 	pid_t		pid;
 	int			status;
@@ -153,28 +161,28 @@ int 	launch(t_all *all)
 		}
 	}
 	pid = fork();
-	if (pid == 0) 
+	if (pid == 0)
 	{
 		if (tok->pipe)
 		{
 			dup2(all->fds[1], 1);
 			close(all->fds[0]);
 		}
-		if (execve( tok->args[0],  tok->args, all->env) == -1)
+		if (execve(tok->args[0], tok->args, all->env) == -1)
 		{
-      		write(2, strerror(errno), ft_strlen(strerror(errno)));
+			write(2, strerror(errno), ft_strlen(strerror(errno)));
 			write(2, "\n", 1);
 			exit(EXIT_FAILURE);
 		}
 		close(all->fds[1]);
-  	}
+	}
 	else if (pid < 0)
 	{
 		write(2, strerror(errno), ft_strlen(strerror(errno)));
 		write(2, "\n", 1);
 		close(all->fds[0]);
 		close(all->fds[1]);
-  	}
+	}
 	else
 	{
 		if (tok->pipe)
@@ -183,14 +191,14 @@ int 	launch(t_all *all)
 			close(all->fds[1]);
 		waitpid(pid, &status, WUNTRACED);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-     		waitpid(pid, &status, WUNTRACED);
+			waitpid(pid, &status, WUNTRACED);
 		if (WEXITSTATUS(status) != 1)
 			all->status = WEXITSTATUS(status);
-		else 
+		else
 			all->status = 127;
 		close(all->fds[0]);
 		if (!tok->pipe)
 			dup2(all->temp_0, 0);
-  	}
+	}
 	return (1);
 }

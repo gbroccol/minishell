@@ -50,24 +50,24 @@ echo '$PWD'                                                      # +
 echo $PWD                                                        # +
 echo "$PWD"                                                      # +
 
-echo -n 5 | cat -e                                              # - КАТЯ 
-echo 5 | cat -e                                                 # - КАТЯ
-echo "dd" | cat -e                                              # - КАТЯ
-echo '||' | cat -e                                              # - КАТЯ
-echo 42 23 | grep 4 | cat -e                                    # - КАТЯ
+echo -n 5 | cat -e                                              # - флаг -n не обрабатывается
+echo 5 | cat -e                                                 # + 
+echo "dd" | cat -e                                              # +
+echo '||' | cat -e                                              # +
+echo 42 23 | grep 4 | cat -e                                    # +
 ls 1111111 | grep 111 | cat -e                                  # +
 
-echo 123 > 1                                                    # +
-echo '123 > 2'                                                  # +
-echo "123 > 1"                                                  # +
-echo > 1                                                        # +
-echo "> 1"                                                      # +
+echo 123 > 1                                                    # -
+echo '123 > 2'                                                  # -
+echo "123 > 1"                                                  # -
+echo > 1                                                        # -
+echo "> 1"                                                      # -
 
 
-echo 42 > 1 ; echo 22 >> 1 ; cat -e  1                          # +
-grep 2 < 1                                                      # +
-echo < 1                                                        # - не выводится сообщение об ошибке, если файл не существует КАТЯ
-grep < 1                                                        # +
+echo 42 > 1 ; echo 22 >> 1 ; cat -e  1                          # -
+grep 2 < 1                                                      # -
+echo < 1                                                        # - КАТЯ не выводится сообщение об ошибке, если файл не существует
+grep < 1                                                        # -
 grep 4 < 1 | cat -e                                             # -
 
 export qwe=123456 ; echo $qwe                                   # +
@@ -76,7 +76,7 @@ echo "qwe"'qwe'                                                 # +
 echo "qwe" 'qwe'                                                # +
 
 ls                                                              # +
-./ls                                                            # + скорректировать сообщение об ошибке
+./ls                                                            # + КАТЯ скорректировать сообщение об ошибке
 
 # bash: syntax error near unexpected token
 # start
@@ -98,15 +98,15 @@ ls | |                                                                          
 echo $PWD                                                                       # +
 echo $321                                                                       # +
 
-echo $\321                                                                      # +
-echo $|                                                                         # КАТЯ
-echo $|cat                                                                      # КАТЯ
-echo $|cat -e                                                                   # КАТЯ
-echo $|321                                                                      # КАТЯ
-echo $;321                                                                      # КАТЯ
-echo $/321                                                                      # КАТЯ
-echo $'321'                                                                     # КАТЯ
-echo $ 321                                                                      # +
+echo $\321                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $|                                                                         # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $|cat                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $|cat -e                                                                   # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $|321                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $;321                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $/321                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $'321'                                                                     # +
+echo $ 321                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
 echo $"321"                                                                     # +
 echo "$'321"                                                                    # +
 
@@ -128,65 +128,65 @@ echo """""""""",         wtf     :""                                            
 echo """""""""",         wtf     :""                                            # +
 echo '"""""""""",         wtf     :""'                                          # +
 echo hello                       happy                               man        # +
-export = ; echo $?                                                              # - КАТЯ
+export = ; echo $?                                                              # - КАТЯ обработка невалидных значений
 
-echo $?                                                                         # +
+echo $?                                                                         # - НАСТЯ, бесконечный цикл при попытке считывания $
 echo '$?'                                                                       # +
 echo "$?"                                                                       # +
-echo $?$PWD                                                                     # +
-echo $?$.                                                                       # +
-echo $.                                                                         # +
-echo $?123                                                                      # +
+echo $?$PWD                                                                     # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $?$.                                                                       # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $.                                                                         # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $?123                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
 echo "$?123"                                                                    # +
-echo $? | cat - e                                                               # - КАТЯ
-echo $? | cat -e                                                                # - КАТЯ
-echo $? ; ls ; echo $?...                                                       # +
+echo $? | cat - e                                                               # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $? | cat -e                                                                # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $? ; ls ; echo $?...                                                       # - НАСТЯ, бесконечный цикл при попытке считывания $
 
 'e'c"h"o 5                                                                      # +
 'echo' 5                                                                        # +
 'ec"h"o' 5                                                                      # +
 
-...$?...                                                                        # - КАТЯ
-echo $? ; ls ; ...$?...                                                         # - КАТЯ
+...$?...                                                                        # + КАТЯ скорректировать сообщение об ошибке
+echo $? ; ls ; ...$?...                                                         # - НАСТЯ, бесконечный цикл при попытке считывания $
 
-export str1 2str = _3str str4=str5                                              # - КАТЯ нет сообщений об ошибках, невалидные переменные создались КАТЯ
+export str1 2str = _3str str4=str5                                              # - КАТЯ нет сообщений об ошибках, невалидные переменные создались
  'e'"x"p'o'r't'                                                                 # +
-ec"ho" $str1 $str4                                                              # - КАТЯ
- 'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # - КАТЯ
-  'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # - КАТЯ
-echo "hello;"; $q'c'"h"o $test                                                  # - КАТЯ
-echo "hello;"; $q'c'"h"o $test                                                  # - КАТЯ
-$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # - КАТЯ
-cd -; pwd                                                                       # - КАТЯ
-$lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # - КАТЯ
+ec"ho" $str1 $str4                                                              # +
+ 'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # +
+  'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # - НАСТЯ считывается teshello, а должно быть test=hello
+echo "hello;"; $q'c'"h"o $test                                                  # +
+echo "hello;"; $q'c'"h"o $test                                                  # +
+$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # + КАТЯ в cd не происходит изменения переменных PWD и OLDPWD
+cd -; pwd                                                                       # +
+$lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # +
  echo         \'\"\\                                                            # +
 echo ~                                                                          # +
 echo hello sad man                                                              # +
-echo $?                                                                         #
+echo $?                                                                         # - НАСТЯ, бесконечный цикл при попытке считывания $
 >fil$q'1' e$w"ho" s$i"r"ing f$r$u file1                                         # - КАТЯ
-pwd ; cat file1                                                                 # - КАТЯ
-ls lskdgjdhgisdoigjiredg                                                        # + скорректировать сообщение об ошибке КАТЯ
+pwd ; cat file1                                                                 # +
+ls lskdgjdhgisdoigjiredg                                                        # +
 echo $?                                                                         #
 echo $?                                                                         #
 unset PWD; echo $PWD                                                            # +
-ls; unset PATH; ls     ;                                                        # - КАТЯ
+ls; unset PATH; ls     ;                                                        # + КАТЯ скорректировать сообщение об ошибке
 echo $?                                                                         #
 echo $?                                                                         #
 export PATH=/  ; ls                                                             # +
 echo $?                                                                         #
 export PATH=/bin  ; ls                                                          # +
 echo $?                                                                         #
-echo $PWD; unset PWD                                                            # - КАТЯ
-echo $PWD; export PWD=/ ; echo $PWD;                                            # - КАТЯ
+echo $PWD; unset PWD                                                            # +
+echo $PWD; export PWD=/ ; echo $PWD;                                            # +
 pwd; echo $PWD                                                                  # +
-cd; echo $PWD; cd -                                                             # - КАТЯ 
-echo $PWD; echo $OLDPWD                                                         # - КАТЯ
+cd; echo $PWD; cd -                                                             # +
+echo $PWD; echo $OLDPWD                                                         # +
 unset OLDPWD; echo $OLDPWD                                                      # +
-cd; echo $OLDPWD                                                                # - КАТЯ
+cd; echo $OLDPWD                                                                # +
 cd ; echo $PWD; echo $OLDPWD                                                    # - КАТЯ
-cd -                                                                            # - КАТЯ
+cd -                                                                            # +
 ls -la                                                                          # +
-ls "-la" ; cd -                                                                 # - КАТЯ
+ls "-la" ; cd -                                                                 # +
 echo '\'                                                                        # +
 echo \hello \$PWD                                                               # +
 echo '\hello \$PWD'                                                             # +
@@ -195,17 +195,17 @@ echo \'\"\\ "\hello\$PWD"                                                       
 echo "\$PWD" "\PWD"                                                             # +
 echo "\""                                                                       # +
 echo "\'"                                                                       # +
-"echo f" hello                                                                  # + различаются сообщения об ошибке из-за того, что в качестве команды подается "echo , а не echo f
->"helo l" echo hell\ f                                                          # 
->>"helo l" echo hell\ f ; echo hell\ f                                          # 
-export t=n; echo -$t -n "-"'n' hello                                            # 
-export t=n; echo -n "-"'n' hello                                                # 
-echo -n "-"'n' hello                                                            # 
-echo -$t "-n" '-''n' '-n;'         -n hello                                     # 
-export a=l d=s; $a$d                                                            # 
-echo $PWD > as ; cat as                                                         # +
+"echo f" hello                                                                  # +
+>"helo l" echo hell\ f                                                          # - КАТЯ
+>>"helo l" echo hell\ f ; echo hell\ f                                          # - КАТЯ
+export t=n; echo -$t -n "-"'n' hello                                            # - КАТЯ
+export t=n; echo -n "-"'n' hello                                                # - КАТЯ
+echo -n "-"'n' hello                                                            # - КАТЯ
+echo -$t "-n" '-''n' '-n;'         -n hello                                     # - КАТЯ
+export a=l d=s; $a$d                                                            # +
+echo $PWD > as ; cat as                                                         # - КАТЯ
 echo ''\''"a|"\'q'a'\a'w'                                                       # +
-echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty                              # +
+echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty                              # - КАТЯ
 
 
 
@@ -223,10 +223,10 @@ echo 123jrd> 3                                                                  
 echo 123> 3                                                                     # - прости меня, КАТЯ
 
 
-echo                                                                            # +
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # +
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # +
-\ls\ ;                                                                          # ? не понятно
+echo                                                                            # -
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # -
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # -
+\ls\ ;                                                                          # +
 echo ${PATH#*:}                                                                 # - надо или не будем делать??? я эти примеры где-то в Интернете нашла, не думаю, что придерутся. Специальная переменная
 echo $(( 2#101011 ))                                                            # - надо или не будем делать??? я эти примеры где-то в Интернете нашла, не думаю, что придерутся. Преобразование системы счисления в арифметической подстановке
 

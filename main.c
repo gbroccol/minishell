@@ -6,13 +6,13 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/03 20:55:09 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/05 18:57:17 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			free_tok(t_token *tok)
+void	free_tok(t_token *tok)
 {
 	// if (tok->cmd)
 	// 	free(tok->cmd);
@@ -32,16 +32,15 @@ void			free_tok(t_token *tok)
 	free(tok);
 }
 
-void			lsh_loop(t_all *all)
+void	lsh_loop(t_all *all)
 {
 	int i;
 
 	all->wait_cmd = 0;
-
 	while (all->ret_ex)
 	{
-        write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
-	    get_next_line(0, &(all->gnl_line));
+		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
+		get_next_line(0, &(all->gnl_line));
 		all->ps->pos = 0;
 		all->ret_pars = 1;
 		while (all->ret_pars)
@@ -52,16 +51,13 @@ void			lsh_loop(t_all *all)
 			all->ps->quote_finish = 0;
 			all->ps->space = 0;
 			all->ps->status = ft_itoa(all->status);
-
 			all->ps->ps_env->env_line = 0;
 			all->ps->ps_env->env_pos = 0;
 			all->ps->ps_env->str_pos = 0;
 			all->ps->ps_env->str = NULL;
-
-
 			all->ret_pars = parsing(all, all->ps);
 
-
+			printf("**************************************************\n");
 			i = 0;
 			while (all->tok->args != NULL && all->tok->args[i])
 			{
@@ -75,11 +71,9 @@ void			lsh_loop(t_all *all)
 				i++;
 			}
 			printf("__________________________________________________\n");
-			
 
-
-			// all->ret_ex = execute(all);
-			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
+			all->ret_ex = execute(all);
+//			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
 			all->tok = NULL;
 			// free(all->ps->status);
 		}
@@ -105,11 +99,13 @@ void	bzero_array(char **array, int size)
 
 char	**save_env(char **envp, int size)
 {
-	char 	**env;
-	int 	i;
+	char	**env;
+	int		i;
 
-	while (envp[size] != NULL)
-		size++;
+	i = 0;
+	while (envp[i] != NULL)
+		i++;
+	size += i;
 	if (!(env = (char **)malloc(sizeof(char *) * (size + 1))))
 		return (NULL);
 	bzero_array(env, size);
@@ -123,12 +119,12 @@ char	**save_env(char **envp, int size)
 		}
 		i++;
 	}
-	return (env);	
+	return (env);
 }
 
-int main(int argc, char **argv, char **envp)
+int		main(int argc, char **argv, char **envp)
 {
- 	t_all		*all;
+	t_all	*all;
 
 	all = clear_all();
 	if (argc == 1)
@@ -138,10 +134,6 @@ int main(int argc, char **argv, char **envp)
 	lsh_loop(all);
 	ft_free_array(all->env);
 	free(all->ps);
-  	free(all);
+	free(all);
 	return (EXIT_SUCCESS);
 }
-
-
-
-// подсветка синтаксиса при выводе ls (нужно ?) неа, ифыр на маке ничего не подсвечивает
