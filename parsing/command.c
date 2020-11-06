@@ -26,6 +26,8 @@ void		choose_com(t_token *tok, char *cmd)
 
 void			command(char *line, t_token *tok, t_pars *ps, char **env)
 {
+	int			index;
+
 	tok->tmp = NULL;
 	while(line[ps->pos] == ' ' || line[ps->pos] == '\t')
 		ps->pos++;
@@ -49,6 +51,12 @@ void			command(char *line, t_token *tok, t_pars *ps, char **env)
 
 		if (line[ps->pos] == ' ' || line[ps->pos] == '\t')
 			break ;
+	}
+	index = 0;
+	while (tok->tmp[index] != '\0')
+	{
+		tok->tmp[index] = ft_tolower(tok->tmp[index]);
+		index++;
 	}
 	choose_com(tok, tok->tmp);
 	if (tok->tmp)

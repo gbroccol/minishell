@@ -6,7 +6,9 @@ int			is_env(char *line, t_pars *ps, char **env)
 		line[ps->pos + 1] != ' ' && line[ps->pos + 1] != '\t' &&
 		line[ps->pos + 1] != '|' &&	line[ps->pos + 1] != '?' &&
 		line[ps->pos + 1] != '.' &&	line[ps->pos + 1] != ',' &&
-		line[ps->pos + 1] != ':' &&
+		line[ps->pos + 1] != '\'' && line[ps->pos + 1] != '\"' &&
+		line[ps->pos + 1] != '\0' &&
+		line[ps->pos + 1] != ':' && line[ps->pos + 1] != '$' &&
 		line[ps->pos + 1] != ';') // проверить символы по ASCII
 	{
 		ps->pos++;

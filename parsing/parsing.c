@@ -23,7 +23,7 @@ t_token		*clear_tokens()
 int				parsing(t_all *all, t_pars *ps)
 {
 	int			pars_ret;
-	int			index;
+	// int			index;
 
 	pars_ret = 1;
 	all->tok = clear_tokens();
@@ -40,21 +40,21 @@ int				parsing(t_all *all, t_pars *ps)
 		pars_ret = arguments(all, all->gnl_line, all->tok, ps, all->env);
 
 
-		if (all->tok->type_func == TYPE_BIN)
-		{
-			if (all->tok->redirect != NULL)
-			{
-				index = 0;
-				while (all->tok->redirect[index] != NULL)
-				{
-					all->tok->args = ft_str_to_array(all->tok->args, all->tok->redirect[index]);
-					all->tok->redirect[index] = NULL;
-					index++;
-				}
-				free(all->tok->redirect);
-				all->tok->redirect = NULL;
-			}
-		}
+		// if (all->tok->type_func == TYPE_BIN)
+		// {
+		// 	if (all->tok->redirect != NULL)
+		// 	{
+		// 		index = 0;
+		// 		while (all->tok->redirect[index] != NULL)
+		// 		{
+		// 			all->tok->args = ft_str_to_array(all->tok->args, all->tok->redirect[index]);
+		// 			all->tok->redirect[index] = NULL;
+		// 			index++;
+		// 		}
+		// 		free(all->tok->redirect);
+		// 		all->tok->redirect = NULL;
+		// 	}
+		// }
 
 
 		if (pars_ret == 0) // для комментария

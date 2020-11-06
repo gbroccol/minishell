@@ -94,6 +94,7 @@ typedef struct		s_all
 	int				ret_ex;
 	int				ret_pars;
 	char			*gnl_line;
+	char			*gnl_tmp;
 	char			**env;
 	int				status;
 	int				fds[2];

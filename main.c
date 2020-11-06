@@ -32,15 +32,49 @@ void	free_tok(t_token *tok)
 	free(tok);
 }
 
+
+
+int		check_str_pipe(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str && str[i] != '\0')
+	{
+		while (str[i] != '\0')
+			i++;
+		while (i > 0 && (str[i] == '\0' || str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r')))
+			i--;
+		if (str[i] == '|')
+			return (1);
+		return (0);
+	}
+	return (0);
+}
+
+
 void	lsh_loop(t_all *all)
 {
-	int i;
+	// int i;
+	int status;
 
+	status = 1;
 	all->wait_cmd = 0;
+	
 	while (all->ret_ex)
 	{
+		all->gnl_tmp = NULL;
 		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
-		get_next_line(0, &(all->gnl_line));
+		while (status)
+		{
+			get_next_line(0, &(all->gnl_tmp));	
+			all->gnl_line = ft_str_to_str(all->gnl_line, all->gnl_tmp);
+			all->gnl_tmp = NULL;
+			if (check_str_pipe(all->gnl_line) == 0)
+				status = 0;
+			else
+				write(1, "\x1b[1;32m> \x1b[0m", 13);
+		}
 		all->ps->pos = 0;
 		all->ret_pars = 1;
 		while (all->ret_pars)
@@ -57,25 +91,26 @@ void	lsh_loop(t_all *all)
 			all->ps->ps_env->str = NULL;
 			all->ret_pars = parsing(all, all->ps);
 
-			printf("**************************************************\n");
-			i = 0;
-			while (all->tok->args != NULL && all->tok->args[i])
-			{
-				printf("%s\n", all->tok->args[i]);
-				i++;
-			}
-			i = 0;
-			while (all->tok->redirect != NULL && all->tok->redirect[i])
-			{
-				printf("redirect* %s\n", all->tok->redirect[i]);
-				i++;
-			}
-			printf("__________________________________________________\n");
+			// printf("**************************************************\n");
+			// i = 0;
+			// while (all->tok->args != NULL && all->tok->args[i])
+			// {
+			// 	printf("%s\n", all->tok->args[i]);
+			// 	i++;
+			// }
+			// i = 0;
+			// while (all->tok->redirect != NULL && all->tok->redirect[i])
+			// {
+			// 	printf("redirect* %s\n", all->tok->redirect[i]);
+			// 	i++;
+			// }
+			// printf("__________________________________________________\n");
 
 			all->ret_ex = execute(all);
 //			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
 			all->tok = NULL;
 			// free(all->ps->status);
+			status = 1;
 		}
 		free(all->gnl_line);
 		all->gnl_line = NULL;
