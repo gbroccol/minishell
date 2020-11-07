@@ -12,19 +12,6 @@
 
 #include "../minishell.h"
 
-void	ft_free_array(char **to_free)
-{
-	char **tmp;
-
-	tmp = to_free;
-	while (*tmp != NULL)
-	{
-		free(*tmp);
-		tmp++;
-	}
-	free(to_free);
-}
-
 int		lsh_cd(t_token *tokens, char **env)
 {
 	if (!tokens->args[1])
