@@ -56,7 +56,8 @@ FUNC_MAIN.c = \
 	ft_letter_to_str.c \
 	ft_str_to_str.c \
 	ft_free_array.c \
-	ft_str_to_array.c
+	ft_str_to_array.c \
+	ft_del_str_from_ar.c
 
 FUNC_BONUS.c = \
 	ft_lstnew.c\
@@ -112,7 +113,8 @@ MAIN_OBJ_FILES = \
 	ft_letter_to_str.o \
 	ft_str_to_str.o \
 	ft_free_array.o \
-	ft_str_to_array.o
+	ft_str_to_array.o \
+	ft_del_str_from_ar.o
 
 BONUS_OBJ_FILES = \
 	ft_lstnew.o\
