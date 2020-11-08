@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/05 19:22:22 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/08 16:00:23 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,8 @@ int		lsh_pwd(void)
 
 int		lsh_echo(t_token *tokens, t_all *all)
 {
-	int fd;
 	int i;
 
-	fd = 1;
 	if (tokens->redir != NULL && !tokens->file)
 	{
 //		if (tokens->arg)
@@ -63,38 +61,22 @@ int		lsh_echo(t_token *tokens, t_all *all)
 		write(2, ">: syntax error near unexpected token `newline'\n", 48);
 		return (1);
 	}
-	if (tokens->redir != NULL)
-	{
-		if ((ft_strncmp(tokens->redir, ">>", 3)) == 0)
-			fd = open(tokens->file, O_RDWR | O_CREAT | O_APPEND, 0666);
-		if ((ft_strncmp(tokens->redir, ">", 2)) == 0)
-			fd = open(tokens->file, O_RDWR | O_CREAT, 0666);
-	}
-	if (fd < 0)
-	{
-		write(2, ">: ", 3);
-		write(2, strerror(errno), ft_strlen(strerror(errno)));
-		write(2, "\n", 1);
-		return (1);
-	}
 	i = 1;
 	if (tokens->args[i])
 	{
 		while (tokens->args[i] != NULL)
 		{
-			write(fd, tokens->args[i], ft_strlen(tokens->args[i]));
+			write(1, tokens->args[i], ft_strlen(tokens->args[i]));
 			if (tokens->args[i + 1] != NULL)
-				write(fd, " ", 1);
+				write(1, " ", 1);
 			i++;
 		}
 		// free(tokens->arg);
 	}
 	if (tokens->flag_n == 0)
-		write(fd, "\n", 1);
+		write(1, "\n", 1);
 //	if (tokens->file)
 //		free(tokens->file);
-	if (fd != 1)
-		close(fd);
 	all->status = 0;
 	return (1);
 }
@@ -258,16 +240,66 @@ int		lsh_unset(t_token *token, char **env)
 	return (1);
 }
 
+int		print_error(void)
+{
+	write(2, ">: ", 3);
+	write(2, strerror(errno), ft_strlen(strerror(errno)));
+	write(2, "\n", 1);
+	return (1);
+}
+
+int		check_redir(t_all *all, int *r_redir)
+{
+	t_token		*token;
+	int			i;
+	int 		fd;
+	
+	i = 0;
+	token = all->tok;
+	fd = 0;
+	while (token->redirect[i] != NULL)
+	{
+		if (!ft_strcmp(token->redirect[i], ">") || !ft_strcmp(token->redirect[i], ">>"))
+		{
+			if (!ft_strcmp(token->redirect[i], ">"))
+				fd = open(token->redirect[i + 1], O_RDWR | O_CREAT, 0666);
+			else
+				fd = open(token->redirect[i + 1], O_RDWR | O_CREAT | O_APPEND, 0666);
+			if (fd < 0)
+				return (print_error());
+			all->fds[1] = fd;
+			dup2(all->fds[1], 1);
+			*r_redir = 1;
+			i++;
+		}
+		else if (!ft_strcmp(token->redirect[i], "<"))
+		{
+			i++;
+			fd = open(token->redirect[i], O_RDWR);
+			if (fd < 0)
+				return (print_error());
+			all->fds[0] = fd;
+			dup2(all->fds[0], 0);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int		execute(t_all *all)
 {
 	int			ret;
 	t_token		*token;
+	int			r_redir;
 
 	ret = 1;
+	r_redir = 0;
 	token = all->tok;
 	if (token->type_func == -1)
 		return (ret);
-	if (token->pipe)
+	if (token->redirect)
+		check_redir(all, &r_redir);
+	if (token->pipe && r_redir == 0)
 		pipe(all->fds);
 	if (token->type_func >= TYPE_CD && token->type_func <= TYPE_UNSET)
 	{
@@ -299,5 +331,13 @@ int		execute(t_all *all)
 	}
 	else if (token->type_func == TYPE_BIN)
 		ret = launch(all);
+	if (token->redirect)
+	{
+		dup2(all->temp_1, 1);
+		dup2(all->temp_0, 0);
+		write(0, "^C\n", 3);
+		close(all->fds[1]);
+		close(all->fds[0]);
+	}
 	return (ret);
 }
