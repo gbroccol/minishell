@@ -20,3 +20,6 @@ Only builtins are: cd, help, exit.
 -> git commit -m "..."
 -> git push origin <branch_name>
 -> git pull
+
+
+

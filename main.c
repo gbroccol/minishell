@@ -6,13 +6,13 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/03 20:55:09 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/08 17:54:44 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void			free_tok(t_token *tok)
+void	free_tok(t_token *tok)
 {
 	// if (tok->cmd)
 	// 	free(tok->cmd);
@@ -32,16 +32,49 @@ void			free_tok(t_token *tok)
 	free(tok);
 }
 
-void			lsh_loop(t_all *all)
+
+
+int		check_str_pipe(char *str)
 {
-	int i;
+	int	i;
 
+	i = 0;
+	if (str && str[i] != '\0')
+	{
+		while (str[i] != '\0')
+			i++;
+		while (i > 0 && (str[i] == '\0' || str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r')))
+			i--;
+		if (str[i] == '|')
+			return (1);
+		return (0);
+	}
+	return (0);
+}
+
+
+void	lsh_loop(t_all *all)
+{
+	// int i;
+	int status;
+
+	status = 1;
 	all->wait_cmd = 0;
-
+	all->pre_pipe = 0;
 	while (all->ret_ex)
 	{
-        write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
-	    get_next_line(0, &(all->gnl_line));
+		all->gnl_tmp = NULL;
+		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
+		while (status)
+		{
+			get_next_line(0, &(all->gnl_tmp));	
+			all->gnl_line = ft_str_to_str(all->gnl_line, all->gnl_tmp);
+			all->gnl_tmp = NULL;
+			if (check_str_pipe(all->gnl_line) == 0)
+				status = 0;
+			else
+				write(1, "\x1b[1;32m> \x1b[0m", 13);
+		}
 		all->ps->pos = 0;
 		all->ret_pars = 1;
 		while (all->ret_pars)
@@ -52,36 +85,32 @@ void			lsh_loop(t_all *all)
 			all->ps->quote_finish = 0;
 			all->ps->space = 0;
 			all->ps->status = ft_itoa(all->status);
-
 			all->ps->ps_env->env_line = 0;
 			all->ps->ps_env->env_pos = 0;
 			all->ps->ps_env->str_pos = 0;
 			all->ps->ps_env->str = NULL;
-
-
 			all->ret_pars = parsing(all, all->ps);
 
+			// printf("**************************************************\n");
+			// i = 0;
+			// while (all->tok->args != NULL && all->tok->args[i])
+			// {
+			// 	printf("%s\n", all->tok->args[i]);
+			// 	i++;
+			// }
+			// i = 0;
+			// while (all->tok->redirect != NULL && all->tok->redirect[i])
+			// {
+			// 	printf("redirect* %s\n", all->tok->redirect[i]);
+			// 	i++;
+			// }
+			// printf("__________________________________________________\n");
 
-			i = 0;
-			while (all->tok->args != NULL && all->tok->args[i])
-			{
-				printf("%s\n", all->tok->args[i]);
-				i++;
-			}
-			i = 0;
-			while (all->tok->redirect != NULL && all->tok->redirect[i])
-			{
-				printf("redirect* %s\n", all->tok->redirect[i]);
-				i++;
-			}
-			printf("__________________________________________________\n");
-			
-
-
-			// all->ret_ex = execute(all);
-			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
+			all->ret_ex = execute(all);
+//			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
 			all->tok = NULL;
 			// free(all->ps->status);
+			status = 1;
 		}
 		free(all->gnl_line);
 		all->gnl_line = NULL;
@@ -105,11 +134,13 @@ void	bzero_array(char **array, int size)
 
 char	**save_env(char **envp, int size)
 {
-	char 	**env;
-	int 	i;
+	char	**env;
+	int		i;
 
-	while (envp[size] != NULL)
-		size++;
+	i = 0;
+	while (envp[i] != NULL)
+		i++;
+	size += i;
 	if (!(env = (char **)malloc(sizeof(char *) * (size + 1))))
 		return (NULL);
 	bzero_array(env, size);
@@ -123,12 +154,12 @@ char	**save_env(char **envp, int size)
 		}
 		i++;
 	}
-	return (env);	
+	return (env);
 }
 
-int main(int argc, char **argv, char **envp)
+int		main(int argc, char **argv, char **envp)
 {
- 	t_all		*all;
+	t_all	*all;
 
 	all = clear_all();
 	if (argc == 1)
@@ -138,10 +169,6 @@ int main(int argc, char **argv, char **envp)
 	lsh_loop(all);
 	ft_free_array(all->env);
 	free(all->ps);
-  	free(all);
+	free(all);
 	return (EXIT_SUCCESS);
 }
-
-
-
-// подсветка синтаксиса при выводе ls (нужно ?) неа, ифыр на маке ничего не подсвечивает

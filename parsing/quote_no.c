@@ -9,17 +9,6 @@ int				quote_no(char *line, t_token *tok, t_pars *ps, char **env, int redir_igno
             line[ps->pos] != '\t' && line[ps->pos] != ';' && 
             line[ps->pos] != '\"' && line[ps->pos] != '\'' && line[ps->pos] != '|')
 	{
-		if (line[ps->pos] == '\0')
-			break ;
-
-		if (line[ps->pos] == '$')
-		{
-			is_env(line, ps, env);
-			if (ps->ps_env->str != NULL)
-				tmp_line = ft_str_to_str(tmp_line, ps->ps_env->str);
-			continue ;
-		}
-
 		if (line[ps->pos] == '$' && line[ps->pos + 1] == '?')
 		{
 			tmp_line = ft_str_to_str(tmp_line, ps->status);
@@ -27,7 +16,15 @@ int				quote_no(char *line, t_token *tok, t_pars *ps, char **env, int redir_igno
 			ps->pos++;
 			continue ;
 		}
-
+		if (line[ps->pos] == '$' )
+		{
+			if (is_env(line, ps, env) == 0)
+			{
+				if (ps->ps_env->str != NULL)
+					tmp_line = ft_str_to_str(tmp_line, ps->ps_env->str);
+				continue ;
+			}
+		}
 		if (line[ps->pos] == '~')
 			if (line[ps->pos + 1] == ' ' || line[ps->pos + 1] == ';' || line[ps->pos + 1] == '|'
 					|| line[ps->pos + 1] == '/' || line[ps->pos + 1] == ':' || line[ps->pos + 1] == '\0')

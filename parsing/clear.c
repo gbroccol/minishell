@@ -55,7 +55,9 @@ t_all			*clear_all()
 	all->env = NULL;
 	all->status = 0;
 	all->temp_0 = dup(0);
-	all->fds[1] = 1;
+	all->temp_1 = dup(1);
+	all->fds[1] = -1;
+	all->fds[0] = -1;
 	all->tok = NULL;
 	
 
