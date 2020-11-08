@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/05 19:18:32 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/08 17:54:57 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <errno.h>
 # include <string.h>
 # include <dirent.h>
+# include <signal.h>
 
 # include <stdio.h>            // remove fprintf(), printf(), stderr, getchar(), perror()
 
@@ -76,7 +77,7 @@ typedef struct		s_token  // каждый лист замолочен
 	char			**args;
 	char			**redirect;
 	int				pipe;
-
+	
 	char			*tmp;
 
 	char			*cmd; // rm
@@ -100,6 +101,7 @@ typedef struct		s_all
 	int				fds[2];
 	int				temp_0;
 	int				temp_1;
+	int				pre_pipe;
 	t_token			*tok;
 	t_pars			*ps; // структура для парсинга
 }					t_all;

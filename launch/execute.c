@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/08 16:00:23 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/08 18:01:00 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int		lsh_exit(t_all *all)
 	int	i;
 
 	i = 0;
+	if (all->pre_pipe)
+		return (1);
 	if (all->tok->args[1])
 	{
 		while (all->tok->args[1][i] != '\0')
@@ -325,9 +327,13 @@ int		execute(t_all *all)
 			dup2(all->fds[0], 0);
 			close(all->fds[1]);
 			close(all->fds[0]);
+			all->pre_pipe = 1;
 		}
 		if (!token->pipe)
+		{
 			dup2(all->temp_0, 0);
+			all->pre_pipe = 0;
+		}
 	}
 	else if (token->type_func == TYPE_BIN)
 		ret = launch(all);
@@ -335,7 +341,6 @@ int		execute(t_all *all)
 	{
 		dup2(all->temp_1, 1);
 		dup2(all->temp_0, 0);
-		write(0, "^C\n", 3);
 		close(all->fds[1]);
 		close(all->fds[0]);
 	}

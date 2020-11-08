@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/05 18:57:17 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/08 17:54:44 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	lsh_loop(t_all *all)
 
 	status = 1;
 	all->wait_cmd = 0;
-	
+	all->pre_pipe = 0;
 	while (all->ret_ex)
 	{
 		all->gnl_tmp = NULL;
