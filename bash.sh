@@ -236,6 +236,15 @@ export HOME=/Users/GBroccol
 cd
 pwd
 
+#export написать по алфавиту НАСТЯ
+ls > a | ls > b #НАСТЯ
+ls > a >> b | pwd | cat -e >> b
+ls > a > b > c | cat -e < c
+ls > a > b | cat -e < b
+ls | cat -e < b
+pwd | cat -e | cat -e > a >> b | pwd | cat -e >> b
+cat -e < a #КАТЯ cat продолжает читать
+
 echo 5 | exit
 exit
 # >, >> - перенаправление стандартного вывода программы в файл
