@@ -76,5 +76,6 @@ char				*ft_letter_to_str(char *s1, char smb, int rm_double);
 char				*ft_str_to_str(char *s1, char *s2);
 void				ft_free_array(char **to_free);
 char				**ft_str_to_array(char **array, char *new_str);
+char				**ft_del_str_from_ar(char **array, int nmb);
 
 #endif

@@ -50,10 +50,41 @@ int		lsh_pwd(void)
 	return (1);
 }
 
+
+static void	echo_n(t_token *token)
+{
+	int		i;
+	int		j;
+
+	i = 1;
+	while (token->args[i] != NULL)
+	{
+		j = 0;
+		if (token->args[i][j] == '-')
+		{
+			j++;
+			while (token->args[i][j] == 'n')
+				j++;
+			if (token->args[i][j] == '\0')
+			{
+				token->flag_n = 1;
+				token->args = ft_del_str_from_ar(token->args, i);
+				i--;
+			}
+			else
+				return ;
+		}
+		else
+			return ;
+		i++;
+	}
+}
+
 int		lsh_echo(t_token *tokens, t_all *all)
 {
 	int i;
 
+	echo_n(tokens);
 	if (tokens->redir != NULL && !tokens->file)
 	{
 //		if (tokens->arg)

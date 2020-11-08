@@ -235,6 +235,29 @@ pwd
 export HOME=/Users/GBroccol
 cd
 pwd
+
+echo -n -nnnnn 5                                                                # +
+export N=n                                                                      # +
+echo -n -nnnnn -$N write                                                        # +
+
+# РУСЛАН И СЁМА
+
+123 ctrl+\abc
+/bin/ls
+/bin/ls -la
+/bin/ls -la ~/school21
+echo $XPC_FLAGS                   -> 0x0
+echo nsdjknv -n
+
+exit 42
+echo $?
+
+bash
+
+
+
+
+
 # >, >> - перенаправление стандартного вывода программы в файл
 # < - перенаправление стандартного ввода программы из файла
 # |- перенаправление стандартного вывода программы на стандартный ввод другой программы
