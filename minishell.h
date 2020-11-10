@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/08 17:54:57 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/11 00:00:18 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void				create_bin_tok(t_token *tok);
 **  execute
 */
 int					execute(t_all *all);
+void				kill_process(int signal);
 char				**save_env(char **envp, int size);
 char				*search_env(char **env, char *to_find);
 void				ft_free_array(char **to_free);

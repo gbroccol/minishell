@@ -43,3 +43,4 @@ Your shell should:
 • Protect mallocs (strdups, strjoins etc);
 • Добавить замену PWD и OLDPWD в cd
 • Добавить передачу кодов выхода из встроенных команд в all->status
+• Протестить exit статусы на маке с разными аргументами и добавить в код

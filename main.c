@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/08 17:54:44 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/11 00:02:12 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	lsh_loop(t_all *all)
 	{
 		all->gnl_tmp = NULL;
 		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
+		signal(SIGINT, SIG_IGN);
 		while (status)
 		{
 			get_next_line(0, &(all->gnl_tmp));	
@@ -105,7 +106,6 @@ void	lsh_loop(t_all *all)
 			// 	i++;
 			// }
 			// printf("__________________________________________________\n");
-
 			all->ret_ex = execute(all);
 //			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
 			all->tok = NULL;

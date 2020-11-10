@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/08 18:01:00 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/10 21:47:19 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,11 @@ int		lsh_exit(t_all *all)
 		return (1);
 	if (all->tok->args[1])
 	{
+		// if (all->tok->args[2] && all->tok->args[2][])
+		// {
+		// 	write(2, "minishell: exit: too many arguments\n", 36);
+		// 	return (1);
+		// }
 		while (all->tok->args[1][i] != '\0')
 		{
 			if (!ft_isdigit(all->tok->args[1][i]))
