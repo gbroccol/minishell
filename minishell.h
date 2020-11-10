@@ -89,6 +89,12 @@ typedef struct		s_token  // каждый лист замолочен
 	char			**bin_tok; // rm
 }					t_token;
 
+typedef struct		s_error
+{
+	int				syntax; // bash: syntax error near unexpected token `;;'
+	char			*token;
+}					t_error;
+
 typedef struct		s_all
 {
 	int				wait_cmd;
@@ -104,6 +110,7 @@ typedef struct		s_all
 	int				pre_pipe;
 	t_token			*tok;
 	t_pars			*ps; // структура для парсинга
+	t_error			*er;
 }					t_all;
 
 /*
@@ -126,6 +133,7 @@ int					cmd_quote_one(char *line, t_token *tok, t_pars *ps);
 int					cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env);
 
 void				check_flags(char *line, t_pars *ps, t_token *tok, char **env);
+int					check_gnl_line(t_error *er, char *str);
 int					is_env(char *line, t_pars *ps, char **env);
 void				check_env(char *line, t_env *ps_env, char **env);
 void				check_redirect(char *line, t_pars *ps, t_token *tok, char **env);

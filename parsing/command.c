@@ -53,7 +53,7 @@ void			command(char *line, t_token *tok, t_pars *ps, char **env)
 			break ;
 	}
 	index = 0;
-	while (tok->tmp[index] != '\0')
+	while (tok->tmp != NULL && tok->tmp[index] != '\0')
 	{
 		tok->tmp[index] = ft_tolower(tok->tmp[index]);
 		index++;

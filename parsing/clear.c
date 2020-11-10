@@ -79,7 +79,10 @@ t_all			*clear_all()
 	all->ps->ps_env->str_pos = 0;
 	all->ps->ps_env->str = NULL;
 
+	if(!(all->er = (t_error *)(malloc(sizeof(t_error)))))
+			return (NULL); // error
+	all->er->syntax = 0;
+	all->er->token = NULL;
 
-	
 	return (all);
 }
