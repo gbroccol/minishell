@@ -92,7 +92,7 @@ typedef struct		s_token  // каждый лист замолочен
 typedef struct		s_error
 {
 	int				syntax; // bash: syntax error near unexpected token `;;'
-	char			*token;
+	// char			*token;
 }					t_error;
 
 typedef struct		s_all

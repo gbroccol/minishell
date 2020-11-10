@@ -109,6 +109,7 @@ char	*find_prefix(char **dirs, char *executable)
 	}
 	if (prefix == NULL)
 	{
+		write(2, "bash: ", 6);
 		write(2, executable, ft_strlen(executable));
 		write(2, ": command not found\n", 20);
 		return (NULL);

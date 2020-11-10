@@ -23,10 +23,16 @@ int				quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 				continue ;
 			}
 		}
+
 		if (line[ps->pos] == '\\' && line[ps->pos + 1] == '$')
 			ps->pos++;
-        if (line[ps->pos] == '\\' && line[ps->pos + 1] == '\"')
+        else if (line[ps->pos] == '\\' && line[ps->pos + 1] == '\"')
 			ps->pos++;
+		else if (line[ps->pos] == '\\' && line[ps->pos + 1] == '\\')
+			ps->pos++;
+        else if (line[ps->pos] == '\\' && line[ps->pos + 1] == '`')
+			ps->pos++;
+		
 		tmp_line = ft_letter_to_str(tmp_line, line[ps->pos], 0);
 		ps->pos++;
 	}

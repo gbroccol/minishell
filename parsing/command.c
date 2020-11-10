@@ -18,8 +18,8 @@ void		choose_com(t_token *tok, char *cmd)
 		tok->type_func = TYPE_ENV;
 	else if ((ft_strncmp(cmd, "unset", 6)) == 0)
 		tok->type_func = TYPE_UNSET;
-	else if ((ft_strncmp(cmd, "", 1)) == 0)
-		tok->type_func = TYPE_NO;
+	// else if ((ft_strncmp(cmd, "", 1)) == 0)
+	// 	tok->type_func = TYPE_NO;
 	else
 		tok->type_func = TYPE_BIN;
 }
