@@ -82,7 +82,7 @@ t_all			*clear_all()
 	if(!(all->er = (t_error *)(malloc(sizeof(t_error)))))
 			return (NULL); // error
 	all->er->syntax = 0;
-	all->er->token = NULL;
+	// all->er->token = NULL;
 
 	return (all);
 }

@@ -168,6 +168,22 @@ char	**new_env(t_all *all, char *str)
 	return (all->env);
 }
 
+int		check_new_env(t_all *all, char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '=' || ft_isdigit(str[i]))
+	{
+		write(1, "bash: export: `", 15);
+		write(1, str, ft_strlen(str));
+		write(1, "': not a valid identifier\n", 26);
+		all->status = 1;
+		return (1);
+	}
+	return (0);
+}
+
 int		lsh_export(t_token *token, t_all *all)
 {
 	int	size;
@@ -177,6 +193,7 @@ int		lsh_export(t_token *token, t_all *all)
 	size = 0;
 	i = 0;
 	j = 1;
+
 	if (!token->args[j])
 	{
 		while (all->env[i] != NULL)
@@ -217,11 +234,12 @@ int		lsh_export(t_token *token, t_all *all)
 			}
 			if (i != 0)
 			{
-				if (!(new_env(all, token->args[j])))
-				{
-//					free(token->args[j]);
-					return (0);
-				}
+				if (check_new_env(all, token->args[j]) == 0)
+					if (!(new_env(all, token->args[j])))
+					{
+	//					free(token->args[j]);
+						return (0);
+					}
 			}
 //			free(token->args[j]);
 			j++;
