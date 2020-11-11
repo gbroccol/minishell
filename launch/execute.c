@@ -6,48 +6,60 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/08 18:01:00 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/11 18:27:58 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		lsh_cd(t_token *tokens, char **env)
+
+int		shell_cd(t_token *tokens, char **env, t_all *all)
 {
+	t_token tmp;
+	char	dir[MAXPATHLEN];
+	
+	if (!(tmp.args = (char **)malloc(sizeof(char *) * 3)))
+		return (1);
 	if (!tokens->args[1])
 	{
 		if (!(tokens->args[1] = search_env(env, "HOME=")))
-			return (0);
+			return (1);
 	}
 	else if (!ft_strcmp(tokens->args[1], "-"))
 	{
 		if (!(tokens->args[1] = search_env(env, "OLDPWD=")))
-			return (0);
+			return (1);
 		write(1, tokens->args[1], ft_strlen(tokens->args[1]));
 		if (ft_strlen(tokens->args[1]) != 0)
 			write(1, "\n", 1);
 	}
 	if (ft_strlen(tokens->args[1]) == 0)
-		return (1);
+		return (0);
+	tmp.args[0] = ft_strdup("export");
+	tmp.args[2] = NULL;
+	tmp.args[1] = ft_strjoin("OLDPWD=", getcwd(dir, MAXPATHLEN));
 	if (chdir(tokens->args[1]) != 0)
 	{
 		write(2, ">: ", 3);
 		write(2, strerror(errno), ft_strlen(strerror(errno)));
 		write(2, "\n", 1);
 	}
-//	if (ft_strlen(tokens->args[1]) != 0)
-//		free(tokens->args[1]);
-	return (1);
+	shell_export(&tmp, all);
+	free(tmp.args[1]);
+	tmp.args[1] = ft_strjoin("PWD=", getcwd(dir, MAXPATHLEN));
+	shell_export(&tmp, all);
+	ft_free_array(tmp.args);
+	return (0);
 }
 
-int		lsh_pwd(void)
+int		shell_pwd(void)
 {
 	char dir[MAXPATHLEN];
 
 	getcwd(dir, MAXPATHLEN);
 	write(1, dir, ft_strlen(dir));
 	write(1, "\n", 1);
-	return (1);
+	return (0);
 }
 
 
@@ -80,7 +92,7 @@ static void	echo_n(t_token *token)
 	}
 }
 
-int		lsh_echo(t_token *tokens, t_all *all)
+int		shell_echo(t_token *tokens, t_all *all)
 {
 	int i;
 
@@ -89,8 +101,8 @@ int		lsh_echo(t_token *tokens, t_all *all)
 	{
 //		if (tokens->arg)
 //			free(tokens->arg);
-		write(2, ">: syntax error near unexpected token `newline'\n", 48);
-		return (1);
+		write(2, "bash: syntax error near unexpected token `newline'\n", 51);
+		return (0);
 	}
 	i = 1;
 	if (tokens->args[i])
@@ -109,10 +121,10 @@ int		lsh_echo(t_token *tokens, t_all *all)
 //	if (tokens->file)
 //		free(tokens->file);
 	all->status = 0;
-	return (1);
+	return (0);
 }
 
-int		lsh_exit(t_all *all)
+int		shell_exit(t_all *all)
 {
 	int	i;
 
@@ -121,6 +133,11 @@ int		lsh_exit(t_all *all)
 		return (1);
 	if (all->tok->args[1])
 	{
+		// if (all->tok->args[2] && all->tok->args[2][])
+		// {
+		// 	write(2, "minishell: exit: too many arguments\n", 36); // прописать разные коды выхода при разных аргументах
+		// 	return (1);
+		// }
 		while (all->tok->args[1][i] != '\0')
 		{
 			if (!ft_isdigit(all->tok->args[1][i]))
@@ -198,11 +215,13 @@ int		check_new_env(t_all *all, char *str)
 	return (0);
 }
 
-int		lsh_export(t_token *token, t_all *all)
+
+int		shell_export(t_token *token, t_all *all)
+
 {
-	int	size;
-	int	i;
-	int	j;
+	int		size;
+	int		i;
+	int		j;
 
 	size = 0;
 	i = 0;
@@ -220,9 +239,13 @@ int		lsh_export(t_token *token, t_all *all)
 			{
 				write(1, "declare -x ", 11);
 				write(1, all->env[i], size);
-				write(1, "\"", 1);
-				write(1, all->env[i] + size, ft_strlen(all->env[i]) - size);
-				write(1, "\"\n", 2);
+				if ((ft_strlen(all->env[i]) - size) > 0)
+				{
+					write(1, "\"", 1);
+					write(1, all->env[i] + size, ft_strlen(all->env[i]) - size);
+					write(1, "\"", 1);
+				}
+				write(1, "\n", 1);
 			}
 			i++;
 		}
@@ -233,36 +256,36 @@ int		lsh_export(t_token *token, t_all *all)
 		{
 			while (token->args[j][size] != '=' && token->args[j][size] != '\0')
 				size++;
-			size++;
 			while (all->env[i] != NULL)
 			{
-				if (!ft_strncmp(token->args[j], all->env[i], size))
+				if (!ft_strncmp(token->args[j], all->env[i], size) && ft_strchr(token->args[j], '='))
 				{
 					free(all->env[i]);
 					if (!(all->env[i] = ft_strdup(token->args[j])))
-						return (0);
+						return (1);
 					i = 0;
 					break ;
 				}
 				i++;
 			}
-			if (i != 0)
+			if (i != 0 && ft_strchr(token->args[j], '='))
 			{
 				if (check_new_env(all, token->args[j]) == 0)
 					if (!(new_env(all, token->args[j])))
-					{
-	//					free(token->args[j]);
-						return (0);
-					}
+						return (1);
 			}
-//			free(token->args[j]);
+			if (!ft_strncmp(token->args[j], "HOME=", 5))
+			{
+				free(all->home);
+				all->home = ft_strdup(token->args[j]);
+			}
 			j++;
 		}
 	}
-	return (1);
+	return (0);
 }
 
-int		lsh_env(char **env)
+int		shell_env(char **env)
 {
 	int i;
 
@@ -274,10 +297,10 @@ int		lsh_env(char **env)
 			write(1, "\n", 1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
-int		lsh_unset(t_token *token, char **env)
+int		shell_unset(t_token *token, char **env)
 {
 	int	i;
 	int j;
@@ -290,7 +313,7 @@ int		lsh_unset(t_token *token, char **env)
 		{
 			while (env[i] != NULL)
 			{
-				if (ft_strcmp(env[i], token->args[j]) == '=')
+				if (ft_strcmp(env[i], token->args[j]) == '=' || !ft_strcmp(env[i], token->args[j]))
 				{
 					free(env[i]);
 					env[i] = ft_strdup("");
@@ -298,16 +321,15 @@ int		lsh_unset(t_token *token, char **env)
 				}
 				i++;
 			}
-//		free(token->arg);
 			j++;
 		}
 	}
-	return (1);
+	return (0);
 }
 
 int		print_error(void)
 {
-	write(2, ">: ", 3);
+	write(2, "bash: ", 6);
 	write(2, strerror(errno), ft_strlen(strerror(errno)));
 	write(2, "\n", 1);
 	return (1);
@@ -371,19 +393,19 @@ int		execute(t_all *all)
 		if (token->pipe)
 			dup2(all->fds[1], 1);
 		if (token->type_func == TYPE_CD)
-			ret = lsh_cd(token, all->env);
+			all->status = shell_cd(token, all->env, all);
 		else if (token->type_func == TYPE_PWD)
-			ret = lsh_pwd();
+			all->status = shell_pwd();
 		else if (token->type_func == TYPE_ECHO)
-			ret = lsh_echo(token, all);
+			all->status = shell_echo(token, all);
 		else if (token->type_func == TYPE_EXIT)
-			ret = lsh_exit(all);
+			ret = shell_exit(all);
 		else if (token->type_func == TYPE_EXPORT)
-			ret = lsh_export(token, all);
+			all->status = shell_export(token, all);
 		else if (token->type_func == TYPE_ENV)
-			ret = lsh_env(all->env);
+			all->status = shell_env(all->env);
 		else if (token->type_func == TYPE_UNSET)
-			ret = lsh_unset(token, all->env);
+			all->status = shell_unset(token, all->env);
 		if (token->pipe)
 		{
 			dup2(all->temp_1, 1);
@@ -399,7 +421,7 @@ int		execute(t_all *all)
 		}
 	}
 	else if (token->type_func == TYPE_BIN)
-		ret = launch(all);
+		launch(all);
 	if (token->redirect)
 	{
 		dup2(all->temp_1, 1);

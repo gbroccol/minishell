@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/08 17:54:57 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/11 17:31:50 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct		s_all
 	int				temp_0;
 	int				temp_1;
 	int				pre_pipe;
+	char			*home;
 	t_token			*tok;
 	t_pars			*ps; // структура для парсинга
 	t_error			*er;
@@ -151,9 +152,11 @@ char				**save_env(char **envp, int size);
 char				*search_env(char **env, char *to_find);
 void				ft_free_array(char **to_free);
 int					launch(t_all *all);
-int					lsh_exit(t_all *all);
-int					lsh_cd(t_token *token, char **env);
-int					lsh_pwd(void);
-int					lsh_echo(t_token *token, t_all *all);
-
+int					shell_exit(t_all *all);
+int					shell_cd(t_token *token, char **env, t_all *all);
+int					shell_pwd(void);
+int					shell_echo(t_token *token, t_all *all);
+int					shell_export(t_token *token, t_all *all);
+int					shell_env(char **env);
+int					shell_unset(t_token *token, char **env);
 #endif
