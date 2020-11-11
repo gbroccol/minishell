@@ -66,7 +66,7 @@ void	lsh_loop(t_all *all)
 	while (all->ret_ex)
 	{
 		all->gnl_tmp = NULL;
-		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
+		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);  // we need it
 		while (status)
 		{
 			get_next_line(0, &(all->gnl_tmp));

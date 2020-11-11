@@ -168,12 +168,26 @@ char	**new_env(t_all *all, char *str)
 	return (all->env);
 }
 
+int		check_env_key(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '=' && str[i] != '\0')
+	{
+		if (if_smb_in_str(str[i], WRONG_ENV_SMB))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int		check_new_env(t_all *all, char *str)
 {
 	int	i;
 
 	i = 0;
-	if (str[i] == '=' || ft_isdigit(str[i]))
+	if (str[i] == '=' || ft_isdigit(str[i]) || check_env_key(str))
 	{
 		write(1, "bash: export: `", 15);
 		write(1, str, ft_strlen(str));

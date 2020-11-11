@@ -50,7 +50,7 @@ int				quote_no(char *line, t_token *tok, t_pars *ps, char **env, int redir_igno
 		else
 			if (line[ps->pos] == '>' || line[ps->pos] == '<')
 				break ;
-		if (line[ps->pos] == '\\' && line[ps->pos + 1] != '\\')
+		if (line[ps->pos] == '\\' && line[ps->pos + 1] != '\\') // ?
 			ps->pos++;
 		if (line[ps->pos] == '\\' && line[ps->pos + 1] == '#')
 			ps->pos++;

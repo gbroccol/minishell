@@ -26,7 +26,7 @@ echo -n -n -n 23                                                 # +
 echo "\$ \#     |$/\n"                                           # +    
 echo "\$|$/"                                                     # +
 echo "Это #не комментарий"                                       # +
-echo Это # Вот комментарий.                                          # - кириллица работает через раз
+echo Это # Вот комментарий.                                      # +
 echo This              is # comment                              # +
 echo Это \# не комментарий                                       # +
 echo 567t6 ; 890 -n mk ; echo 123                                # +
@@ -91,8 +91,8 @@ echo \'                                                                        +
 echo "\'"                                                                      # +
 
 echo 5 | cat -e                                                                # +
-echo 5 || cat -e                                                               # - КАТЯ НАСТЯ
-echo 5 ||| cat -e
+echo 5 || cat -e                                                               # +
+echo 5 ||| cat -e                                                              # +
 
 echo 5 |                                                                       # +
 |
@@ -112,7 +112,7 @@ echo $\321                                                                      
 echo $|                                                                         # +
 echo $|cat                                                                      # +
 echo $|cat -e                                                                   # +
-echo $|321                                                                      # - КАТЯ, бесконечный цикл, что ты делаешь с нулевым fd??? gnl не перестаёт читать  
+echo $|321                                                                      # +  
 echo $;321                                                                      # +
 echo $/321                                                                      # +
 echo $'321'                                                                     # +
@@ -140,12 +140,17 @@ echo '"""""""""",         wtf     :""'                                          
 echo hello                       happy                               man        # +
 
 
+# .\|/,*! '' ""   $ % &    (   051  )  - : ; < > ? @ {} [] ^`~
+
 export = ; echo $?                                                              # +
 export =  ; echo $?                                                             # +
 export =123  ; echo $?                                                          # +
 export 4= ; echo $?                                                             # +
 export 4p=123  ; echo $?                                                        # +
 export p=123  ; echo $?                                                         # +
+
+export "s=c"
+export "$s=s"
 
 echo $?                                                                         # +
 echo '$?'                                                                       # +
@@ -172,7 +177,7 @@ ec"ho" $str1 $str4                                                              
   'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # +
 echo "hello;"; $q'c'"h"o $test                                                  # +
 echo "hello;"; $q'c'"h"o $test                                                  # +
-$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # + КАТЯ в cd не происходит изменения переменных PWD и OLDPWD
+$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                  # NASTYA             # + КАТЯ в cd не происходит изменения переменных PWD и OLDPWD
 cd -; pwd                                                                       # +
 $lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # +
  echo         \'\"\\                                                            # +
@@ -199,7 +204,7 @@ cd; echo $PWD; cd -                                                             
 echo $PWD; echo $OLDPWD                                                         # +
 unset OLDPWD; echo $OLDPWD                                                      # +
 cd; echo $OLDPWD                                                                # +
-cd ; echo $PWD; echo $OLDPWD                                                    # - КАТЯ
+cd ; echo $PWD; echo $OLDPWD                                  # NASTYA                   # - КАТЯ
 cd -                                                                            # +
 ls -la                                                                          # +
 ls "-la" ; cd -                                                                 # +

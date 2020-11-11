@@ -77,5 +77,6 @@ char				*ft_str_to_str(char *s1, char *s2);
 void				ft_free_array(char **to_free);
 char				**ft_str_to_array(char **array, char *new_str);
 char				**ft_del_str_from_ar(char **array, int nmb);
+int					if_smb_in_str(char smb, char *str);
 
 #endif

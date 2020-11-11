@@ -51,6 +51,9 @@
 
 # define VAR_PWD 1
 
+# define WRONG_ENV_SMB "\\|/ $%&()-:;<>?@^{}[]`~#./,*!\'\""
+
+
 typedef struct		s_env
 {
 	int				env_line;
@@ -80,7 +83,7 @@ typedef struct		s_token  // каждый лист замолочен
 	
 	char			*tmp;
 
-	char			*cmd; // rm
+	char			*cmd;
 	char			*flags; // rm
 	char			*arg; // rm
 	char			*redir; // rm

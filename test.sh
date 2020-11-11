@@ -1,5 +1,4 @@
 # MINISHELL-TESTER
-​
 RESET="\033[0m"
 BLACK="\033[30m"
 RED="\033[31m"
@@ -9,7 +8,6 @@ BLUE="\033[34m"
 MAGENTA="\033[35m"
 CYAN="\033[36m"
 WHITE="\033[37m"
-​
 BOLDBLACK="\033[1m\033[30m"
 BOLDRED="\033[1m\033[31m"
 BOLDGREEN="\033[1m\033[32m"
@@ -19,7 +17,6 @@ BOLDMAGENTA="\033[1m\033[35m"
 BOLDCYAN="\033[1m\033[36m"
 BOLDWHITE="\033[1m\033[37m"
 chmod 755 minishell
-​
 function exec_test()
 {
 	TEST1=$(echo $@ "; exit" | ./minishell 2>&-)
@@ -41,181 +38,176 @@ function exec_test()
 	echo
 	sleep 0.1
 }
-​
-exec_test 'echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty'
-​
-​
+exec_test 'echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty'											# +
 # SYNTAX ERROR
 printf "SYNTAX ERROR\n"
-# exec_test 'echo \\'
-# exec_test "echo \\"
-# exec_test ';; test'
-# exec_test '| test'
-# exec_test 'echo > <'
-# exec_test 'echo | |'
-# exec_test '<'
-# exec_test ';;'
-# exec_test ';'
-# exec_test '|'
-# exec_test '||'
-# exec_test ';@@;'
-# exec_test '| |'
-# exec_test 'ls;;'
-# exec_test 'ls; ;'
-# exec_test 'ls||'
-# exec_test 'ls | |'
-# exec_test 'echo <'
-# exec_test 'echo >>'
-# exec_test 'echo >'
-# exec_test 'echo > ;'
-# exec_test 'echo > |'
-# exec_test '                 echo >                  |                    '
-# exec_test '         echo         >                                       ;                    '
-# exec_test 'echo ||||'
-# exec_test '||||||'
-# exec_test 'echo|||'
-# exec_test 'echo aaa |||'
-# exec_test 'wc < Makefile |'
-# exec_test 'echo "'
-# exec_test "echo ';"
-# exec_test "echo '"
-# exec_test 'ls ""'
-# exec_test 'echo hello      ;;;'
-# exec_test 'echo hello      world          ;;;'
-# exec_test 'echo hello      ;'
-# exec_test 'echo hello, ;               echo                        world'
-# exec_test 'echo hello                         , ;               echo                        world '
-# exec_test 'echo hello                          ;               echo                        world'
-# exec_test "'"
-# exec_test '"'
-# exec_test 'echo aa >>>'
-# exec_test '>>>'
-# exec_test 'echo ; ;'
-# exec_test 'lol kek > ; kek'
-​
+# exec_test 'echo \\'																							# x
+# exec_test "echo \\"																							# x
+# exec_test ';; test'																							# x
+# exec_test '| test'																							# x
+# exec_test 'echo > <'																							# x
+# exec_test 'echo | |'																							# x
+# exec_test '<'																									# x
+# exec_test ';;'																								# x
+# exec_test ';'																									# x
+# exec_test '|'																									# x
+# exec_test '||'																								# x
+# exec_test ';@@;'																								# x
+# exec_test '| |'																								# x
+# exec_test 'ls;;'																								# x
+# exec_test 'ls; ;'																								# x
+# exec_test 'ls||'																								# x
+# exec_test 'ls | |'																							# x
+# exec_test 'echo <'																							# x
+# exec_test 'echo >>'																							# x
+# exec_test 'echo >'																							# x
+# exec_test 'echo > ;'																							# x
+# exec_test 'echo > |'																							# x
+# exec_test '                 echo >                  |                    '									# x
+# exec_test '         echo         >                                       ;                    '				# x
+# exec_test 'echo ||||'																							# x
+# exec_test '||||||'																							# x
+# exec_test 'echo|||'																							# x
+# exec_test 'echo aaa |||'																						# x
+# exec_test 'wc < Makefile |'																							# Kate
+# exec_test 'echo "'																							# x
+# exec_test "echo ';"																							# x
+# exec_test "echo '"																							# x
+# exec_test 'ls ""'																								# x
+# exec_test 'echo hello      ;;;'																				# x
+# exec_test 'echo hello      world          ;;;'																# x
+# exec_test 'echo hello      ;'																					# x
+# exec_test 'echo hello, ;               echo                        world'										# x
+# exec_test 'echo hello                         , ;               echo                        world '			# x
+# exec_test 'echo hello                          ;               echo                        world'				# x
+# exec_test "'"																									# x
+# exec_test '"'																									# x
+# exec_test 'echo aa >>>'																						# x
+# exec_test '>>>'																								# x
+# exec_test 'echo ; ;'																							# x
+# exec_test 'lol kek > ; kek'																					# x
+# 
 # ESC sequences
 printf "\nESC sequences\n"
-# exec_test echo         \'\"\\
-# exec_test echo \'
-# exec_test 'echo '\'''
-# exec_test echo "'\''"
-# exec_test '\ls\ ;'
-# exec_test echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\
-# exec_test echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1
-​
+# exec_test echo         \'\"\\																					# x
+# exec_test echo \'																								# x
+# exec_test 'echo '\'''																							# x
+# exec_test echo "'\''"																							# x
+# exec_test '\ls\ ;'																							# x
+# exec_test echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\									# x
+# exec_test echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1						# x
+exec_test echo \h																						# +
+exec_test echo \\																						# +
+# exec_test echo \#																								# x
+exec_test echo \\#																						# +
+# exec_test echo \#\#																							# x
 # DOLLARS AND QUOTES
 printf "\nDOLLARS AND QUOTES\n"
-exec_test "e""c""h""o" 'e''c'"h""o" 'e'"c"'h'"o"
-# exec_test echo '"""""""""",         wtf     :""'
-exec_test echo ~
-exec_test 'echo "~"'
-# exec_test 'echo ~~'
-exec_test 'echo \~'
-exec_test 'ec""""ho kek'
-exec_test 'e"c"ho kek'
-exec_test echo '""'
-exec_test 'echo "$?TEST"'
-# exec_test 'echo -'
-exec_test "echo \'"
-# exec_test echo helloworld"'''$USER'''"1234556789
-exec_test 'echo $USER$USER$USER'
-exec_test 'echo "$USER"'
-exec_test "echo '$USER'"
-exec_test 'echo $USER'
-exec_test 'echo -n $USER'
-# exec_test echo ''\''"a|"\'q'a'\a'w'
-exec_test '>>"helo l" echo hell\ f ; echo hell\ f'
-exec_test '>"helo l" echo hell\ f'
-exec_test 'echo "\$PWD" "\PWD" '
-# exec_test echo \'\"\\ "\hello\$PWD"
-exec_test 'echo "\hello \$PWD"'
-exec_test "echo '\hello \$PWD'"
-exec_test 'echo \hello \$PWD'
-​
+exec_test "e""c""h""o" 'e''c'"h""o" 'e'"c"'h'"o"														# +
+# exec_test echo '"""""""""",         wtf     :""'																# x
+exec_test echo ~																						# +
+exec_test 'echo "~"'																					# +
+# exec_test 'echo ~~'																							# x
+exec_test 'echo \~'																						# +
+exec_test 'ec""""ho kek'																				# +
+exec_test 'e"c"ho kek'																					# +
+exec_test echo '""'																						# +
+exec_test 'echo "$?TEST"'																				# +
+# exec_test 'echo -'																							# x
+exec_test "echo \'"																						# +
+# exec_test echo helloworld"'''$USER'''"1234556789																# x
+exec_test 'echo $USER$USER$USER'																		# +
+exec_test 'echo "$USER"'																				# +
+exec_test "echo '$USER'"																				# +
+exec_test 'echo $USER'																					# +
+exec_test 'echo -n $USER'																				# +
+# exec_test echo ''\''"a|"\'q'a'\a'w'																			# x
+exec_test '>>"helo l" echo hell\ f ; echo hell\ f'														# +
+exec_test '>"helo l" echo hell\ f'																		# +
+exec_test 'echo "\$PWD" "\PWD" '																		# +
+# exec_test echo \'\"\\ "\hello\$PWD"																			# x
+exec_test 'echo "\hello \$PWD"'																			# +
+exec_test "echo '\hello \$PWD'"																			# +
+exec_test 'echo \hello \$PWD'																			# +
 # ECHO TESTS
-printf "\nECHO TESTS\n"
-exec_test 'echo -n kek'
-exec_test 'echo                                                kek             '
-exec_test 'echo -n '
-​
+# printf "\nECHO TESTS\n"
+exec_test 'echo -n kek'																					# +
+exec_test 'echo                                                kek             '						# +
+exec_test 'echo -n '																					# +
 # PIPE TESTS AND REDIRS
-# exec_test 'cat tests/lorem.txt | grep arcu | cat -e'
-# exec_test 'echo -n aa|cat -e'
-# exec_test ''
-# exec_test 'pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2; '
+# exec_test 'cat tests/lorem.txt | grep arcu | cat -e'															# x
+# exec_test 'echo -n aa|cat -e'																					# x
+# exec_test ''																									# x
+# exec_test 'pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2; '								# x
 # ​
 ## ENV EXPANSIONS + ESCAPE
-exec_test 'echo test     \    test'
-# exec_test echo \"test
-exec_test 'echo $TEST'
-exec_test 'echo "$TEST"'
-exec_test "echo '$TEST'"
-exec_test 'echo "$TEST$TEST$TEST"'
-exec_test 'echo "$TEST$TEST=lol$TEST"'
-exec_test 'echo "   $TEST lol $TEST"'
-exec_test 'echo $TEST$TEST$TEST'
-# exec_test 'echo $TEST$TEST=lol$TEST""lol'
-exec_test 'echo "\$TEST"'
-# exec_test 'echo "$=TEST"'
-exec_test 'echo "$"'
-exec_test 'echo "$1TEST"'
-exec_test 'echo "$T1TEST"'
-exec_test 'echo $?\?'
-​
+exec_test 'echo test     \    test'																		# +
+# exec_test echo \"test																							# x
+exec_test 'echo $TEST'																					# +
+exec_test 'echo "$TEST"'																				# +
+exec_test "echo '$TEST'"																				# +
+exec_test 'echo "$TEST$TEST$TEST"'																		# +
+exec_test 'echo "$TEST$TEST=lol$TEST"'																	# +
+exec_test 'echo "   $TEST lol $TEST"'																	# +
+exec_test 'echo $TEST$TEST$TEST'																		# +
+exec_test 'echo $TEST$TEST=lol$TEST""lol'
+exec_test 'echo "\$TEST"'																				# +
+exec_test 'echo "$=TEST"'
+exec_test 'echo "$"'																					# +
+exec_test 'echo "$1TEST"'																				# +
+exec_test 'echo "$T1TEST"'																				# +
+exec_test 'echo $?\?'																					# +
 ## CMD TESTS
-exec_test 'cd .; pwd; echo $PWD'
-exec_test 'cd'
-exec_test 'export kek='
-exec_test 'export kek======='
-exec_test 'export kek lol cheburek'
-exec_test 'export lol'
-# exec_test 'export hello="echo hello; echo world" 5d'
-exec_test 'echo $hello'
-exec_test '"/bin/ls" ""includes""'
-exec_test 'echo | cat -e'
-exec_test '/bin/cat <Makefile'
-exec_test '/bin/cat <               Makefile'
-exec_test '/bin/cat'
-exec_test '/bin/ls'
-exec_test 'wc < Makefile | cat -e cat -e cat -e cat -e cat -e cat -e cat -e'
-# exec_test 'wc < Makefile | cat -e -e -e -e -e -e'
-exec_test '/bin/ls -la'
-exec_test '/bin/ls includes'
-exec_test '/bin/ls                   includes               '
-exec_test './minishell ; exit'
-exec_test 'exit 12 sdlkfsdkfs'
-exec_test '$hello'
-exec_test 'unset 10ls hello'
-exec_test '$hello'
-exec_test 'export lol=kek chebu=rek; $lol$chebu hello'
-exec_test 'unset HOME; cd'
-exec_test 'echo -n aa | cat -e'
-exec_test 'echo -n aa|cat -e'
-exec_test 'echo $PWD > as ; cat as'
-exec_test 'export a=l d=s; $a$d'
-# exec_test "echo -$t '-n' '-''n' '-n;'         -n hello"
-exec_test 'ls -la'
-exec_test 'echo $PWD; echo $OLDPWD'
-exec_test 'unset OLDPWD; echo $OLDPWD'
-exec_test 'pwd; echo $PWD'
+exec_test 'cd .; pwd; echo $PWD'																		# +
+exec_test 'cd'																							# +
+exec_test 'export kek='																					# +
+exec_test 'export kek======='																			# +
+exec_test 'export kek lol cheburek'																		# +
+exec_test 'export lol'																					# +
+# exec_test 'export hello="echo hello; echo world" 5d'															# x
+exec_test 'echo $hello'																					# +
+exec_test '"/bin/ls" ""includes""'																		# +
+# exec_test 'echo | cat -e'																						# x
+exec_test '/bin/cat <Makefile'																			# +
+exec_test '/bin/cat <               Makefile'															# +
+exec_test '/bin/cat'																					# +
+exec_test '/bin/ls'																						# +
+# exec_test 'wc < Makefile | cat -e cat -e cat -e cat -e cat -e cat -e cat -e'									# x
+# exec_test 'wc < Makefile | cat -e -e -e -e -e -e'																# x
+exec_test '/bin/ls -la'																					# +
+exec_test '/bin/ls includes'																			# +
+exec_test '/bin/ls                   includes               '											# +
+# exec_test './minishell ; exit'																				# x
+exec_test 'exit 12 sdlkfsdkfs'																			# +
+exec_test '$hello'																						# +
+exec_test 'unset 10ls hello'																			# +
+exec_test '$hello'																						# +
+exec_test 'export lol=kek chebu=rek; $lol$chebu hello'													# +
+exec_test 'unset HOME; cd'																				# +
+# exec_test 'echo -n aa | cat -e'																				# x
+# exec_test 'echo -n aa|cat -e'																					# x
+# exec_test 'echo $PWD > as ; cat as'																			# x
+# exec_test 'export a=l d=s; $a$d'																				# x
+# exec_test "echo -$t '-n' '-''n' '-n;'         -n hello"														# x
+exec_test 'ls -la'																						# +
+exec_test 'echo $PWD; echo $OLDPWD'																							# -
+exec_test 'unset OLDPWD; echo $OLDPWD'																						# -
+exec_test 'pwd; echo $PWD'																				# +
 # exec_test ''
-​
 ########################################################################################################
-printf "\n\nHANDLE THEM\n"
-exec_test '$PWD'
-exec_test 'echo $TEST $TEST'
-exec_test 'export t=n; echo -$t -n "-"n hello'
-# exec_test 'cd; echo $PWD; cd -'
-exec_test 'cd -'
-exec_test 'ls "-la" ; cd -'
-# exec_test 'cd ; echo $PWD; echo $OLDPWD'
-# exec_test 'cd; echo $OLDPWD'
-# exec_test 'cd ..; pwd; echo $PWD'
-# exec_test 'echo $PWD; cd ..; echo $PWD'
-exec_test 'echo    $TEST lol $TEST'
-exec_test 'echo $ywywtasdt hello'
-​
+# printf "\n\nHANDLE THEM\n"
+exec_test '$PWD'																											# -
+exec_test 'echo $TEST $TEST'																			# +
+exec_test 'export t=n; echo -$t -n "-"n hello'															# +
+# exec_test 'cd; echo $PWD; cd -'																							# -
+exec_test 'cd -'																											# -
+exec_test 'ls "-la" ; cd -'																									# -
+# exec_test 'cd ; echo $PWD; echo $OLDPWD'																					# -
+# exec_test 'cd; echo $OLDPWD'																								# -
+# exec_test 'cd ..; pwd; echo $PWD'																							# -
+# exec_test 'echo $PWD; cd ..; echo $PWD'																					# -
+exec_test 'echo    $TEST lol $TEST'																		# +
+exec_test 'echo $ywywtasdt hello'																		# +
 ###########################################################################################################
-​
 # rm -f as 'helo l' qwerty t1 'qwe\r' qwe
 # rm -rf qwe$'\r'

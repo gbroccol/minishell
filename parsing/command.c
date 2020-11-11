@@ -52,6 +52,7 @@ void			command(char *line, t_token *tok, t_pars *ps, char **env)
 		if (line[ps->pos] == ' ' || line[ps->pos] == '\t')
 			break ;
 	}
+	tok->cmd = ft_strdup(tok->tmp);
 	index = 0;
 	while (tok->tmp != NULL && tok->tmp[index] != '\0')
 	{

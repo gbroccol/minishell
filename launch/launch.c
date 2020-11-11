@@ -110,7 +110,7 @@ char	*find_prefix(char **dirs, char *executable)
 	if (prefix == NULL)
 	{
 		write(2, "bash: ", 6);
-		write(2, executable, ft_strlen(executable));
+		write(2, executable, ft_strlen(executable)); // write(2, all->tok->cmd, ft_strlen(all->tok->cmd));
 		write(2, ": command not found\n", 20);
 		return (NULL);
 	}
@@ -158,7 +158,10 @@ int		launch(t_all *all)
 			if (!(ret = find_path(all->env, tok->args)))
 				return (0);
 			else if (ret == 1)
+			{
+				dup2(all->temp_0, 0);
 				return (1);
+			}
 		}
 	}
 	pid = fork();
