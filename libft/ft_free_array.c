@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_free_array.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/11 21:37:04 by gbroccol          #+#    #+#             */
+/*   Updated: 2020/11/11 21:37:04 by gbroccol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-void	ft_free_array(char **to_free)
+void		ft_free_array(char **to_free)
 {
-	char **tmp;
-
+	char	**tmp;
 
 	tmp = to_free;
 	while (*tmp != NULL)
