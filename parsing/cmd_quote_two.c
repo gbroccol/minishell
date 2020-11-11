@@ -50,16 +50,16 @@ int				cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 			continue ;
 		}
 
+
 		if (line[ps->pos] == '\\' && line[ps->pos + 1] == '$')
-		{
 			ps->pos++;
-			// continue ;
-		}
-        if (line[ps->pos] == '\\' && line[ps->pos + 1] == '\"')
-		{
+        else if (line[ps->pos] == '\\' && line[ps->pos + 1] == '\"')
 			ps->pos++;
-			// continue ;
-		}
+		else if (line[ps->pos] == '\\' && line[ps->pos + 1] == '\\')
+			ps->pos++;
+        else if (line[ps->pos] == '\\' && line[ps->pos + 1] == '`')
+			ps->pos++; 
+
 		tmp_line = ft_letter_to_str(tmp_line, line[ps->pos], 0);
 		ps->pos++;
 	}
@@ -76,6 +76,11 @@ int				cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 			tok->tmp = ft_str_to_str(tok->tmp, tmp_line);
 		else
 			tok->tmp = tmp_line;
+	}
+	else
+	{
+		if (tok->tmp == NULL)
+			tok->tmp = ft_strdup("");
 	}
 	if (line[ps->pos] == '\"')
 	{

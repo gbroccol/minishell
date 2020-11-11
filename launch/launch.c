@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/05 18:43:34 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/11 17:20:36 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ char	*find_prefix(char **dirs, char *executable)
 	}
 	if (prefix == NULL)
 	{
-		write(2, executable, ft_strlen(executable));
+		write(2, "bash: ", 6);
+		write(2, executable, ft_strlen(executable)); // write(2, all->tok->cmd, ft_strlen(all->tok->cmd));
 		write(2, ": command not found\n", 20);
 		return (NULL);
 	}
@@ -157,12 +158,17 @@ int		launch(t_all *all)
 			if (!(ret = find_path(all->env, tok->args)))
 				return (0);
 			else if (ret == 1)
+			{
+				dup2(all->temp_0, 0);
 				return (1);
+			}
 		}
 	}
 	pid = fork();
 	if (pid == 0)
 	{
+		if (signal(SIGINT, SIG_DFL) == SIG_ERR || signal(SIGQUIT, SIG_DFL) == SIG_ERR) // прописать ошибки
+			exit(EXIT_FAILURE);
 		if (tok->pipe)
 		{
 			dup2(all->fds[1], 1);
@@ -185,6 +191,8 @@ int		launch(t_all *all)
 	}
 	else
 	{
+		if (signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR) // прописать ошибки
+			return (0);
 		if (tok->pipe)
 			dup2(all->fds[0], 0);
 		if (all->fds[1] != 1)
@@ -192,10 +200,20 @@ int		launch(t_all *all)
 		waitpid(pid, &status, WUNTRACED);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
 			waitpid(pid, &status, WUNTRACED);
-		if (WEXITSTATUS(status) != 1)
+		if (WIFSIGNALED(status))
+		{
 			all->status = WEXITSTATUS(status);
-		else
-			all->status = 127;
+			if (WTERMSIG(status) == 2)
+			{
+				all->status = 130; 
+				write(1,  "\n", 1);
+			}
+			else if (WTERMSIG(status) == 3)
+			{
+				all->status  = 131;
+				write(1,  "Quit: 3\n", 8);
+			}
+		}
 		close(all->fds[0]);
 		if (!tok->pipe)
 			dup2(all->temp_0, 0);

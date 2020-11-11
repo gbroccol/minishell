@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/08 17:54:57 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/11 17:31:50 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@
 
 # define VAR_PWD 1
 
+# define WRONG_ENV_SMB "\\|/ $%&()-:;<>?@^{}[]`~#./,*!\'\""
+
+
 typedef struct		s_env
 {
 	int				env_line;
@@ -80,7 +83,7 @@ typedef struct		s_token  // каждый лист замолочен
 	
 	char			*tmp;
 
-	char			*cmd; // rm
+	char			*cmd;
 	char			*flags; // rm
 	char			*arg; // rm
 	char			*redir; // rm
@@ -88,6 +91,12 @@ typedef struct		s_token  // каждый лист замолочен
 	int				flag_n; // rm
 	char			**bin_tok; // rm
 }					t_token;
+
+typedef struct		s_error
+{
+	int				syntax; // bash: syntax error near unexpected token `;;'
+	// char			*token;
+}					t_error;
 
 typedef struct		s_all
 {
@@ -102,8 +111,10 @@ typedef struct		s_all
 	int				temp_0;
 	int				temp_1;
 	int				pre_pipe;
+	char			*home;
 	t_token			*tok;
 	t_pars			*ps; // структура для парсинга
+	t_error			*er;
 }					t_all;
 
 /*
@@ -126,6 +137,7 @@ int					cmd_quote_one(char *line, t_token *tok, t_pars *ps);
 int					cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env);
 
 void				check_flags(char *line, t_pars *ps, t_token *tok, char **env);
+int					check_gnl_line(t_error *er, char *str);
 int					is_env(char *line, t_pars *ps, char **env);
 void				check_env(char *line, t_env *ps_env, char **env);
 void				check_redirect(char *line, t_pars *ps, t_token *tok, char **env);
@@ -140,9 +152,11 @@ char				**save_env(char **envp, int size);
 char				*search_env(char **env, char *to_find);
 void				ft_free_array(char **to_free);
 int					launch(t_all *all);
-int					lsh_exit(t_all *all);
-int					lsh_cd(t_token *token, char **env);
-int					lsh_pwd(void);
-int					lsh_echo(t_token *token, t_all *all);
-
+int					shell_exit(t_all *all);
+int					shell_cd(t_token *token, char **env, t_all *all);
+int					shell_pwd(void);
+int					shell_echo(t_token *token, t_all *all);
+int					shell_export(t_token *token, t_all *all);
+int					shell_env(char **env);
+int					shell_unset(t_token *token, char **env);
 #endif

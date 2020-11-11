@@ -17,6 +17,11 @@ int				cmd_quote_one(char *line, t_token *tok, t_pars *ps)
 		else
 			tok->tmp = tmp_line;
 	}
+	else
+	{
+		if (tok->tmp == NULL)
+			tok->tmp = ft_strdup("");
+	}
 	if (line[ps->pos] == '\'')
 		ps->pos++;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/08 17:54:44 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/11 17:59:58 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,32 +52,51 @@ int		check_str_pipe(char *str)
 	return (0);
 }
 
-
 void	lsh_loop(t_all *all)
 {
 	// int i;
 	int status;
+    char    *space;
 
 	status = 1;
 	all->wait_cmd = 0;
 	all->pre_pipe = 0;
+  space = ft_strdup(" ");
+	all->home = search_env(all->env, "HOME=");
 	while (all->ret_ex)
 	{
 		all->gnl_tmp = NULL;
 		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
+		// write(1, "\b\b", 2); - для затирания символов
+		if (signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR) // прописать ошибки
+			exit(all->status);
 		while (status)
 		{
-			get_next_line(0, &(all->gnl_tmp));	
-			all->gnl_line = ft_str_to_str(all->gnl_line, all->gnl_tmp);
+			get_next_line(0, &(all->gnl_tmp));
+            if (all->gnl_line)
+            {
+                all->gnl_line = ft_str_to_str(all->gnl_line, space);
+                space = ft_strdup(" ");
+                all->gnl_line = ft_str_to_str(all->gnl_line, all->gnl_tmp);
+            }
+            else
+			    all->gnl_line = ft_str_to_str(all->gnl_line, all->gnl_tmp);
 			all->gnl_tmp = NULL;
-			if (check_str_pipe(all->gnl_line) == 0)
+
+            if (check_gnl_line(all->er, all->gnl_line) == 0 || all->er->syntax)
 				status = 0;
 			else
 				write(1, "\x1b[1;32m> \x1b[0m", 13);
+
+
+			// if (check_str_pipe(all->gnl_line) == 0)
+			// 	status = 0;
+			// else
+			// 	write(1, "\x1b[1;32m> \x1b[0m", 13);
 		}
 		all->ps->pos = 0;
 		all->ret_pars = 1;
-		while (all->ret_pars)
+		while (all->ret_pars && all->er->syntax == 0)
 		{
 			all->ps->tmp_pos = 0;
 			all->ps->index = 0;
@@ -105,13 +124,25 @@ void	lsh_loop(t_all *all)
 			// 	i++;
 			// }
 			// printf("__________________________________________________\n");
-
 			all->ret_ex = execute(all);
 //			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
 			all->tok = NULL;
 			// free(all->ps->status);
-			status = 1;
+			
 		}
+        status = 1;
+        if (all->er->syntax)
+        {
+            write(1, "bash: syntax error near unexpected token\n", 41);
+            // write(1, all->er->token, ft_strlen(all->er->token));
+            // write(1, "'\n", 2);
+            all->er->syntax = 0;
+            // if (all->er->token)
+            // {
+            //     free(all->er->token);
+            //     all->er->token = NULL;
+            // }
+        }
 		free(all->gnl_line);
 		all->gnl_line = NULL;
 	}
@@ -163,7 +194,7 @@ int		main(int argc, char **argv, char **envp)
 
 	all = clear_all();
 	if (argc == 1)
-		argv[1] = "minishell"; // костыль
+		argv[1] = "minishell"; // костыль для argc / argv
 	if (!(all->env = save_env(envp, 0)))
 		return (EXIT_FAILURE);
 	lsh_loop(all);

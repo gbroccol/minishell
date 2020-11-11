@@ -18,8 +18,8 @@ void		choose_com(t_token *tok, char *cmd)
 		tok->type_func = TYPE_ENV;
 	else if ((ft_strncmp(cmd, "unset", 6)) == 0)
 		tok->type_func = TYPE_UNSET;
-	else if ((ft_strncmp(cmd, "", 1)) == 0)
-		tok->type_func = TYPE_NO;
+	// else if ((ft_strncmp(cmd, "", 1)) == 0)
+	// 	tok->type_func = TYPE_NO;
 	else
 		tok->type_func = TYPE_BIN;
 }
@@ -52,8 +52,9 @@ void			command(char *line, t_token *tok, t_pars *ps, char **env)
 		if (line[ps->pos] == ' ' || line[ps->pos] == '\t')
 			break ;
 	}
+	tok->cmd = ft_strdup(tok->tmp);
 	index = 0;
-	while (tok->tmp[index] != '\0')
+	while (tok->tmp != NULL && tok->tmp[index] != '\0')
 	{
 		tok->tmp[index] = ft_tolower(tok->tmp[index]);
 		index++;
