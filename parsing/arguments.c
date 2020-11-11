@@ -3,7 +3,6 @@
 int			arguments(t_all *all, char *line, t_token *tok, t_pars *ps, char **env)
 {
 	while (line[ps->pos] != '\0' && line[ps->pos] != ';' && line[ps->pos] != '|')
-	// while (line[ps->pos] != '\0')
 	{
 		while (line[ps->pos] == ' ' || line[ps->pos] == '\t')
 			ps->pos++;
@@ -19,6 +18,8 @@ int			arguments(t_all *all, char *line, t_token *tok, t_pars *ps, char **env)
 		}
 		else if (line[ps->pos] == '#')
 			return (0);
+		else if (line[ps->pos] == '|' && line[ps->pos + 1] == '|')
+			return (0);
 		else
 			quote_no(line, tok, ps, env, 0);
 
@@ -32,7 +33,6 @@ int			arguments(t_all *all, char *line, t_token *tok, t_pars *ps, char **env)
 				tok->tmp = NULL;
 			}
 		}
-	
 	}
 	if (line[ps->pos] == ';')
 	{
@@ -46,6 +46,8 @@ int			arguments(t_all *all, char *line, t_token *tok, t_pars *ps, char **env)
 	}
 	if (line[ps->pos] == '|') // ждать окончания команды будем?
 	{
+		if (line[ps->pos + 1] == '|')
+			return (0);
 		all->wait_cmd = 1;
 		tok->pipe = 1;
 		ps->pos++;

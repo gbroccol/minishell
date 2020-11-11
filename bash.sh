@@ -26,7 +26,7 @@ echo -n -n -n 23                                                 # +
 echo "\$ \#     |$/\n"                                           # +    
 echo "\$|$/"                                                     # +
 echo "Это #не комментарий"                                       # +
-echo Это # Вот комментарий.                                          # - кириллица работает через раз
+echo Это # Вот комментарий.                                      # +
 echo This              is # comment                              # +
 echo Это \# не комментарий                                       # +
 echo 567t6 ; 890 -n mk ; echo 123                                # +
@@ -48,7 +48,7 @@ echo '$PWD'                                                      # +
 echo $PWD                                                        # +
 echo "$PWD"                                                      # +
 
-echo -n 5 | cat -e                                              # - флаг -n не обрабатывается
+echo -n 5 | cat -e                                              # +
 echo 5 | cat -e                                                 # + 
 echo "dd" | cat -e                                              # +
 echo '||' | cat -e                                              # +
@@ -78,19 +78,31 @@ ls                                                              # +
 
 # bash: syntax error near unexpected token
 # start
-;;                                                                              # КАТЯ. поняла как обработать, при встрече обсудим
-;                                                                               # КАТЯ. поняла как обработать, при встрече обсудим
-|                                                                               # КАТЯ. поняла как обработать, при встрече обсудим
-||                                                                              # КАТЯ. поняла как обработать, при встрече обсудим
-;@@;                                                                            # КАТЯ. поняла как обработать, при встрече обсудим
-| |                                                                             # КАТЯ. поняла как обработать, при встрече обсудим
+;;                                                                             # +
+;                                                                              # +
+|                                                                              # +
+||                                                                             # +
+;@@;                                                                           # +
+| |                                                                            # +
+""                                                                             # +
+echo " \'   \\    \$    \`  "                                                  +
+echo ' \'   \\    \$    \`  ''                                                 +
+echo \'                                                                        +
+echo "\'"                                                                      # +
 
-ls;;                                                                            # НАСТЯ
-ls; ;                                                                           # НАСТЯ
+echo 5 | cat -e                                                                # +
+echo 5 || cat -e                                                               # +
+echo 5 ||| cat -e                                                              # +
 
-ls |                                                                            # НАСТЯ
-ls||                                                                            # НАСТЯ
-ls | |                                                                          # НАСТЯ
+echo 5 |                                                                       # +
+|
+
+ls;;                                                                            # +
+ls; ;                                                                           # +
+
+ls |                                                                            # +
+ls||                                                                            # +
+ls | |                                                                          # +
 # finish
 
 echo $PWD                                                                       # +
@@ -100,16 +112,16 @@ echo $\321                                                                      
 echo $|                                                                         # +
 echo $|cat                                                                      # +
 echo $|cat -e                                                                   # +
-echo $|321                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
-echo $;321                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
-echo $/321                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $|321                                                                      # +  
+echo $;321                                                                      # +
+echo $/321                                                                      # +
 echo $'321'                                                                     # +
-echo $ 321                                                                      # - НАСТЯ, бесконечный цикл при попытке считывания $
+echo $ 321                                                                      # +
 echo $"321"                                                                     # +
 echo "$'321"                                                                    # +
 
 
-
+export qwe=123456 ; echo $qwe
 
 echo $fdsgbkldmbklfdsmklfmd                                                     # +
 echo str1"'str2'"                                                               # +
@@ -126,7 +138,19 @@ echo """""""""",         wtf     :""                                            
 echo """""""""",         wtf     :""                                            # +
 echo '"""""""""",         wtf     :""'                                          # +
 echo hello                       happy                               man        # +
-export = ; echo $?                                                              # - КАТЯ обработка невалидных значений
+
+
+# .\|/,*! '' ""   $ % &    (   051  )  - : ; < > ? @ {} [] ^`~
+
+export = ; echo $?                                                              # +
+export =  ; echo $?                                                             # +
+export =123  ; echo $?                                                          # +
+export 4= ; echo $?                                                             # +
+export 4p=123  ; echo $?                                                        # +
+export p=123  ; echo $?                                                         # +
+
+export "s=c"
+export "$s=s"
 
 echo $?                                                                         # +
 echo '$?'                                                                       # +
@@ -146,14 +170,14 @@ echo $? ; ls ; echo $?...                                                       
 ...$?...                                                                        # - КАТЯ скорректировать сообщение об ошибке
 echo $? ; ls ; ...$?...                                                         # - КАТЯ command not found
 
-export str1 2str = _3str str4=str5                                              # - КАТЯ нет сообщений об ошибках, невалидные переменные создались
+export str1 2str = _3str str4=str5                                              # +
  'e'"x"p'o'r't'                                                                 # +
 ec"ho" $str1 $str4                                                              # +
  'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # +
   'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # +
 echo "hello;"; $q'c'"h"o $test                                                  # +
 echo "hello;"; $q'c'"h"o $test                                                  # +
-$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # + КАТЯ в cd не происходит изменения переменных PWD и OLDPWD
+$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                  # NASTYA             # + КАТЯ в cd не происходит изменения переменных PWD и OLDPWD
 cd -; pwd                                                                       # +
 $lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # +
  echo         \'\"\\                                                            # +
@@ -180,7 +204,7 @@ cd; echo $PWD; cd -                                                             
 echo $PWD; echo $OLDPWD                                                         # +
 unset OLDPWD; echo $OLDPWD                                                      # +
 cd; echo $OLDPWD                                                                # +
-cd ; echo $PWD; echo $OLDPWD                                                    # - КАТЯ
+cd ; echo $PWD; echo $OLDPWD                                  # NASTYA                   # - КАТЯ
 cd -                                                                            # +
 ls -la                                                                          # +
 ls "-la" ; cd -                                                                 # +
@@ -224,9 +248,6 @@ echo                                                                            
 echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # +
 echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # +
 \ls\ ;                                                                          # +
-
-echo ${PATH#*:}                                                                 # - надо или не будем делать??? я эти примеры где-то в Интернете нашла, не думаю, что придерутся. Специальная переменная
-echo $(( 2#101011 ))                                                            # - надо или не будем делать??? я эти примеры где-то в Интернете нашла, не думаю, что придерутся. Преобразование системы счисления в арифметической подстановке
 
 cd
 export PWD=/Users/GBroccol
@@ -402,96 +423,3 @@ ls
 export PATH=/bin
 
 #################################################################################
-;;
-;
-|
-||
-;@@;
-| |
-ls;;
-ls; ;
-ls |
-ls||
-ls | |
-echo $PWD
-echo $321
-echo $fdsgbkldmbklfdsmklfmd
-echo str1"'str2'"
-echo str1"'$str2'"
-echo 'str1'str2"str3 $PWD str4" "str5"'$PWD' $PWD "$PWD"
-echo "hello><; world"
-echo $hfkdghldf$PWD
-echo ' """" '
-echo " '''''' "
-echo """"""""
-echo ''''''''
-echo """"""""""              :""
-echo """""""""",         wtf     :""
-echo """""""""",         wtf     :""
-echo '"""""""""",         wtf     :""'
-echo hello                       happy                               man
-export = ; echo $?
-echo $?
-export str1 2str = _3str str4=str5 
- 'e'"x"p'o'r't'
-ec"ho" $str1 $str4
- 'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t
-  'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r
-echo "hello;"; $q'c'"h"o $test
-echo "hello;"; $q'c'"h"o $test
-$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;
-cd -; pwd
-$lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;
- echo         \'\"\\
-echo ~
-echo hello sad man
-echo $?
->fil$q'1' e$w"ho" s$i"r"ing f$r$u file1
-pwd ; cat file1
-ls lskdgjdhgisdoigjiredg
-echo $?
-echo $?
-unset PWD; echo $PWD
-ls; unset PATH; ls     ;
-echo $?
-echo $?
-export PATH=/  ; ls
-echo $?
-export PATH=/bin  ; ls
-echo $?
-echo $PWD; unset PWD
-echo $PWD; export PWD=/ ; echo $PWD;
-pwd; echo $PWD
-cd; echo $PWD; cd -
-echo $PWD; echo $OLDPWD
-unset OLDPWD; echo $OLDPWD
-cd; echo $OLDPWD
-cd ; echo $PWD; echo $OLDPWD
-cd -
-ls -la
-ls "-la" ; cd -
-echo '\'
-echo \hello \$PWD
-echo '\hello \$PWD'
-echo "\hello \$PWD"
-echo \'\"\\ "\hello\$PWD"
-echo "\$PWD" "\PWD" 
-echo "\""
-echo "\'"
-"echo f" hello
->"helo l" echo hell\ f
->>"helo l" echo hell\ f ; echo hell\ f
-export t=n; echo -$t -n "-"'n' hello
-echo -$t "-n" '-''n' '-n;'         -n hello
-export a=l d=s; $a$d
-echo $PWD > as ; cat as
-echo ''\''"a|"\'q'a'\a'w'
-echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty
-pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2; 
-echo
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1
-\ls\ ;
-echo ${PATH#*:} #Специальная переменная
-echo $(( 2#101011 )) #Преобразование системы счисления в арифметической подстановке.
-

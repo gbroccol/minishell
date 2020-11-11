@@ -31,6 +31,7 @@ SRC			= \
 				parsing/quote_two.c \
 				parsing/check_redirect.c \
 				parsing/check_flags.c \
+				parsing/check_gnl_line.c \
 				parsing/is_env.c \
 				parsing/check_env.c \
 				parsing/check_shielding.c \

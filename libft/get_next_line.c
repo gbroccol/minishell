@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../minishell.h" // why?
 
 #define BUFFER_SIZE 1
 

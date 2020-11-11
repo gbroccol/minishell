@@ -185,7 +185,39 @@ char	**new_env(t_all *all, char *str)
 	return (all->env);
 }
 
+int		check_env_key(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != '=' && str[i] != '\0')
+	{
+		if (if_smb_in_str(str[i], WRONG_ENV_SMB))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int		check_new_env(t_all *all, char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '=' || ft_isdigit(str[i]) || check_env_key(str))
+	{
+		write(1, "bash: export: `", 15);
+		write(1, str, ft_strlen(str));
+		write(1, "': not a valid identifier\n", 26);
+		all->status = 1;
+		return (1);
+	}
+	return (0);
+}
+
+
 int		shell_export(t_token *token, t_all *all)
+
 {
 	int		size;
 	int		i;
@@ -194,6 +226,7 @@ int		shell_export(t_token *token, t_all *all)
 	size = 0;
 	i = 0;
 	j = 1;
+
 	if (!token->args[j])
 	{
 		while (all->env[i] != NULL)
@@ -237,8 +270,9 @@ int		shell_export(t_token *token, t_all *all)
 			}
 			if (i != 0 && ft_strchr(token->args[j], '='))
 			{
-				if (!(new_env(all, token->args[j])))
-					return (1);
+				if (check_new_env(all, token->args[j]) == 0)
+					if (!(new_env(all, token->args[j])))
+						return (1);
 			}
 			if (!ft_strncmp(token->args[j], "HOME=", 5))
 			{

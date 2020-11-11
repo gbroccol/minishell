@@ -51,8 +51,9 @@ void			check_env(char *line, t_env *ps_env, char **env)
 			line[ps_env->str_pos] != '=')
 		ps_env->str_pos++;
 
-	if (line[ps_env->str_pos] == '\\')
-		ps_env->str_pos++;
+	// if (line[ps_env->str_pos] == '\\') // ???
+	// 	ps_env->str_pos++;
+	//  echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\     -> check it
 
 	if (ps_env->env_pos != 0)
 	{
