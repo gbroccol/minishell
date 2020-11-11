@@ -190,8 +190,8 @@ exec_test 'unset HOME; cd'																				# +
 # exec_test 'export a=l d=s; $a$d'																				# x
 # exec_test "echo -$t '-n' '-''n' '-n;'         -n hello"														# x
 exec_test 'ls -la'																						# +
-exec_test 'echo $PWD; echo $OLDPWD'																							# -
-exec_test 'unset OLDPWD; echo $OLDPWD'																						# -
+exec_test 'echo $PWD; echo $OLDPWD'																		# +
+exec_test 'unset OLDPWD; echo $OLDPWD'																	# +
 exec_test 'pwd; echo $PWD'																				# +
 # exec_test ''
 ########################################################################################################
@@ -199,13 +199,13 @@ exec_test 'pwd; echo $PWD'																				# +
 exec_test '$PWD'																											# -
 exec_test 'echo $TEST $TEST'																			# +
 exec_test 'export t=n; echo -$t -n "-"n hello'															# +
-# exec_test 'cd; echo $PWD; cd -'																							# -
-exec_test 'cd -'																											# -
-exec_test 'ls "-la" ; cd -'																									# -
-# exec_test 'cd ; echo $PWD; echo $OLDPWD'																					# -
-# exec_test 'cd; echo $OLDPWD'																								# -
-# exec_test 'cd ..; pwd; echo $PWD'																							# -
-# exec_test 'echo $PWD; cd ..; echo $PWD'																					# -
+# exec_test 'cd; echo $PWD; cd -'																		# +
+exec_test 'cd -'																						# +
+exec_test 'ls "-la" ; cd -'																				# +
+# exec_test 'cd ; echo $PWD; echo $OLDPWD'																# +
+# exec_test 'cd; echo $OLDPWD'																			# +
+# exec_test 'cd ..; pwd; echo $PWD'																		# +
+# exec_test 'echo $PWD; cd ..; echo $PWD'																# +
 exec_test 'echo    $TEST lol $TEST'																		# +
 exec_test 'echo $ywywtasdt hello'																		# +
 ###########################################################################################################
