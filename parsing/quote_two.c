@@ -10,50 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
+
+static int		check_dollar(char *line, t_token *tok, t_pars *ps, char **env)
+{
+	if (line[ps->pos] == '$' && line[ps->pos + 1] == '?')
+	{
+		tok->tmp2 = ft_str_to_str(tok->tmp2, ps->status);
+		ps->pos++;
+		ps->pos++;
+		return (1);
+	}
+	if (line[ps->pos] == '$' && line[ps->pos + 1] != '=')
+	{
+		if (is_env(line, ps, env) == 0)
+		{
+			if (ps->ps_env->str != NULL)
+				tok->tmp2 = ft_str_to_str(tok->tmp2, ps->ps_env->str);
+			return (1);
+		}
+	}
+	return (0);
+}
 
 int				quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 {
-	char		*tmp_line;
-
-	tmp_line = NULL;
+	tok->tmp2 = NULL;
 	while (line[ps->pos] != '\0' && line[ps->pos] != '\"')
 	{
-		if (line[ps->pos] == '$' && line[ps->pos + 1] == '?')
-		{
-			tmp_line = ft_str_to_str(tmp_line, ps->status);
-			ps->pos++;
-			ps->pos++;
-			continue ;
-		}
-		if (line[ps->pos] == '$' && line[ps->pos + 1] != '=')
-		{
-			if (is_env(line, ps, env) == 0)
-			{
-				if (ps->ps_env->str != NULL)
-					tmp_line = ft_str_to_str(tmp_line, ps->ps_env->str);
-				continue ;
-			}
-		}
-
-		if (line[ps->pos] == '\\' && line[ps->pos + 1] == '$')
-			ps->pos++;
-        else if (line[ps->pos] == '\\' && line[ps->pos + 1] == '\"')
-			ps->pos++;
-		else if (line[ps->pos] == '\\' && line[ps->pos + 1] == '\\')
-			ps->pos++;
-        else if (line[ps->pos] == '\\' && line[ps->pos + 1] == '`')
-			ps->pos++;
-		
-		tmp_line = ft_letter_to_str(tmp_line, line[ps->pos], 0);
+		if (line[ps->pos] == '$' && check_dollar(line, tok, ps, env) == 1)
+			continue;
+		if (line[ps->pos] == '\\')
+			check_shielding(line, ps);
+		tok->tmp2 = ft_letter_to_str(tok->tmp2, line[ps->pos], 0);
 		ps->pos++;
 	}
-	if (tmp_line)
+	if (tok->tmp2)
 	{
 		if (tok->tmp)
-			tok->tmp = ft_str_to_str(tok->tmp, tmp_line);
+			tok->tmp = ft_str_to_str(tok->tmp, tok->tmp2);
 		else
-			tok->tmp = tmp_line;
+			tok->tmp = tok->tmp2;
 	}
 	if (line[ps->pos] == '\"')
 		ps->pos++;

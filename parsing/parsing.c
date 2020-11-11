@@ -38,16 +38,17 @@ int				parsing(t_all *all, t_pars *ps)
 
 	pars_ret = 1;
 	all->tok = clear_tokens();
-	while (check_divide(all->gnl_line[ps->pos], " \t\r\a", 1))
+	while (is_smb_in_str(all->gnl_line[ps->pos], SHARE_SMB, 0))
 		ps->pos++;
 	if (all->gnl_line[ps->pos] != '\0')
 	{
 		all->wait_cmd = 0;
 		all->tok->args = NULL;
-		if (all->gnl_line[ps->pos] == '>' || all->gnl_line[ps->pos] == '<')
+		if (is_smb_in_str(all->gnl_line[ps->pos], "><", 0))
 			check_redirect(all->gnl_line, ps, all->tok, all->env);
-		command(all->gnl_line, all->tok, ps, all->env);
-		pars_ret = arguments(all, all->gnl_line, all->tok, ps, all->env);
+		// command(all->gnl_line, all->tok, ps, all->env);
+		pars_ret = arguments(all, all->gnl_line, ps, all->env);
+		command_test(all->tok);
 		if (pars_ret == 0)
 			return (0);
 		if (all->gnl_line[ps->pos] != '\0')

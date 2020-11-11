@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
 int				cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 {
@@ -61,8 +61,6 @@ int				cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 			ps->pos++;
 			continue ;
 		}
-
-
 		if (line[ps->pos] == '\\' && line[ps->pos + 1] == '$')
 			ps->pos++;
         else if (line[ps->pos] == '\\' && line[ps->pos + 1] == '\"')
@@ -75,13 +73,6 @@ int				cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 		tmp_line = ft_letter_to_str(tmp_line, line[ps->pos], 0);
 		ps->pos++;
 	}
-	// if (tmp_line)
-	// {
-	// 	if (tok->cmd)
-	// 		tok->cmd = ft_str_to_str(tok->cmd, tmp_line);
-	// 	else
-	// 		tok->cmd = tmp_line;
-	// }
 	if (tmp_line)
 	{
 		if (tok->tmp)
@@ -95,9 +86,6 @@ int				cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env)
 			tok->tmp = ft_strdup("");
 	}
 	if (line[ps->pos] == '\"')
-	{
-		// ps->quote_finish = 1;
 		ps->pos++;
-	}
 	return (0);
 }

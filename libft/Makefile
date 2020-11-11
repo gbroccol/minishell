@@ -52,7 +52,7 @@ FUNC_MAIN.c = \
 	ft_toupper.c\
 	get_next_line.c\
 	ft_strncmp_no_cases.c \
-	check_divide.c \
+	is_smb_in_str.c \
 	ft_letter_to_str.c \
 	ft_str_to_str.c \
 	ft_free_array.c \
@@ -110,7 +110,7 @@ MAIN_OBJ_FILES = \
 	ft_toupper.o\
 	get_next_line.o\
 	ft_strncmp_no_cases.o \
-	check_divide.o \
+	is_smb_in_str.o \
 	ft_letter_to_str.o \
 	ft_str_to_str.o \
 	ft_free_array.o \

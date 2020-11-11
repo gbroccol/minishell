@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#include "../minishell.h"
 
 void		check_redirect(char *line, t_pars *ps, t_token *tok, char **env)
 {
@@ -21,23 +21,15 @@ void		check_redirect(char *line, t_pars *ps, t_token *tok, char **env)
 		ps->pos++;
 	}
 	tok->redirect = ft_str_to_array(tok->redirect, tok->tmp);
-	while (line[ps->pos] == ' ' || line[ps->pos] == '\t' || line[ps->pos] == '\0')
+	while (is_smb_in_str(line[ps->pos], SHARE_SMB, 0))
 		ps->pos++;
 	tok->tmp = NULL;
-	while (line[ps->pos] != '\0' && line[ps->pos] != ';' &&
-			line[ps->pos] != '|' && line[ps->pos] != ' ' &&
-			line[ps->pos] != '>' && line[ps->pos] != '<')
+	while (is_smb_in_str(line[ps->pos], ";|<> ", 1) == 0)
 	{
-		if (line[ps->pos] == '\'')
-		{
-			ps->pos++;
+		if (line[ps->pos++] == '\'')
 			quote_one(line, tok, ps);
-		}	
-		else if (line[ps->pos] == '\"')
-		{
-			ps->pos++;
+		else if (line[ps->pos++] == '\"')
 			quote_two(line, tok, ps, env);
-		}
 		else
 			quote_no(line, tok, ps, env, 1);
 	}

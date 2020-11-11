@@ -1,10 +1,12 @@
 #! /bin/bash
 
 # malloc
+# is_smb_in_str or if_smb_in_str
 
 
 ###############################################################################################
 'Hello World!'                                                   # +
+echo 10 > 'abc'"f"                                                              # -
 echo 'Hello World!'                                              # +
 echo jbkjnk                                                      # +
 echo abc def                                                     # +

@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
-
-#include <stdio.h>
+#include "../minishell.h"
 
 void		create_bin_tok(t_token *tok)
 {

@@ -52,7 +52,7 @@
 # define VAR_PWD 1
 
 # define WRONG_ENV_SMB "\\|/ $%&()-:;<>?@^{}[]`~#./,*!\'\""
-# define SHARE_SMB " \t"
+# define SHARE_SMB " \t\r\a"
 
 typedef struct		s_env
 {
@@ -82,6 +82,7 @@ typedef struct		s_token  // каждый лист замолочен
 	int				pipe;
 	
 	char			*tmp;
+	char			*tmp2;
 
 	char			*cmd;
 	char			*flags; // rm
@@ -126,7 +127,10 @@ void				clear_parsing(t_pars *ps, int clear_place);
 int					parsing(t_all *all, t_pars *ps);
 void				command(char *line, t_token *tok, t_pars *ps, char **env);
 
-int					arguments(t_all *all, char *line, t_token *tok, t_pars *ps, char **env);
+void				command_test(t_token *tok);
+
+
+int					arguments(t_all *all, char *line, t_pars *ps, char **env);
 
 int					quote_no(char *line, t_token *tok, t_pars *ps, char **env, int redir_ignor);
 int					quote_one(char *line, t_token *tok, t_pars *ps);
@@ -136,12 +140,12 @@ int					cmd_quote_no(char *line, t_token *tok, t_pars *ps, char **env);
 int					cmd_quote_one(char *line, t_token *tok, t_pars *ps);
 int					cmd_quote_two(char *line, t_token *tok, t_pars *ps, char **env);
 
-void				check_flags(char *line, t_pars *ps, t_token *tok, char **env);
+// void				check_flags(char *line, t_pars *ps, t_token *tok, char **env);
 int					check_gnl_line(t_error *er, char *str);
 int					is_env(char *line, t_pars *ps, char **env);
 void				check_env(char *line, t_env *ps_env, char **env);
 void				check_redirect(char *line, t_pars *ps, t_token *tok, char **env);
-char				*check_shielding(char *line);
+void				check_shielding(char *line, t_pars *ps);
 void				create_bin_tok(t_token *tok);
 
 /*

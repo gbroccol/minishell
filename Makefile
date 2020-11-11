@@ -22,6 +22,7 @@ SRC			= \
 				parsing/clear.c \
 				parsing/parsing.c \
 				parsing/command.c \
+				parsing/command_test.c \
 				parsing/cmd_quote_no.c \
 				parsing/cmd_quote_one.c \
 				parsing/cmd_quote_two.c \
@@ -30,7 +31,6 @@ SRC			= \
 				parsing/quote_one.c \
 				parsing/quote_two.c \
 				parsing/check_redirect.c \
-				parsing/check_flags.c \
 				parsing/check_gnl_line.c \
 				parsing/is_env.c \
 				parsing/check_env.c \
