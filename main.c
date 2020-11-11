@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 00:02:12 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/11 17:59:58 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int		check_str_pipe(char *str)
 	return (0);
 }
 
-
 void	lsh_loop(t_all *all)
 {
 	// int i;
@@ -61,11 +60,14 @@ void	lsh_loop(t_all *all)
 	status = 1;
 	all->wait_cmd = 0;
 	all->pre_pipe = 0;
+	all->home = search_env(all->env, "HOME=");
 	while (all->ret_ex)
 	{
 		all->gnl_tmp = NULL;
 		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
-		signal(SIGINT, SIG_IGN);
+		// write(1, "\b\b", 2); - для затирания символов
+		if (signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR) // прописать ошибки
+			exit(all->status);
 		while (status)
 		{
 			get_next_line(0, &(all->gnl_tmp));	
@@ -163,7 +165,7 @@ int		main(int argc, char **argv, char **envp)
 
 	all = clear_all();
 	if (argc == 1)
-		argv[1] = "minishell"; // костыль
+		argv[1] = "minishell"; // костыль для argc / argv
 	if (!(all->env = save_env(envp, 0)))
 		return (EXIT_FAILURE);
 	lsh_loop(all);

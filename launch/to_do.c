@@ -19,7 +19,7 @@ Your shell should:
 + Show a prompt when waiting for a new command
 + Search and launch the right executable (based on the PATH variable or by using relative or absolute path) like in bash
 • It must implement the builtins like in bash:
-	• echo with option ’-n’
+	+ echo with option ’-n’
 	+ cd with only a relative or absolute path
 	+ pwd without any options
 	+ export without any options
@@ -28,19 +28,18 @@ Your shell should:
 	+ exit without any options
 + ; in the command should separate commands like in bash
 + ’ and "" should work like in bash except for multiline commands
-• Redirections < > “>>” should work like in bash except for file descriptor aggregation
+• Redirections < > “>>” should work like in bash except for file descriptor aggregation // ls > 5 | cat
 + Pipes | should work like in bash
 + Environment variables ($ followed by characters) should work like in bash
-+ $? should work like in bash
-• ctrl-C, ctrl-D and ctrl-\ should have the same result as in bash
+• $? should work like in bash                                                       // check built-in functions
+• ctrl-C, ctrl-D and ctrl-\ should have the same result as in bash					// ctrl-D, clearing ; ctrl-C в пустом шелле - код выхода 1 и перевод каретки
 
 
 • Leaks
 • Norm
 • Error management
-• Redirects
-• Check if environmental variables are valid
+• Redirects															// ls > 5 | cat
 • Protect mallocs (strdups, strjoins etc);
-• Добавить замену PWD и OLDPWD в cd
-• Добавить передачу кодов выхода из встроенных команд в all->status
 • Протестить exit статусы на маке с разными аргументами и добавить в код
+• Написать ft_exit с полной очитской и закрытием файлов
+• Прописать для exit разные ситуации выхода в зависимости от аргументов
