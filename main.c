@@ -66,7 +66,7 @@ void	lsh_loop(t_all *all)
 	while (all->ret_ex)
 	{
 		all->gnl_tmp = NULL;
-		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
+		// write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
 		// write(1, "\b\b", 2); - для затирания символов
 		if (signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR) // прописать ошибки
 			exit(all->status);

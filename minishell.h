@@ -52,7 +52,7 @@
 # define VAR_PWD 1
 
 # define WRONG_ENV_SMB "\\|/ $%&()-:;<>?@^{}[]`~#./,*!\'\""
-
+# define SHARE_SMB " \t"
 
 typedef struct		s_env
 {

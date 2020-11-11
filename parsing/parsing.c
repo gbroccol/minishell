@@ -1,11 +1,23 @@
-# include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/11 19:33:48 by gbroccol          #+#    #+#             */
+/*   Updated: 2020/11/11 19:33:50 by gbroccol         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-t_token		*clear_tokens()
+#include "../minishell.h"
+
+static t_token	*clear_tokens(void)
 {
-	t_token	*tok;
+	t_token		*tok;
 
 	if (!(tok = (t_token *)malloc(sizeof(t_token))))
-			return (NULL);  // обработать ошибку
+		return (NULL);
 	tok->type_func = -1;
 	tok->cmd = NULL;
 	tok->arg = NULL;
@@ -23,7 +35,6 @@ t_token		*clear_tokens()
 int				parsing(t_all *all, t_pars *ps)
 {
 	int			pars_ret;
-	// int			index;
 
 	pars_ret = 1;
 	all->tok = clear_tokens();
@@ -36,30 +47,9 @@ int				parsing(t_all *all, t_pars *ps)
 		if (all->gnl_line[ps->pos] == '>' || all->gnl_line[ps->pos] == '<')
 			check_redirect(all->gnl_line, ps, all->tok, all->env);
 		command(all->gnl_line, all->tok, ps, all->env);
-		// check_flags(all->gnl_line, ps, all->tok, all->env);
 		pars_ret = arguments(all, all->gnl_line, all->tok, ps, all->env);
-
-
-		// if (all->tok->type_func == TYPE_BIN)
-		// {
-		// 	if (all->tok->redirect != NULL)
-		// 	{
-		// 		index = 0;
-		// 		while (all->tok->redirect[index] != NULL)
-		// 		{
-		// 			all->tok->args = ft_str_to_array(all->tok->args, all->tok->redirect[index]);
-		// 			all->tok->redirect[index] = NULL;
-		// 			index++;
-		// 		}
-		// 		free(all->tok->redirect);
-		// 		all->tok->redirect = NULL;
-		// 	}
-		// }
-
-
-		if (pars_ret == 0) // для комментария
+		if (pars_ret == 0)
 			return (0);
-
 		if (all->gnl_line[ps->pos] != '\0')
 			return (1);
 	}
