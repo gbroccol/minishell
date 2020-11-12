@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 17:59:58 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/12 11:08:37 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	lsh_loop(t_all *all)
 	while (all->ret_ex)
 	{
 		all->gnl_tmp = NULL;
-		// write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
+		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
 		// write(1, "\b\b", 2); - для затирания символов
 		if (signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR) // прописать ошибки
 			exit(all->status);

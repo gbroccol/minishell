@@ -18,7 +18,7 @@ strerror, errno
 Your shell should:
 + Show a prompt when waiting for a new command
 + Search and launch the right executable (based on the PATH variable or by using relative or absolute path) like in bash
-• It must implement the builtins like in bash:
++ It must implement the builtins like in bash:
 	+ echo with option ’-n’
 	+ cd with only a relative or absolute path
 	+ pwd without any options
@@ -41,5 +41,5 @@ Your shell should:
 • Redirects															// ls > 5 | cat
 • Protect mallocs (strdups, strjoins etc);
 • Протестить exit статусы на маке с разными аргументами и добавить в код
-• Написать ft_exit с полной очитской и закрытием файлов
+• Написать ft_exit с полной очисткой и закрытием файлов
 • Прописать для exit разные ситуации выхода в зависимости от аргументов
