@@ -46,11 +46,11 @@ int			shell_echo(t_token *tokens)
 	int i;
 
 	echo_n(tokens);
-	if (tokens->redir != NULL && !tokens->file)
-	{
-		write(2, "bash: syntax error near unexpected token `newline'\n", 51);
-		return (0);
-	}
+	// if (tokens->redir != NULL && !tokens->file)
+	// {
+	// 	write(2, "bash: syntax error near unexpected token `newline'\n", 51);
+	// 	return (0);
+	// }
 	i = 1;
 	if (tokens->args[i])
 	{
