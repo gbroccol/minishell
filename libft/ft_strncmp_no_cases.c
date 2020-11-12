@@ -18,17 +18,16 @@ int	ft_cmpcases(char a, char b)
 	{
 		a -= 32;
 		if (a == b)
-			return (0); 
+			return (0);
 	}
 	else if (a >= 'A' && a <= 'Z')
 	{
 		a += 32;
 		if (a == b)
-			return (0); 
+			return (0);
 	}
 	return (1);
 }
-
 
 int	ft_strncmp_nc(const char *s1, const char *s2, size_t n)
 {

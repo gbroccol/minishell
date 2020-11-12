@@ -12,16 +12,17 @@
 
 #include "../minishell.h"
 
-static int check_str_pipe(char *str)
+static int		check_str_pipe(char *str)
 {
-	int i;
+	int			i;
 
 	i = 0;
 	if (str && str[i] != '\0')
 	{
 		while (str[i] != '\0')
 			i++;
-		while (i > 0 && (str[i] == '\0' || str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r')))
+		while (i > 0 && (str[i] == '\0' ||
+			str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r')))
 			i--;
 		if (str[i] == '|')
 			return (1);
@@ -30,45 +31,49 @@ static int check_str_pipe(char *str)
 	return (0);
 }
 
-static void check_err(t_error *er, char *str)
+static int		check_err_middle(char *str, int i)
 {
-	int i;
+	while (str[i] != ';' && str[i] != '|' && str[i] != '\0')
+	{
+		if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] != '\'' && str[i] != '\0')
+				i++;
+			if (str[i] == '\'')
+				i++;
+		}
+		else if (str[i] == '\"')
+		{
+			i++;
+			while (str[i] != '\"' && str[i] != '\0')
+				i++;
+			if (str[i] == '\"')
+				i++;
+		}
+		else
+			i++;
+	}
+	return (i);
+}
+
+static void		check_err(t_all *all, char *str)
+{
+	int			i;
 
 	i = 0;
-	while (str[i] != '\0') // check command
+	while (str[i] != '\0')
 	{
 		while (str[i] == ' ' || str[i] == '\t')
 			i++;
 		if (str[i] == ';' || str[i] == '|')
 		{
-			er->syntax = 1;
-			return;
+			all->syntax = 1;
+			return ;
 		}
-		while (str[i] != ';' && str[i] != '|' && str[i] != '\0')
-		{
-			if (str[i] == '\'')
-			{
-				i++;
-				while (str[i] != '\'' && str[i] != '\0')
-					i++;
-				if (str[i] == '\'')
-					i++;
-			}
-			else if (str[i] == '\"')
-			{
-				i++;
-				while (str[i] != '\"' && str[i] != '\0')
-					i++;
-				if (str[i] == '\"')
-					i++;
-			}
-			else
-				i++;
-		}
+		i = check_err_middle(str, i);
 		if (str[i] == ';')
-		{
 			i++;
-		}
 		else if (str[i] == '|')
 		{
 			i++;
@@ -78,9 +83,9 @@ static void check_err(t_error *er, char *str)
 	}
 }
 
-int check_gnl_line(t_error *er, char *str)
+int				check_gnl_line(t_all *all, char *str)
 {
-	check_err(er, str);
+	check_err(all, str);
 	if (check_str_pipe(str) == 0)
 		return (0);
 	return (1);

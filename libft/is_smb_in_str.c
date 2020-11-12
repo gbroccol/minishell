@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_array.c                                    :+:      :+:    :+:   */
+/*   is_smb_in_str.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/11 21:37:04 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 21:37:04 by gbroccol         ###   ########.fr       */
+/*   Created: 2020/11/11 21:37:59 by gbroccol          #+#    #+#             */
+/*   Updated: 2020/11/11 21:37:59 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		ft_free_array(char **to_free)
+int				is_smb_in_str(char smb, char *line, int null_smb)
 {
-	char	**tmp;
+	int			i;
 
-	tmp = to_free;
-	while (*tmp != NULL)
+	i = 0;
+
+	if (null_smb == 0)
 	{
-		free(*tmp);
-		tmp++;
+		while (line[i] != '\0')
+		{
+			if (line[i] == smb)
+				return (1);
+			i++;
+		}
 	}
-	free(to_free);
+	if (null_smb == 1)
+	{
+		if (smb == '\0')
+			return (1);
+		while (line[i] != '\0')
+		{
+			if (line[i] == smb)
+				return (1);
+			i++;
+		}
+	}
+	return (0);
 }
