@@ -22,21 +22,11 @@ SRC			= \
 				parsing/clear.c \
 				parsing/parsing.c \
 				parsing/command.c \
-				parsing/command_test.c \
-				parsing/cmd_quote_no.c \
-				parsing/cmd_quote_one.c \
-				parsing/cmd_quote_two.c \
 				parsing/arguments.c \
-				parsing/quote_no.c \
-				parsing/quote_one.c \
-				parsing/quote_two.c \
-				parsing/check_redirect.c \
+				parsing/quote.c \
+				parsing/redirect.c \
 				parsing/check_gnl_line.c \
-				parsing/is_env.c \
-				parsing/check_env.c \
-				parsing/check_shielding.c \
-				parsing/create_bin_tok.c \
-				parsing/error.c \
+				parsing/env.c \
 				launch/execute.c \
 				launch/launch.c
 					

@@ -1,38 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_redirect.c                                   :+:      :+:    :+:   */
+/*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/11 19:29:59 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 19:30:06 by gbroccol         ###   ########.fr       */
+/*   Created: 2020/11/12 12:44:42 by gbroccol          #+#    #+#             */
+/*   Updated: 2020/11/12 12:44:44 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void		check_redirect(char *line, t_pars *ps, t_token *tok, char **env)
+int		redirect(t_all *all, char *line, t_token *tok)
 {
 	tok->tmp = NULL;
-	while (line[ps->pos] == '>' || line[ps->pos] == '<')
+	while (line[all->ps->pos] == '>' || line[all->ps->pos] == '<')
 	{
-		tok->tmp = ft_letter_to_str(tok->tmp, line[ps->pos], 0);
-		ps->pos++;
+		tok->tmp = ft_letter_to_str(tok->tmp, line[all->ps->pos], 0);
+		all->ps->pos++;
 	}
 	tok->redirect = ft_str_to_array(tok->redirect, tok->tmp);
-	while (is_smb_in_str(line[ps->pos], SHARE_SMB, 0))
-		ps->pos++;
+	while (is_smb_in_str(line[all->ps->pos], SHARE_SMB, 0))
+		all->ps->pos++;
 	tok->tmp = NULL;
-	while (is_smb_in_str(line[ps->pos], ";|<> ", 1) == 0)
+	while (is_smb_in_str(line[all->ps->pos], ";|<> ", 1) == 0)
 	{
-		if (line[ps->pos++] == '\'')
-			quote_one(line, tok, ps);
-		else if (line[ps->pos++] == '\"')
-			quote_two(line, tok, ps, env);
+		if (line[all->ps->pos] == '\'')
+			quote_one(line, tok, all->ps);
+		else if (line[all->ps->pos] == '\"')
+			quote_two(all, line, tok, all->ps);
 		else
-			quote_no(line, tok, ps, env, 1);
+			quote_no(all, line, tok, 1);
 	}
 	tok->redirect = ft_str_to_array(tok->redirect, tok->tmp);
 	tok->tmp = NULL;
+	return (1);
 }

@@ -20,15 +20,25 @@ static t_token	*clear_tokens(void)
 		return (NULL);
 	tok->type_func = -1;
 	tok->cmd = NULL;
-	tok->arg = NULL;
 	tok->args = NULL;
-	tok->flags = NULL;
-	tok->pipe = 0;
-	tok->redir = NULL;
-	tok->file = NULL;
-	tok->flag_n = 0;
-	tok->bin_tok = NULL;
 	tok->redirect = NULL;
+	tok->pipe = 0;
+	tok->tmp = NULL;
+	tok->tmp2 = NULL;
+	tok->flag_n = 0;
+	
+	// tok->arg = NULL;
+	
+	// tok->flags = NULL;
+	
+	// tok->redir = NULL;
+	// tok->file = NULL;
+	
+	// tok->bin_tok = NULL;
+	
+
+
+	
 	return (tok);
 }
 
@@ -45,10 +55,9 @@ int				parsing(t_all *all, t_pars *ps)
 		all->wait_cmd = 0;
 		all->tok->args = NULL;
 		if (is_smb_in_str(all->gnl_line[ps->pos], "><", 0))
-			check_redirect(all->gnl_line, ps, all->tok, all->env);
-		// command(all->gnl_line, all->tok, ps, all->env);
-		pars_ret = arguments(all, all->gnl_line, ps, all->env);
-		command_test(all->tok);
+			redirect(all, all->gnl_line, all->tok);
+		pars_ret = arguments(all, all->gnl_line, ps);
+		command(all->tok);
 		if (pars_ret == 0)
 			return (0);
 		if (all->gnl_line[ps->pos] != '\0')

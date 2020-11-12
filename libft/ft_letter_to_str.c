@@ -42,7 +42,8 @@ char		*ft_letter_to_str(char *s1, char smb, int rm_double)
 		ft_strlcpy(res, s1, (size_t)(index + 1));
 		res[index] = smb;
 		res[index + 1] = '\0';
-		free(s1);
+		// if (s1)
+		// 	free(s1);
 		return (res);
 	}
 	if (!(res = malloc(sizeof(char) * 2)))

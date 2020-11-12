@@ -35,7 +35,9 @@ char		*ft_str_to_str(char *s1, char *s2)
 		s1_size++;
 	}
 	res[s1_size] = '\0';
-	free(s1);
-	free(s2);
+	// if (s1)
+	// 	free(s1);
+	// if (s2)
+	// 	free(s2);
 	return (res);
 }

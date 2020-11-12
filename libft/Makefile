@@ -58,7 +58,8 @@ FUNC_MAIN.c = \
 	ft_free_array.c \
 	ft_str_to_array.c \
 	ft_del_str_from_ar.c \
-	if_smb_in_str.c
+	if_smb_in_str.c \
+	ft_strdup_start.c
 
 FUNC_BONUS.c = \
 	ft_lstnew.c\
@@ -116,7 +117,8 @@ MAIN_OBJ_FILES = \
 	ft_free_array.o \
 	ft_str_to_array.o \
 	ft_del_str_from_ar.o \
-	if_smb_in_str.o
+	if_smb_in_str.o \
+	ft_strdup_start.o
 
 BONUS_OBJ_FILES = \
 	ft_lstnew.o\

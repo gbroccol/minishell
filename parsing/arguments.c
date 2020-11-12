@@ -37,28 +37,28 @@ int			arguments_finish(t_all *all, char *line, t_pars *ps)
 	return (1);
 }
 
-static int	create_line(t_all *all, char *line, t_pars *ps, char **env)
+static int	create_line(t_all *all, char *line, t_pars *ps)
 {
-	if (line[ps->pos] == '\'' && ps->pos++)
+	if (line[ps->pos] == '\'')
 		quote_one(line, all->tok, ps);
-	else if (line[ps->pos] == '\"' && ps->pos++)
-		quote_two(line, all->tok, ps, env);
+	else if (line[ps->pos] == '\"')
+		quote_two(all, line, all->tok, ps);
 	else if (line[ps->pos] == '#')
 		return (0);
 	else if (line[ps->pos] == '|' && line[ps->pos + 1] == '|')
 		return (0);
 	else
-		quote_no(line, all->tok, ps, env, 0);
+		quote_no(all, line, all->tok, 0);
 	return (1);
 }
 
-int			arguments(t_all *all, char *line, t_pars *ps, char **env)
+int			arguments(t_all *all, char *line, t_pars *ps)
 {
 	while (is_smb_in_str(line[ps->pos], ";|", 1) == 0)
 	{
 		while (is_smb_in_str(line[ps->pos], " \t", 0))
 			ps->pos++;
-		if (create_line(all, line, ps, env) == 0)
+		if (create_line(all, line, ps) == 0)
 			return (0);
 		if (is_smb_in_str(line[ps->pos], " \t;|", 1))
 		{
