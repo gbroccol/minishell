@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 17:59:58 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/12 11:08:37 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	lsh_loop(t_all *all)
 	while (all->ret_ex)
 	{
 		all->gnl_tmp = NULL;
-		// write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
+		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
 		// write(1, "\b\b", 2); - для затирания символов
 		if (signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR) // прописать ошибки
 			exit(all->status);
@@ -83,29 +83,16 @@ void	lsh_loop(t_all *all)
 			    all->gnl_line = ft_str_to_str(all->gnl_line, all->gnl_tmp);
 			all->gnl_tmp = NULL;
 
-            if (check_gnl_line(all->er, all->gnl_line) == 0 || all->er->syntax)
+            if (check_gnl_line(all, all->gnl_line) == 0 || all->syntax)
 				status = 0;
 			else
 				write(1, "\x1b[1;32m> \x1b[0m", 13);
-
-
-			// if (check_str_pipe(all->gnl_line) == 0)
-			// 	status = 0;
-			// else
-			// 	write(1, "\x1b[1;32m> \x1b[0m", 13);
 		}
 		all->ps->pos = 0;
 		all->ret_pars = 1;
-		while (all->ret_pars && all->er->syntax == 0)
+		while (all->ret_pars && all->syntax == 0)
 		{
-			all->ps->tmp_pos = 0;
-			all->ps->index = 0;
-			all->ps->quote_start = 0;
-			all->ps->quote_finish = 0;
-			all->ps->space = 0;
 			all->ps->status = ft_itoa(all->status);
-			all->ps->ps_env->env_line = 0;
-			all->ps->ps_env->env_pos = 0;
 			all->ps->ps_env->str_pos = 0;
 			all->ps->ps_env->str = NULL;
 			all->ret_pars = parsing(all, all->ps);
@@ -131,17 +118,10 @@ void	lsh_loop(t_all *all)
 			
 		}
         status = 1;
-        if (all->er->syntax)
+        if (all->syntax)
         {
             write(1, "bash: syntax error near unexpected token\n", 41);
-            // write(1, all->er->token, ft_strlen(all->er->token));
-            // write(1, "'\n", 2);
-            all->er->syntax = 0;
-            // if (all->er->token)
-            // {
-            //     free(all->er->token);
-            //     all->er->token = NULL;
-            // }
+            all->syntax = 0;
         }
 		free(all->gnl_line);
 		all->gnl_line = NULL;

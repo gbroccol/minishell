@@ -6,7 +6,7 @@
 #    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/11/01 17:58:39 by pvivian          ###   ########.fr        #
+#    Updated: 2020/11/12 13:40:09 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,23 +22,20 @@ SRC			= \
 				parsing/clear.c \
 				parsing/parsing.c \
 				parsing/command.c \
-				parsing/cmd_quote_no.c \
-				parsing/cmd_quote_one.c \
-				parsing/cmd_quote_two.c \
 				parsing/arguments.c \
-				parsing/quote_no.c \
-				parsing/quote_one.c \
-				parsing/quote_two.c \
-				parsing/check_redirect.c \
-				parsing/check_flags.c \
+				parsing/quote.c \
+				parsing/redirect.c \
 				parsing/check_gnl_line.c \
-				parsing/is_env.c \
-				parsing/check_env.c \
-				parsing/check_shielding.c \
-				parsing/create_bin_tok.c \
-				parsing/error.c \
+				parsing/env.c \
 				launch/execute.c \
-				launch/launch.c
+				launch/shell_cd_pwd.c \
+				launch/shell_echo.c \
+				launch/shell_env_unset.c \
+				launch/shell_exit.c \
+				launch/shell_export.c \
+				launch/launch.c \
+				launch/find_path.c \
+				launch/export_utils.c
 					
 OBJ			= $(SRC:.c=.o)
 

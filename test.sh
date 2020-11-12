@@ -69,7 +69,7 @@ printf "SYNTAX ERROR\n"
 # exec_test '||||||'																							# x
 # exec_test 'echo|||'																							# x
 # exec_test 'echo aaa |||'																						# x
-# exec_test 'wc < Makefile |'																							# Kate
+# exec_test 'wc < Makefile |'																					# x
 # exec_test 'echo "'																							# x
 # exec_test "echo ';"																							# x
 # exec_test "echo '"																							# x

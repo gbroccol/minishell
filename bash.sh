@@ -1,10 +1,12 @@
 #! /bin/bash
 
 # malloc
-
+# is_smb_in_str or if_smb_in_str
+#  env // проверить символы по ASCII
 
 ###############################################################################################
 'Hello World!'                                                   # +
+echo 10 > 'abc'"f"                                               # +
 echo 'Hello World!'                                              # +
 echo jbkjnk                                                      # +
 echo abc def                                                     # +
@@ -58,18 +60,17 @@ echo '||' | cat -e                                              # +
 echo 42 23 | grep 4 | cat -e                                    # +
 ls 1111111 | grep 111 | cat -e                                  # +
 
-echo 123 > 1                                                    # -
-echo '123 > 2'                                                  # -
-echo "123 > 1"                                                  # -
-echo > 1                                                        # -
-echo "> 1"                                                      # -
+echo 123 > 1                                                    # +
+echo '123 > 2'                                                  # +
+echo "123 > 1"                                                  # +
+echo > 1                                                        # +
+echo "> 1"                                                      # +
 
-
-echo 42 > 1 ; echo 22 >> 1 ; cat -e  1                          # -
-grep 2 < 1                                                      # -
+echo 42 > 2 ; echo 22 >> 2 ; cat -e  2                          # +
+grep 2 < 1                                                      # +
 echo < 1                                                        # - КАТЯ не выводится сообщение об ошибке, если файл не существует
 grep < 1                                                        # -
-grep 4 < 1 | cat -e                                             # -
+grep 4 < 1 | cat -e                                             # - 
 
 export qwe=123456 ; echo $qwe                                   # +
 
@@ -106,7 +107,6 @@ ls; ;                                                                           
 ls |                                                                            # +
 ls||                                                                            # +
 ls | |                                                                          # +
-# finish
 
 echo $PWD                                                                       # +
 echo $321                                                                       # +
@@ -142,9 +142,6 @@ echo """""""""",         wtf     :""                                            
 echo '"""""""""",         wtf     :""'                                          # +
 echo hello                       happy                               man        # +
 
-
-# .\|/,*! '' ""   $ % &    (   051  )  - : ; < > ? @ {} [] ^`~
-
 export = ; echo $?                                                              # +
 export =  ; echo $?                                                             # +
 export =123  ; echo $?                                                          # +
@@ -154,6 +151,8 @@ export p=123  ; echo $?                                                         
 
 export "s=c"
 export "$s=s"
+export "c=$s"
+echo $s $c
 
 echo $?                                                                         # +
 echo '$?'                                                                       # +
@@ -172,27 +171,35 @@ echo $? ; ls ; echo $?...                                                       
 'ec"h"o' 5                                                                      # +
 ...$?...                                                                        # - КАТЯ скорректировать сообщение об ошибке
 echo $? ; ls ; ...$?...                                                         # - КАТЯ command not found
+...$?... ; echo $? ; ls ; ...$?...                                              # - КАТЯ
 
-export str1 2str = _3str str4=str5                                              # +
+
+export str1 2str = _3str str4=str5   ; echo $?                                  # -
  'e'"x"p'o'r't'                                                                 # +
 ec"ho" $str1 $str4                                                              # +
  'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # +
   'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # +
 echo "hello;"; $q'c'"h"o $test                                                  # +
 echo "hello;"; $q'c'"h"o $test                                                  # +
-$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                  # NASTYA             # + КАТЯ в cd не происходит изменения переменных PWD и OLDPWD
+$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # +
 cd -; pwd                                                                       # +
 $lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # +
  echo         \'\"\\                                                            # +
 echo ~                                                                          # +
 echo hello sad man                                                              # +
 echo $?                                                                         # +
->fil$q'1' e$w"ho" s$i"r"ing f$r$u file1                                         # - КАТЯ
+>fil$q'1' e$w"ho" s$i"r"ing f$r$u file1                                         # +
 pwd ; cat file1                                                                 # +
-ls lskdgjdhgisdoigjiredg                                                        # +
-echo $?                                                                         #
-echo $?                                                                         #
+ls lskdgjdhgisdoigjiredg                                                        # -
+echo $?                                                                         # -
+echo $?                                                                         # -
 unset PWD; echo $PWD                                                            # +
+
+
+
+
+#  stop testing
+
 ls; unset PATH; ls     ;                                                        # + КАТЯ скорректировать сообщение об ошибке
 echo $?                                                                         #
 echo $?                                                                         #
@@ -289,6 +296,9 @@ cat -e < a #КАТЯ cat продолжает читать
 
 echo 5 | exit
 exit
+
+wc Makefile
+wc < Makefile
 
 # >, >> - перенаправление стандартного вывода программы в файл
 # < - перенаправление стандартного ввода программы из файла

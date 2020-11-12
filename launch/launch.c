@@ -6,144 +6,13 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/11 17:20:36 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/12 20:17:46 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*search_env(char **env, char *to_find)
-{
-	int		i;
-	int		size;
-	char	*value;
-
-	i = 0;
-	size = ft_strlen(to_find);
-	while (env[i] != NULL)
-	{
-		if (!ft_strncmp(env[i], to_find, size))
-		{
-			if (!(value = ft_strdup(env[i] + size)))
-				return (NULL);
-			i = 0;
-			break ;
-		}
-		i++;
-	}
-	if (i != 0)
-	{
-		write(2, to_find, size - 1);
-		write(2, " not set\n", 9);
-		return (""); // difficult to free
-	}
-	return (value);
-}
-
-int		check_dir(char **env, char **executable)
-{
-	char			*pwd;
-	DIR				*dir;
-	struct dirent	*subdir;
-
-	pwd = search_env(env, "PWD=");
-	dir = opendir(pwd);
-	errno = 0;
-	if (!dir)
-		return (1);
-	while ((subdir = readdir(dir)) != NULL)
-	{
-		if (!ft_strcmp(subdir->d_name, *executable))
-		{
-			closedir(dir);
-			free(pwd);
-			return (0);
-		}
-	}
-	if (errno != 0)
-	{
-		write(2, strerror(errno), ft_strlen(strerror(errno)));
-		write(2, "\n", 1);
-		return (0);
-	}
-	closedir(dir);
-	free(pwd);
-	return (1);
-}
-
-char	*find_prefix(char **dirs, char *executable)
-{
-	char			*prefix;
-	DIR				*dir;
-	struct dirent	*subdir;
-	int				i;
-
-	prefix = NULL;
-	i = 0;
-	while (dirs[i] != NULL)
-	{
-		dir = opendir(dirs[i]);
-		errno = 0;
-		if (dir)
-		{
-			while ((subdir = readdir(dir)) != NULL)
-			{
-				if (!ft_strcmp(subdir->d_name, executable))
-				{
-					prefix = ft_strjoin(dirs[i], "/");
-					break ;
-				}
-			}
-			if (errno != 0)
-			{
-				write(2, strerror(errno), ft_strlen(strerror(errno)));
-				write(2, "\n", 1);
-				closedir(dir);
-				return (NULL);
-			}
-			closedir(dir);
-		}
-		if (prefix != NULL)
-			break ;
-		i++;
-	}
-	if (prefix == NULL)
-	{
-		write(2, "bash: ", 6);
-		write(2, executable, ft_strlen(executable)); // write(2, all->tok->cmd, ft_strlen(all->tok->cmd));
-		write(2, ": command not found\n", 20);
-		return (NULL);
-	}
-	return (prefix);
-}
-
-int		find_path(char **env, char **executable)
-{
-	char	*path;
-	char	**dirs;
-	char	**tmp;
-	char	*prefix;
-
-	if (!(path = search_env(env, "PATH=")))
-		return (0);
-	if (ft_strlen(path) == 0)
-		return (1);
-	tmp = ft_split(path, '=');
-	dirs = ft_split(tmp[0], ':');
-	if (!(prefix = find_prefix(dirs, executable[0])))
-		return (1);
-	ft_free_array(tmp);
-	free(path);
-	// *tmp = executable[0];
-	path = ft_strjoin(prefix, executable[0]);
-	executable[0] = path;
-	// free(*tmp);
-	free(prefix);
-	ft_free_array(dirs);
-	return (2);
-}
-
-int		launch(t_all *all)
+int		launch(t_all *all, int r_redir)
 {
 	pid_t		pid;
 	int			status;
@@ -153,9 +22,9 @@ int		launch(t_all *all)
 	tok = all->tok;
 	if (tok->args[0][0] != '/' && tok->args[0][0] != '.')
 	{
-		if ((ret = check_dir(all->env, tok->args)) != 0)
+		if ((ret = check_pwd(all->env, tok->args)) != 0)
 		{
-			if (!(ret = find_path(all->env, tok->args)))
+			if (!(ret = find_path(all->env, tok->args, all)))
 				return (0);
 			else if (ret == 1)
 			{
@@ -167,7 +36,8 @@ int		launch(t_all *all)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (signal(SIGINT, SIG_DFL) == SIG_ERR || signal(SIGQUIT, SIG_DFL) == SIG_ERR) // прописать ошибки
+		if (signal(SIGINT, SIG_DFL) == SIG_ERR ||
+		signal(SIGQUIT, SIG_DFL) == SIG_ERR) // прописать ошибки
 			exit(EXIT_FAILURE);
 		if (tok->pipe)
 		{
@@ -176,47 +46,53 @@ int		launch(t_all *all)
 		}
 		if (execve(tok->args[0], tok->args, all->env) == -1)
 		{
-			write(2, strerror(errno), ft_strlen(strerror(errno)));
-			write(2, "\n", 1);
+			print_error(strerror(errno), 0);
 			exit(EXIT_FAILURE);
 		}
 		close(all->fds[1]);
 	}
 	else if (pid < 0)
 	{
-		write(2, strerror(errno), ft_strlen(strerror(errno)));
-		write(2, "\n", 1);
+		print_error(strerror(errno), 0);
 		close(all->fds[0]);
 		close(all->fds[1]);
 	}
 	else
 	{
-		if (signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR) // прописать ошибки
+		if (signal(SIGINT, SIG_IGN) == SIG_ERR ||
+		signal(SIGQUIT, SIG_IGN) == SIG_ERR) // прописать ошибки
 			return (0);
 		if (tok->pipe)
-			dup2(all->fds[0], 0);
-		if (all->fds[1] != 1)
-			close(all->fds[1]);
+		{	if (r_redir > 0)
+				ft_eof();
+			else
+				dup2(all->fds[0], 0);
+		}
+		close(all->fds[1]);
 		waitpid(pid, &status, WUNTRACED);
 		while (!WIFEXITED(status) && !WIFSIGNALED(status))
 			waitpid(pid, &status, WUNTRACED);
+		all->status = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
 		{
-			all->status = WEXITSTATUS(status);
 			if (WTERMSIG(status) == 2)
 			{
-				all->status = 130; 
-				write(1,  "\n", 1);
+				all->status = 130;
+				write(1, "\n", 1);
 			}
 			else if (WTERMSIG(status) == 3)
 			{
-				all->status  = 131;
-				write(1,  "Quit: 3\n", 8);
+				all->status = 131;
+				write(1, "Quit: 3\n", 8);
 			}
 		}
 		close(all->fds[0]);
 		if (!tok->pipe)
+		{
 			dup2(all->temp_0, 0);
+			dup2(all->temp_1, 1);
+			all->pre_pipe = 0;
+		}
 	}
 	return (1);
 }
