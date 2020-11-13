@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_cd_pwd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/13 14:22:04 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 17:23:35 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int			shell_cd(t_token *tokens, char **env, t_all *all)
 	}
 	shell_export(&tmp, all);
 	free(tmp.args[1]);
+	tmp.args[1] = NULL;
 	tmp.args[1] = ft_strjoin("PWD=", getcwd(dir, MAXPATHLEN));
 	shell_export(&tmp, all);
 	ft_free_array(tmp.args);

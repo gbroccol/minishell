@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 21:45:24 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 21:45:24 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/13 17:28:29 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ char			**ft_str_to_array(char **array, char *new_str)
 	new_array[index] = NULL;
 	if (array != NULL)
 		free(array);
+	array = NULL;
 	return (new_array);
 }

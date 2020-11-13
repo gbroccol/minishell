@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 21:38:31 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 21:38:31 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/13 17:27:00 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,6 @@ char			**ft_del_str_from_ar(char **array, int nmb)
 	new_array[write] = NULL;
 	if (array != NULL)
 		free(array);
+	array = NULL;
 	return (new_array);
 }

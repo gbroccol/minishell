@@ -3,36 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/12 11:08:37 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 17:55:16 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_tok(t_token *tok)
-{
-	// if (tok->cmd)
-	// 	free(tok->cmd);
-	// if (tok->flags)
-	// 	free(tok->flags);
-	// if (tok->arg != NULL)
-	// 	free(tok->arg);
-	// if (tok->redir)
-	// 	free(tok->redir);
-	// if (tok->file)
-	// 	free(tok->file);
-	// if (tok->type_func == TYPE_BIN)
-	// 	ft_free_array(tok->bin_tok);
-	if (tok->args != NULL)
-		ft_free_array(tok->args);
-	tok->args = NULL;
-	free(tok);
-}
-
-
 
 int		check_str_pipe(char *str)
 {
@@ -124,8 +102,11 @@ void	lsh_loop(t_all *all)
             write(1, "bash: syntax error near unexpected token\n", 41);
             all->syntax = 0;
         }
-		free(all->gnl_line);
-		all->gnl_line = NULL;
+		if (all->gnl_line)
+		{
+			free(all->gnl_line);
+			all->gnl_line = NULL;
+		}
 	}
 	exit(all->status);
 }
@@ -179,8 +160,5 @@ int		main(int argc, char **argv, char **envp)
 	if (!(all->env = save_env(envp, 0)))
 		return (EXIT_FAILURE);
 	lsh_loop(all);
-	ft_free_array(all->env);
-	free(all->ps);
-	free(all);
 	return (EXIT_SUCCESS);
 }

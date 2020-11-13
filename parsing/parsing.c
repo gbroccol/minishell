@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:33:48 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 19:33:50 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/13 17:44:28 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,7 @@ int				parsing(t_all *all, t_pars *ps)
 		if (arguments(all, all->gnl_line, ps))
 			return (1); // 1 - stop parsing
 	}
+	else
+		return(1);
 	return (0); // 0 - continue parsing
 }

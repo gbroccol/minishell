@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/12 13:39:34 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 17:21:51 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void		update_home(t_all *all, char *str)
 	if (!ft_strncmp(str, "HOME=", 5))
 	{
 		free(all->home);
+		all->home = NULL;
 		all->home = ft_strdup(str);
 	}
 }

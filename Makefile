@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/11/12 13:40:09 by pvivian          ###   ########.fr        #
+#    Updated: 2020/11/13 17:47:51 by gbroccol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= minishell
+NAME		= proga
 LIBFT_PATH	= ./libft
 LIBFT		= libft
 INCLUDE		= minishell.h
@@ -35,7 +35,8 @@ SRC			= \
 				launch/shell_export.c \
 				launch/launch.c \
 				launch/find_path.c \
-				launch/export_utils.c
+				launch/export_utils.c \
+				exit.c
 					
 OBJ			= $(SRC:.c=.o)
 

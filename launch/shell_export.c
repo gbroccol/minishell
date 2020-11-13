@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/13 12:24:15 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 17:24:37 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int			replace_env(t_all *all, char *str)
 		ft_strchr(str, '='))
 		{
 			free(all->env[i]);
+			all->env[i] = NULL;
 			if (!(all->env[i] = ft_strdup(str)))
 				return (-1);
 			i = 0;

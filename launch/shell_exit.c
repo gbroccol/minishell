@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_exit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:29:48 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/13 16:47:53 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 17:14:52 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		shell_exit(t_all *all)
 				write(2, all->tok->args[1], ft_strlen(all->tok->args[1]));
 				write(2, ": numeric argument required\n", 28);
 				all->status = 255;
+				exit_all(all);
 				return (0);
 			}
 			i++;
@@ -45,5 +46,6 @@ int		shell_exit(t_all *all)
 		all->status = ft_atoi(all->tok->args[1]);
 	}
 	write(2, "exit\n", 5);
+	exit_all(all);
 	return (0);
 }

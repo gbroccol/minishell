@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_env_unset.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:29:03 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/12 11:29:22 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 17:24:23 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		shell_unset(t_token *token, char **env)
 				!ft_strcmp(env[i], token->args[j]))
 				{
 					free(env[i]);
+					env[i] = NULL;
 					env[i] = ft_strdup("");
 					break ;
 				}
