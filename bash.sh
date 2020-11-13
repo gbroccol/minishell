@@ -68,9 +68,9 @@ echo "> 1"                                                      # +
 
 echo 42 > 2 ; echo 22 >> 2 ; cat -e  2                          # +
 grep 2 < 1                                                      # +
-echo < 1                                                        # - КАТЯ не выводится сообщение об ошибке, если файл не существует
-grep < 1                                                        # -
-grep 4 < 1 | cat -e                                             # - 
+echo < 1                                                        # +
+grep < 1                                                        # +
+grep 4 < 1 | cat -e                                            	# + 
 
 export qwe=123456 ; echo $qwe                                   # +
 
@@ -78,7 +78,7 @@ echo "qwe"'qwe'                                                 # +
 echo "qwe" 'qwe'                                                # +
 
 ls                                                              # +
-./ls                                                            # + КАТЯ скорректировать сообщение об ошибке
+./ls                                                           	# +
 
 # bash: syntax error near unexpected token
 # start
@@ -89,9 +89,9 @@ ls                                                              # +
 ;@@;                                                                           # +
 | |                                                                            # +
 ""                                                                             # +
-echo " \'   \\    \$    \`  "                                                  +
-echo ' \'   \\    \$    \`  ''                                                 +
-echo \'                                                                        +
+echo " \'   \\    \$    \`  "                                                  # +
+echo ' \'   \\    \$    \`  ''                                                 # +
+echo \'                                                                        # +
 echo "\'"                                                                      # +
 
 echo 5 | cat -e                                                                # +
@@ -164,17 +164,17 @@ echo $?123                                                                      
 echo "$?123"                                                                    # +
 echo $? | cat - e                                                               # +
 echo $? | cat -e                                                                # +
-cho $? | cat -e                                                                 # - КАТЯ
+cho $? | cat -e                                                                 # +
 echo $? ; ls ; echo $?...                                                       # +
 'e'c"h"o 5                                                                      # +
 'echo' 5                                                                        # +
 'ec"h"o' 5                                                                      # +
-...$?...                                                                        # - КАТЯ скорректировать сообщение об ошибке
-echo $? ; ls ; ...$?...                                                         # - КАТЯ command not found
-...$?... ; echo $? ; ls ; ...$?...                                              # - КАТЯ
+...$?...                                                                        # +
+echo $? ; ls ; ...$?...                                                         # +
+...$?... ; echo $? ; ls ; ...$?...                                              # +
 
 
-export str1 2str = _3str str4=str5   ; echo $?                                  # -
+export str1 2str = _3str str4=str5   ; echo $?                                  # +
  'e'"x"p'o'r't'                                                                 # +
 ec"ho" $str1 $str4                                                              # +
  'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # +
@@ -190,9 +190,9 @@ echo hello sad man                                                              
 echo $?                                                                         # +
 >fil$q'1' e$w"ho" s$i"r"ing f$r$u file1                                         # +
 pwd ; cat file1                                                                 # +
-ls lskdgjdhgisdoigjiredg                                                        # -
-echo $?                                                                         # -
-echo $?                                                                         # -
+ls lskdgjdhgisdoigjiredg                                                        # +
+echo $?                                                                         # +
+echo $?                                                                         # +
 unset PWD; echo $PWD                                                            # +
 
 
@@ -200,13 +200,13 @@ unset PWD; echo $PWD                                                            
 
 #  stop testing
 
-ls; unset PATH; ls     ;                                                        # + КАТЯ скорректировать сообщение об ошибке
+ls; unset PATH; ls     ;                                                        		# - КАТЯ скорректировать сообщение об ошибке
 echo $?                                                                         #
 echo $?                                                                         #
 export PATH=/  ; ls                                                             # +
-echo $?                                                                         #
+echo $?                                                                         # +
 export PATH=/bin  ; ls                                                          # +
-echo $?                                                                         #
+echo $?                                                                         # +
 echo $PWD; unset PWD                                                            # +
 echo $PWD; export PWD=/ ; echo $PWD;                                            # +
 pwd; echo $PWD                                                                  # +
@@ -214,7 +214,7 @@ cd; echo $PWD; cd -                                                             
 echo $PWD; echo $OLDPWD                                                         # +
 unset OLDPWD; echo $OLDPWD                                                      # +
 cd; echo $OLDPWD                                                                # +
-cd ; echo $PWD; echo $OLDPWD                                  # NASTYA                   # - КАТЯ
+cd ; echo $PWD; echo $OLDPWD                                 					# +
 cd -                                                                            # +
 ls -la                                                                          # +
 ls "-la" ; cd -                                                                 # +
@@ -227,31 +227,30 @@ echo "\$PWD" "\PWD"                                                             
 echo "\""                                                                       # +
 echo "\'"                                                                       # +
 "echo f" hello                                                                  # +
->"helo l" echo hell\ f                                                          # - КАТЯ
->>"helo l" echo hell\ f ; echo hell\ f                                          # - КАТЯ
-export t=n; echo -$t -n "-"'n' hello                                            # - КАТЯ
-export t=n; echo -n "-"'n' hello                                                # - КАТЯ
-echo -n "-"'n' hello                                                            # - КАТЯ
-echo -$t "-n" '-''n' '-n;'         -n hello                                     # - КАТЯ
+>"helo l" echo hell\ f                                                          # +
+>>"helo l" echo hell\ f ; echo hell\ f                                          # +
+export t=n; echo -$t -n "-"'n' hello                                            # +
+export t=n; echo -n "-"'n' hello                                                # +
+echo -n "-"'n' hello                                                            # +
+echo -$t "-n" '-''n' '-n;'         -n hello                                     # +
 export a=l d=s; $a$d                                                            # +
-echo $PWD > as ; cat as                                                         # - КАТЯ
+echo $PWD > as ; cat as                                                         # +
 echo ''\''"a|"\'q'a'\a'w'                                                       # +
-echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty                              # - КАТЯ
+echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty                              # +
 
 
 
 
 pwd >a1>a2>a3                                                                   # +
 pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2;            # + 
-echo hi >16>17                                                                  # - прости меня, КАТЯ НАСТЯ
+echo hi >16>17                                                                 			 # - прости меня, КАТЯ НАСТЯ
 echo hi > 16 > 17                                                               # +
 echo "hi" ">" "18" '>' '19' > 20                                                # +
 echo "hi" ">" 18 '>' 19 > 20                                                    # +
 echo "hi" ">" 18 > 19 > 20                                                      # +
 echo "hi" > 18 > 19 > 20                                                        # +
-echo 123> 1                                                                     # - прости меня, КАТЯ НАСТЯ
+echo 123> 1                                                                     		# - прости меня, КАТЯ НАСТЯ
 echo 123jrd> 3                                                                  # +
-echo 123> 3                                                                     # - прости меня, КАТЯ НАСТЯ
 
 
 echo                                                                            # +
@@ -273,15 +272,15 @@ echo -n -nnnnn -$N write                                                        
 
 # РУСЛАН И СЁМА
 
-123 ctrl+\abc
-/bin/ls
-/bin/ls -la
-/bin/ls -la ~/school21
-echo $XPC_FLAGS                   -> 0x0
-echo nsdjknv -n
+123 ctrl+\abc																			# -
+/bin/ls																			# +
+/bin/ls -la 																	# +
+/bin/ls -la ~/school21															# +
+echo $XPC_FLAGS                   -> 0x0                                       			 # -
+echo nsdjknv -n																	# +
 
-exit 42
-echo $?
+exit 42																			# +
+echo $?																			# +
 
 bash
 
@@ -297,8 +296,8 @@ cat -e < a #КАТЯ cat продолжает читать
 echo 5 | exit
 exit
 
-wc Makefile
-wc < Makefile
+wc Makefile																		# +
+wc < Makefile																	# +
 
 # >, >> - перенаправление стандартного вывода программы в файл
 # < - перенаправление стандартного ввода программы из файла
@@ -380,59 +379,60 @@ wc < Makefile
 # [1]+ Done sleep 10
 
 ###############################################################################################
-cd minishell
-cd libft
-cd ..
-cd .
-cd ~
-cd Desktop
-
+cd minishell																		# +
+cd libft																			# +
+cd ..																				# +
+cd .																				# +
+cd ~																				# +
+cd Desktop																			# +
 
 ###############################################################################################
-pwd
+pwd																					# +
  
 ###############################################################################################
-export
+export																						# - Нужна сортировка
 
-ex $FINAL=5
+ex $FINAL=5																					# - КАТЯ
 env
 
-ex $FINAL=BASH
+ex $FINAL=BASH																				# - КАТЯ
 env
 
-FINAL=SUN
-export FINAL
+FINAL=SUN																					# - КАТЯ
+export FINAL																				# - КАТЯ
 env
 
-final=sun
-export final
-env
-
-###############################################################################################
-unset USER42
-unset MAIL42
-
-###############################################################################################
+final=sun																					# - КАТЯ
+export final																				# - КАТЯ
 env
 
 ###############################################################################################
-exit
-exit 23
+unset USER42																		# +
+unset MAIL42																		# +
 
 ###############################################################################################
-/bin/ls
-/bin/echo 12
-ls -la
-/bin/ls
-echo $?
-/bin/ls ffffff
-echo $?
-/bin/ls ; echo -n 42;echo 42
+env																					# +
 
-cat
-
-unset PATH
-ls
-export PATH=/bin
+###############################################################################################
+exit																				# +
+exit 23																				# +
+exit 23 sdfsdf																				# - КАТЯ bash: exit: too many arguments код 1
+exit 23 45 67																				# - КАТЯ bash: exit: too many arguments код 1
+exit sdfsf sdfdsf sdfsdf																	# - КАТЯ bash: exit: sdfsf: numeric argument required | выход и код 255
+exit sdfsf 123																				# - КАТЯ bash: exit: sdfsf: numeric argument required | выход и код 255								
+###############################################################################################
+/bin/ls																				# +
+/bin/echo 12																		# +
+ls -la																				# +
+/bin/ls																				# +
+echo $?																				# +
+/bin/ls ffffff																		# +
+echo $?																				# +
+/bin/ls ; echo -n 42;echo 42														# +
+cat																					# +
+unset PATH																			# +
+ls																							# - КАТЯ скорректировать сообщение об ошибке
+export PATH=/bin																	# +
+ls																					# +
 
 #################################################################################

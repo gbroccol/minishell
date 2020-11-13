@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/12 17:11:09 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 14:01:25 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ int					find_path(char **env, char **executable, t_all *all);
 char				**new_env(t_all *all, char *str);
 int					check_new_env(t_all *all, char *str);
 void				update_home(t_all *all, char *str);
-int					print_error(char *to_print, int ret);
+int					print_error(char *exec, char *err_to_print, int ret);
 void				ft_eof(void);
 
 #endif

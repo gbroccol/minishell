@@ -196,7 +196,7 @@ exec_test 'pwd; echo $PWD'																				# +
 # exec_test ''
 ########################################################################################################
 # printf "\n\nHANDLE THEM\n"
-exec_test '$PWD'																											# -
+exec_test '$PWD'																											# - КАТЯ скорректировать сообщение об ошибке
 exec_test 'echo $TEST $TEST'																			# +
 exec_test 'export t=n; echo -$t -n "-"n hello'															# +
 # exec_test 'cd; echo $PWD; cd -'																		# +
