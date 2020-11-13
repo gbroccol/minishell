@@ -151,9 +151,7 @@ export =123  ; echo $?                                                          
 export 4= ; echo $?                                                             # + l
 export 4p=123  ; echo $?                                                        # +
 export p=123  ; echo $?                                                         # +
-
 export "s=c";export "$s=s";echo $s $c											# + l
-
 echo $?                                                                         # +
 echo '$?'                                                                       # +
 echo "$?"                                                                       # +
@@ -172,8 +170,6 @@ echo $? ; ls ; echo $?...                                                       
 ...$?...                                                                        # +
 echo $? ; ls ; ...$?...                                                         # +
 ...$?... ; echo $? ; ls ; ...$?...                                              # +
-
-
 export str1 2str = _3str str4=str5   ; echo $?                                  # +
  'e'"x"p'o'r't'                                                                 # +
 ec"ho" $str1 $str4                                                              # +
@@ -194,13 +190,7 @@ ls lskdgjdhgisdoigjiredg                                                        
 echo $?                                                                         # +
 echo $?                                                                         # +
 unset PWD; echo $PWD                                                            # +
-
-
-
-
-#  stop testing
-
-ls; unset PATH; ls     ;                                                        		# - КАТЯ скорректировать сообщение об ошибке
+ls; unset PATH; ls     ;                                                        # - КАТЯ скорректировать сообщение об ошибке
 echo $?                                                                         #
 echo $?                                                                         #
 export PATH=/  ; ls                                                             # +
@@ -237,10 +227,6 @@ export a=l d=s; $a$d                                                            
 echo $PWD > as ; cat as                                                         # +
 echo ''\''"a|"\'q'a'\a'w'                                                       # +
 echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty                              # +
-
-
-
-
 pwd >a1>a2>a3                                                                   # +
 pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2;            # + 
 echo hi >16>17                                                                 			 # - прости меня, КАТЯ НАСТЯ
@@ -251,48 +237,30 @@ echo "hi" ">" 18 > 19 > 20                                                      
 echo "hi" > 18 > 19 > 20                                                        # +
 echo 123> 1                                                                     		# - прости меня, КАТЯ НАСТЯ
 echo 123jrd> 3                                                                  # +
-
-
 echo                                                                            # +
 echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # +
 echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # +
 \ls\ ;                                                                          # +
-
 cd
 export PWD=/Users/GBroccol
 pwd
-
 export HOME=/Users/GBroccol
 cd
 pwd
-
 echo -n -nnnnn 5                                                                # +
 export N=n                                                                      # +
 echo -n -nnnnn -$N write                                                        # +
-
-# РУСЛАН И СЁМА
-
-
-123 ctrl+\abc																			# -
+123 ctrl+\abc																	# -
 /bin/ls																			# +
 /bin/ls -la 																	# +
 /bin/ls -la ~/school21															# +
-
-
-echo $XPC_FLAGS                   -> 0x0                                       			 # -
+echo $XPC_FLAGS                   -> 0x0                                       	# -
 echo $XPC_FLAGS                   -> 0x#0                                       # +
 echo $XPC_FLAGS                   -> 0x||0                                      # +
-
-
 echo nsdjknv -n																	# +
-
-
-
 exit 42																			# +
 echo $?																			# +
-
 bash
-
 #export написать по алфавиту НАСТЯ
 ls > a | ls > b 																# - l
 ls > a >> b | pwd | cat -e >> b
@@ -301,10 +269,8 @@ ls > a > b | cat -e < b
 ls | cat -e < b
 pwd | cat -e | cat -e > a >> b | pwd | cat -e >> b
 cat -e < a #КАТЯ cat продолжает читать
-
 echo 5 | exit
 exit
-
 wc Makefile																		# +
 wc < Makefile																	# +
 
