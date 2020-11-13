@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:35:26 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/12 15:18:57 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 14:56:00 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			check_pwd(char **env, char **executable)
 	closedir(dir);
 	free(pwd);
 	if (err_no != 0)
-		return (print_error(strerror(err_no), 0));
+		return (print_error(*executable, strerror(err_no), 0));
 	return (1);
 }
 
@@ -88,7 +88,7 @@ static char	*check_subdir(DIR *dir, char *executable, char *dirs)
 	closedir(dir);
 	if (err_no != 0)
 	{
-		print_error(strerror(err_no), 0);
+		print_error(executable, strerror(err_no), 0);
 		return (NULL);
 	}
 	return (prefix);
@@ -113,7 +113,10 @@ char		*find_prefix(char **dirs, char *executable, t_all *all)
 		i++;
 	}
 	if (prefix == NULL)
-		print_error(all->tok->cmd, 0);
+	{
+		print_error(all->tok->cmd, "command not found", 0);
+		all->status = 127;
+	}
 	return (prefix);
 }
 

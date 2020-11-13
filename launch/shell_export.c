@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/12 20:25:58 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 12:24:15 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int			shell_export(t_token *token, t_all *all)
 	int		i;
 	int		j;
 	int		status;
+	char *tmp;
 
 	i = 0;
 	j = 1;
@@ -147,9 +148,10 @@ int			shell_export(t_token *token, t_all *all)
 	{
 		while (token->args[j] != NULL)
 		{
+			tmp = token->args[j];
 			if ((i = replace_env(all, token->args[j])) < 0)
 				return (1);
-			if ((i != 0) || (token->args[j][0] = '='))
+			if ((i != 0) || (token->args[j][0] == '='))
 			{
 				if (check_new_env(all, token->args[j]) == 0)
 				{

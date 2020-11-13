@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:29:48 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/12 11:29:51 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 16:47:53 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,29 @@ int		shell_exit(t_all *all)
 		return (1);
 	if (all->tok->args[1])
 	{
-		// if (all->tok->args[2] && all->tok->args[2][])
-		// {
-		// 	write(2, "minishell: exit: too many arguments\n", 36); // прописать разные коды выхода при разных аргументах
-		// 	return (1);
-		// }
 		while (all->tok->args[1][i] != '\0')
 		{
 			if (!ft_isdigit(all->tok->args[1][i]))
 			{
+				write(2, "exit\n", 5);
+				write(2, "bash: ", 6);
+				write(2, all->tok->cmd, ft_strlen(all->tok->cmd));
+				write(2, ": ", 2);
+				write(2, all->tok->args[1], ft_strlen(all->tok->args[1]));
+				write(2, ": numeric argument required\n", 28);
 				all->status = 255;
 				return (0);
 			}
 			i++;
 		}
+		if (all->tok->args[2])
+		{
+			all->status = 1;
+			write(2, "exit\n", 5);
+			return (print_error(all->tok->cmd, "too many arguments", 1));
+		}
 		all->status = ft_atoi(all->tok->args[1]);
 	}
+	write(2, "exit\n", 5);
 	return (0);
 }

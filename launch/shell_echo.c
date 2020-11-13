@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/12 12:51:44 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 14:00:51 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,6 @@ int			shell_echo(t_token *tokens)
 	int i;
 
 	echo_n(tokens);
-	// if (tokens->redir != NULL && !tokens->file)
-	// {
-	// 	write(2, "bash: syntax error near unexpected token `newline'\n", 51);
-	// 	return (0);
-	// }
 	i = 1;
 	if (tokens->args[i])
 	{

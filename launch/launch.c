@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/12 20:17:46 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 14:56:48 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int		launch(t_all *all, int r_redir)
 	t_token		*tok;
 
 	tok = all->tok;
-	if (tok->args[0][0] != '/' && tok->args[0][0] != '.')
+	if (tok->args[0][0] != '/' && ft_strncmp(tok->args[0], "./", 2) && ft_strncmp(tok->args[0], "../", 3))
 	{
 		if ((ret = check_pwd(all->env, tok->args)) != 0)
 		{
@@ -28,7 +28,10 @@ int		launch(t_all *all, int r_redir)
 				return (0);
 			else if (ret == 1)
 			{
-				dup2(all->temp_0, 0);
+				if (tok->pipe)
+					ft_eof();
+				else
+					dup2(all->temp_0, 0);
 				return (1);
 			}
 		}
@@ -46,14 +49,14 @@ int		launch(t_all *all, int r_redir)
 		}
 		if (execve(tok->args[0], tok->args, all->env) == -1)
 		{
-			print_error(strerror(errno), 0);
+			print_error(all->tok->cmd, strerror(errno), 0);
 			exit(EXIT_FAILURE);
 		}
 		close(all->fds[1]);
 	}
 	else if (pid < 0)
 	{
-		print_error(strerror(errno), 0);
+		print_error(all->tok->cmd, strerror(errno), 0);
 		close(all->fds[0]);
 		close(all->fds[1]);
 	}

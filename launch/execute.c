@@ -6,16 +6,22 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/12 19:40:48 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 14:01:52 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int				print_error(char *to_print, int ret)
+int				print_error(char *exec, char *err_to_print, int ret)
 {
+	int size;
+
+	size = ft_strlen(exec);
 	write(2, "bash: ", 6);
-	write(2, to_print, ft_strlen(to_print));
+	write(2, exec, size);
+	if (size > 0)
+		write(2, ": ", 2);
+	write(2, err_to_print, ft_strlen(err_to_print));
 	write(2, "\n", 1);
 	return (ret);
 }
@@ -33,12 +39,28 @@ static int		check_redir(t_all *all, int *r_redir)
 	{
 		if (!ft_strcmp(token->redirect[i], ">") || !ft_strcmp(token->redirect[i], ">>"))
 		{
+			if (!token->redirect[i + 1] || ft_strchr("><", token->redirect[i + 1][0]))
+			{
+				all->status = 258;
+				dup2(all->temp_1, 1);
+				dup2(all->temp_0, 0);
+				close(all->fds[1]);
+				close(all->fds[0]);
+				return (print_error("", "syntax error near unexpected token", -1));
+			}
 			if (!ft_strcmp(token->redirect[i], ">"))
 				fd = open(token->redirect[i + 1], O_WRONLY | O_TRUNC | O_CREAT, 0666);
 			else
 				fd = open(token->redirect[i + 1], O_WRONLY | O_CREAT | O_APPEND, 0666);
 			if (fd < 0)
-				return (print_error(strerror(errno), 1));
+			{
+				all->status = 1;
+				dup2(all->temp_1, 1);
+				dup2(all->temp_0, 0);
+				close(all->fds[1]);
+				close(all->fds[0]);
+				return (print_error(token->redirect[i + 1], "No such file or directory", -1));
+			}
 			all->fds[1] = fd;
 			dup2(all->fds[1], 1);
 			*r_redir = 1;
@@ -47,9 +69,25 @@ static int		check_redir(t_all *all, int *r_redir)
 		else if (!ft_strcmp(token->redirect[i], "<"))
 		{
 			i++;
+			if (!token->redirect[i] || ft_strchr("><", token->redirect[i][0]))
+			{
+				all->status = 258;
+				dup2(all->temp_1, 1);
+				dup2(all->temp_0, 0);
+				close(all->fds[1]);
+				close(all->fds[0]);
+				return (print_error("", "syntax error near unexpected token", -1));
+			}
 			fd = open(token->redirect[i], O_RDONLY);
 			if (fd < 0)
-				return (print_error(strerror(errno), 1));
+			{
+				all->status = 1;
+				dup2(all->temp_1, 1);
+				dup2(all->temp_0, 0);
+				close(all->fds[1]);
+				close(all->fds[0]);
+				return (print_error(token->redirect[i], "No such file or directory", -1));
+			}
 			all->fds[0] = fd;
 			dup2(all->fds[0], 0);
 		}
@@ -81,7 +119,8 @@ int				execute(t_all *all)
 	if (token->type_func == -1)
 		return (ret);
 	if (token->redirect)
-		check_redir(all, &r_redir);
+		if (check_redir(all, &r_redir) == -1)
+			return (ret);
 	if (token->pipe && r_redir == 0)
 		pipe(all->fds);
 	if (token->type_func >= TYPE_CD && token->type_func <= TYPE_UNSET)

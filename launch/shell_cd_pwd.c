@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/12 11:47:04 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 14:22:04 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ int			shell_cd(t_token *tokens, char **env, t_all *all)
 	tmp.args[1] = ft_strjoin("OLDPWD=", getcwd(dir, MAXPATHLEN));
 	if (chdir(tokens->args[1]) != 0)
 	{
-		write(2, ">: ", 3);
+		write(2, "bash: ", 6);
+		write(2, all->tok->cmd, ft_strlen(all->tok->cmd));
+		write(2, ": ", 2);
+		write(2, tokens->args[1], ft_strlen(tokens->args[1]));
+		write(2, ": ", 2);
 		write(2, strerror(errno), ft_strlen(strerror(errno)));
 		write(2, "\n", 1);
 	}
