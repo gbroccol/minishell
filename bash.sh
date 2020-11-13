@@ -3,6 +3,9 @@
 # malloc
 # is_smb_in_str or if_smb_in_str
 #  env // проверить символы по ASCII
+# unset VSCODE_GIT_ASKPASS_MAIN SHELL _ Apple_PubSub_Socket_Render PATH SSH_AUTH_SOCK PWD ORIGINAL_XDG_CURRENT_DESKTOP HOME LOGNAME VSCODE_GIT_IPC_HANDLE XPC_FLAGS COLORTERM SHLVL USER
+# unset TERM_PROGRAM TMPDIR VSCODE_GIT_ASKPASS_NODE MAKEFLAGS MFLAGS TERM_PROGRAM_VERSION XPC_SERVICE_NAME __CF_USER_TEXT_ENCODING GIT_ASKPASS LANG TERM MAKELEVEL
+
 
 ###############################################################################################
 'Hello World!'                                                   # +
@@ -277,7 +280,11 @@ echo -n -nnnnn -$N write                                                        
 /bin/ls
 /bin/ls -la
 /bin/ls -la ~/school21
-echo $XPC_FLAGS                   -> 0x0
+
+echo $XPC_FLAGS                   -> 0x0                                        # +
+echo $XPC_FLAGS                   -> 0x#0                                       # +
+echo $XPC_FLAGS                   -> 0x||0                                      # +
+
 echo nsdjknv -n
 
 exit 42

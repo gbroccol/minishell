@@ -78,6 +78,7 @@ typedef struct		s_token
 	char			*tmp; 
 	char			*tmp2;
 	int				flag_n;
+	int				er_redir;
 }					t_token;
 
 typedef struct		s_all
@@ -102,36 +103,22 @@ typedef struct		s_all
 /*
 **  parsing
 */
-int					parsing(t_all *all, t_pars *ps);
-int					arguments(t_all *all, char *line, t_pars *ps);
 
-int					quote_no(t_all *all, char *line, t_token *tok, int redir_ignor);
+int					arguments(t_all *all, char *line, t_pars *ps);
+int					check_gnl_line(t_all *all, char *str);
+t_all				*clear_all();
+void				command(t_token *tok);
+int					env(char *line, t_pars *ps, char **env);
+int					parsing(t_all *all, t_pars *ps);
+int					quote_no(t_all *all, char *line, t_token *tok);
 int					quote_one(char *line, t_token *tok, t_pars *ps);
 int					quote_two(t_all *all, char *line, t_token *tok, t_pars *ps);
-
 int					redirect(t_all *all, char *line, t_token *tok);
-void				command(t_token *tok);
-
-
-
-
-t_all				*clear_all();
-void				clear_parsing(t_pars *ps, int clear_place);
-
-
-
-
-
-
-int					check_gnl_line(t_all *all, char *str);
-int					is_env(char *line, t_pars *ps, char **env);
-void				check_env(char *line, t_env *ps_env, char **env);
-
-
-void				check_shield_no(char *line, t_pars *ps);
-void				check_shield_two(char *line, t_pars *ps);
-
-void				create_bin_tok(t_token *tok);
+// void				clear_parsing(t_pars *ps, int clear_place);
+// void				check_env(char *line, t_env *ps_env, char **env);
+// void				check_shield_no(char *line, t_pars *ps);
+// void				check_shield_two(char *line, t_pars *ps);
+// void				create_bin_tok(t_token *tok);
 
 /*
 **  execute

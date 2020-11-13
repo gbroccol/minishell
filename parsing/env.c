@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int				find_env(char *line, t_env *ps_env, char **env)
+static int		find_env(char *line, t_env *ps_env, char **env)
 {
 	int			pos;
 
@@ -40,7 +40,7 @@ int				find_env(char *line, t_env *ps_env, char **env)
 	return (-1);
 }
 
-void			check_env(char *line, t_env *ps_env, char **env)
+static void		check_env(char *line, t_env *ps_env, char **env)
 {
 	find_env(line, ps_env, env);
 	while (is_smb_in_str(line[ps_env->str_pos], "/\\ \t|?.,\'\"=:;$", 1) == 0)
@@ -52,7 +52,7 @@ void			check_env(char *line, t_env *ps_env, char **env)
 	}
 }
 
-int				is_env(char *line, t_pars *ps, char **env)
+int				env(char *line, t_pars *ps, char **env)
 {
 	if (is_smb_in_str(line[ps->pos + 1], "/\\ \t|?.,\'\"=:;$", 1) == 0)
 	{
@@ -62,8 +62,6 @@ int				is_env(char *line, t_pars *ps, char **env)
 			ps->pos++;
 			return (1);
 		}
-		// ps->ps_env->line = 0;
-		// ps->ps_env->pos = 0;
 		ps->ps_env->str_pos = ps->pos;
 		ps->ps_env->str = NULL;
 		check_env(line, ps->ps_env, env);
