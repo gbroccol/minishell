@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-t_pars		*clear_all_ps(void)
+static t_pars	*clear_all_ps(void)
 {
 	t_pars	*ps;
 
@@ -22,9 +22,9 @@ t_pars		*clear_all_ps(void)
 	return (ps);
 }
 
-t_env		*clear_all_ps_env(void)
+static t_env	*clear_all_ps_env(void)
 {
-	t_env	*env;
+	t_env		*env;
 
 	if (!(env = (t_env *)(malloc(sizeof(t_env)))))
 		return (NULL);
@@ -35,9 +35,26 @@ t_env		*clear_all_ps_env(void)
 	return (env);
 }
 
-t_all		*clear_all(void)
+static t_token	*clear_all_tok(void)
 {
-	t_all	*all;
+	t_token		*tok;
+
+	if (!(tok = (t_token *)malloc(sizeof(t_token))))
+		return (NULL);
+	tok->type_func = -1;
+	tok->cmd = NULL;
+	tok->args = NULL;
+	tok->redirect = NULL;
+	tok->pipe = 0;
+	tok->tmp = NULL;
+	tok->tmp2 = NULL;
+	tok->flag_n = 0;
+	return (tok);
+}
+
+t_all			*clear_all(void)
+{
+	t_all		*all;
 
 	if (!(all = malloc(sizeof(t_all))))
 		return (NULL);
@@ -54,5 +71,6 @@ t_all		*clear_all(void)
 	all->tok = NULL;
 	all->ps = clear_all_ps();
 	all->ps->ps_env = clear_all_ps_env();
+	all->tok = clear_all_tok();
 	return (all);
 }

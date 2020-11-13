@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int			arguments_finish(t_all *all, char *line, t_pars *ps)
+static int			arguments_finish(t_all *all, char *line, t_pars *ps)
 {
 	if (line[ps->pos] == ';')
 	{
@@ -20,21 +20,21 @@ int			arguments_finish(t_all *all, char *line, t_pars *ps)
 		while (line[ps->pos] == ' ' || line[ps->pos] == '\t')
 			ps->pos++;
 		if (line[ps->pos] == '\0')
-			return (0);
+			return (1);  // stop parsing
 	}
 	if (line[ps->pos] == '|')
 	{
 		if (line[ps->pos + 1] == '|')
-			return (0);
+			return (1);  // stop parsing
 		all->wait_cmd = 1;
 		all->tok->pipe = 1;
 		ps->pos++;
 		while (line[ps->pos] == ' ' || line[ps->pos] == '\t')
 			ps->pos++;
 		if (line[ps->pos] == '\0')
-			return (0);
+			return (1);  // stop parsing never happened
 	}
-	return (1);
+	return (0);  // continue parsing
 }
 
 static int	create_line(t_all *all, char *line, t_pars *ps)
@@ -44,12 +44,14 @@ static int	create_line(t_all *all, char *line, t_pars *ps)
 	else if (line[ps->pos] == '\"')
 		quote_two(all, line, all->tok, ps);
 	else if (line[ps->pos] == '#')
-		return (0);
+		return (1);
 	else if (line[ps->pos] == '|' && line[ps->pos + 1] == '|')
-		return (0);
+		return (1);
+	else if ((line[all->ps->pos] == '>' || line[all->ps->pos] == '<') && redirect(all, line, all->tok))
+		return (1);
 	else
-		quote_no(all, line, all->tok, 0);
-	return (1);
+		quote_no(all, line, all->tok); //, 0);
+	return (0);
 }
 
 int			arguments(t_all *all, char *line, t_pars *ps)
@@ -58,9 +60,9 @@ int			arguments(t_all *all, char *line, t_pars *ps)
 	{
 		while (is_smb_in_str(line[ps->pos], " \t", 0))
 			ps->pos++;
-		if (create_line(all, line, ps) == 0)
-			return (0);
-		if (is_smb_in_str(line[ps->pos], " \t;|", 1))
+		if (create_line(all, line, ps))
+			return (1); // stop parsing
+		if (is_smb_in_str(line[ps->pos], " \t;|<>", 1))
 		{
 			if (all->tok->tmp)
 			{
@@ -71,7 +73,10 @@ int			arguments(t_all *all, char *line, t_pars *ps)
 		while (is_smb_in_str(line[ps->pos], " \t", 0))
 			ps->pos++;
 	}
+	command(all->tok);
 	if (line[ps->pos] == ';' || line[ps->pos] == '|')
-		return (arguments_finish(all, line, ps));
-	return (0);
+		return (arguments_finish(all, line, ps));  // 1 - stop parsing 0 - continue parsing
+	if (line[ps->pos] == '\0')
+		return (1);
+	return (0); // never happened
 }

@@ -23,7 +23,7 @@ static int		dollar(t_all *all, char *line, t_token *tok)
 	}
 	if (line[all->ps->pos] == '$' && line[all->ps->pos + 1] != '=')
 	{
-		if (is_env(line, all->ps, all->env) == 0)
+		if (env(line, all->ps, all->env) == 0)
 		{
 			if (all->ps->ps_env->str != NULL)
 				tok->tmp2 = ft_str_to_str(tok->tmp2, all->ps->ps_env->str);
@@ -44,10 +44,10 @@ static int		tilda(t_all *all, t_token *tok, t_pars *ps)
 	return (1);
 }
 
-int				quote_no(t_all *all, char *line, t_token *tok, int redir_ignor)
+int				quote_no(t_all *all, char *line, t_token *tok)
 {
 	tok->tmp2 = NULL;
-	while (is_smb_in_str(line[all->ps->pos], " \t;\"\'|", 1) == 0)
+	while (is_smb_in_str(line[all->ps->pos], " \t;\"\'|><", 1) == 0)
 	{
 		if (line[all->ps->pos] == '$' && dollar(all, line, tok) == 1)
 			continue;
@@ -55,12 +55,6 @@ int				quote_no(t_all *all, char *line, t_token *tok, int redir_ignor)
 				is_smb_in_str(line[all->ps->pos + 1], " ;|/:", 1) &&
 				tilda(all, tok, all->ps))
 			continue ;
-		if (redir_ignor == 0 && (line[all->ps->pos] == '>' ||
-				line[all->ps->pos] == '<') &&
-				redirect(all, line, tok))
-			continue ;
-		if (line[all->ps->pos] == '>' || line[all->ps->pos] == '<')
-			break ;
 		if (line[all->ps->pos] == '\\')
 			all->ps->pos++;
 		tok->tmp2 = ft_letter_to_str(tok->tmp2, line[all->ps->pos++], 0);
@@ -121,5 +115,3 @@ int				quote_two(t_all *all, char *line, t_token *tok, t_pars *ps)
 	tok->tmp2 = NULL;
 	return (0);
 }
-
-

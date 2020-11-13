@@ -37,33 +37,99 @@ int			replace_env(t_all *all, char *str)
 	return (i);
 }
 
-static void	print_env(char **env)
-{
-	int	i;
-	int	size;
+// static int		print_env(char **env, int i, int j, int ascii_nmb)
+// {
+// 	// int			size;
 
-	i = 0;
-	while (env[i] != NULL)
+// 	while (ascii_nmb >= 32 && ascii_nmb <= 126)
+// 	{
+// 		while (env[i] != NULL)
+// 		{
+// 			if (env[i][j] == ascii_nmb && print_env(env, i, j + 1, ascii_nmb))
+// 			{
+// 				if (env[i][0] != '\0')
+// 				{
+// 					write(1, env[i], ft_strlen(env[i]));
+// 					// size = 0;
+// 					// while (env[i][size] != '=' && env[i][size] != '\0')
+// 					// 	size++;
+// 					// size++;
+// 					// if (size > 1)
+// 					// {
+// 					// 	write(1, "declare -x ", 11);
+// 					// 	write(1, env[i], size);
+// 					// 	if ((ft_strlen(env[i]) - size) > 0)
+// 					// 	{
+// 					// 		write(1, "\"", 1);
+// 					// 		write(1, env[i] + size, ft_strlen(env[i]) - size);
+// 					// 		write(1, "\"", 1);
+// 					// 	}
+// 						write(1, "\n", 1);
+// 					// }
+// 				}
+				
+// 			}
+// 			i++;
+// 		}
+// 		i = 0;
+// 		ascii_nmb++;
+// 	}
+// 	return (0);
+// }
+
+
+static void		print_env(char **env)
+{
+	int			i;
+	int			j;
+	int			size;
+	int			ascii_nmb;
+
+	ascii_nmb = 32;
+	j = 0;
+	while (ascii_nmb >= 32 && ascii_nmb <= 126)
 	{
-		size = 0;
-		while (env[i][size] != '=' && env[i][size] != '\0')
-			size++;
-		size++;
-		if (size > 1)
+		i = 0;
+		while (env[i] != NULL)
 		{
-			write(1, "declare -x ", 11);
-			write(1, env[i], size);
-			if ((ft_strlen(env[i]) - size) > 0)
+			if (env[i][j] == ascii_nmb)
 			{
-				write(1, "\"", 1);
-				write(1, env[i] + size, ft_strlen(env[i]) - size);
-				write(1, "\"", 1);
+				size = 0;
+				while (env[i][size] != '=' && env[i][size] != '\0')
+					size++;
+				size++;
+				if (size > 1)
+				{
+					write(1, "declare -x ", 11);
+					write(1, env[i], size);
+					if ((ft_strlen(env[i]) - size) > 0)
+					{
+						write(1, "\"", 1);
+						write(1, env[i] + size, ft_strlen(env[i]) - size);
+						write(1, "\"", 1);
+					}
+					write(1, "\n", 1);
+				}
 			}
-			write(1, "\n", 1);
+			i++;
 		}
-		i++;
+		ascii_nmb++;
 	}
 }
+
+// static void		print_env_pre(char **env)
+// {
+// 	int			i;
+// 	// int			size;
+
+// 		i = 0;
+// 		while (env[i] != NULL)
+// 		{
+// 			write(1, env[i], ft_strlen(env[i]));
+// 			write(1, "\n", 1);
+// 			i++;
+// 		}
+// }
 
 int			shell_export(t_token *token, t_all *all)
 {
@@ -75,6 +141,7 @@ int			shell_export(t_token *token, t_all *all)
 	i = 0;
 	j = 1;
 	status = 0;
+	// print_env_pre(all->env);
 	if (!token->args[j])
 		print_env(all->env);
 	else

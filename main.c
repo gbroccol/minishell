@@ -89,13 +89,13 @@ void	lsh_loop(t_all *all)
 				write(1, "\x1b[1;32m> \x1b[0m", 13);
 		}
 		all->ps->pos = 0;
-		all->ret_pars = 1;
-		while (all->ret_pars && all->syntax == 0)
+		all->ret_pars = 0;
+		while (!all->ret_pars && !all->syntax)
 		{
 			all->ps->status = ft_itoa(all->status);
 			all->ps->ps_env->str_pos = 0;
 			all->ps->ps_env->str = NULL;
-			all->ret_pars = parsing(all, all->ps);
+			all->ret_pars = parsing(all, all->ps); // 1 - stop parsing 0 - continue parsing
 
 			// printf("**************************************************\n");
 			// i = 0;
@@ -111,9 +111,10 @@ void	lsh_loop(t_all *all)
 			// 	i++;
 			// }
 			// printf("__________________________________________________\n");
-			all->ret_ex = execute(all);
+			if (!all->tok->er_redir)
+				all->ret_ex = execute(all);
 //			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
-			all->tok = NULL;
+			// all->tok = NULL;
 			// free(all->ps->status);
 			
 		}
