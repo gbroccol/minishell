@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quote.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:34:23 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/12 11:34:25 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/13 19:49:47 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static int		dollar(t_all *all, char *line, t_token *tok)
 	if (line[all->ps->pos] == '$' && line[all->ps->pos + 1] == '?')
 	{
 		tok->tmp2 = ft_str_to_str(tok->tmp2, all->ps->status);
+		all->ps->status = NULL;
 		all->ps->pos++;
 		all->ps->pos++;
 		return (1);
@@ -25,8 +26,9 @@ static int		dollar(t_all *all, char *line, t_token *tok)
 	{
 		if (env(line, all->ps, all->env) == 0)
 		{
-			if (all->ps->ps_env->str != NULL)
-				tok->tmp2 = ft_str_to_str(tok->tmp2, all->ps->ps_env->str);
+			if (all->ps->env_str != NULL)
+				tok->tmp2 = ft_str_to_str(tok->tmp2, all->ps->env_str);
+			all->ps->env_str = NULL;
 			return (1);
 		}
 	}
@@ -35,12 +37,17 @@ static int		dollar(t_all *all, char *line, t_token *tok)
 
 static int		tilda(t_all *all, t_token *tok, t_pars *ps)
 {
+	char		*tmp;
+
 	ps->pos++;
-	ps->ps_env->line = 0;
-	ps->ps_env->pos = 0;
-	ps->ps_env->str_pos = 0;
-	ps->ps_env->str = NULL;
-	tok->tmp2 = ft_str_to_str(tok->tmp2, all->home);
+	if (tok->tmp2)
+	{
+		tmp = tok->tmp2;
+		tok->tmp2 = ft_strjoin(tok->tmp2, all->home);
+		free(tmp);
+	}
+	else
+		tok->tmp2 = ft_strdup(all->home);
 	return (1);
 }
 

@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/11/13 17:47:51 by gbroccol         ###   ########.fr        #
+#    Updated: 2020/11/13 18:10:36 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= proga
+NAME		= minishell
 LIBFT_PATH	= ./libft
 LIBFT		= libft
 INCLUDE		= minishell.h

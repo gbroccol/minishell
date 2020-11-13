@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:28:23 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 19:28:25 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/13 18:20:43 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int			arguments_finish(t_all *all, char *line, t_pars *ps)
 	{
 		if (line[ps->pos + 1] == '|')
 			return (1);  // stop parsing
-		all->wait_cmd = 1;
 		all->tok->pipe = 1;
 		ps->pos++;
 		while (line[ps->pos] == ' ' || line[ps->pos] == '\t')

@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:35:26 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/13 14:56:00 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/13 18:25:53 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int			find_path(char **env, char **executable, t_all *all)
 	char	*str;
 	char	*prefix;
 
+	str = NULL;
 	if (!(path = search_env(env, "PATH=")))
 		return (0);
 	if (ft_strlen(path) == 0)
@@ -135,7 +136,13 @@ int			find_path(char **env, char **executable, t_all *all)
 	tmp = ft_split(path, '=');
 	dirs = ft_split(tmp[0], ':');
 	if (!(prefix = find_prefix(dirs, executable[0], all)))
+	{
+		ft_free_array(tmp);
+		free(path);
+		free(prefix);
+		ft_free_array(dirs);
 		return (1);
+	}
 	ft_free_array(tmp);
 	free(path);
 	str = executable[0];

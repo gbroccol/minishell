@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_del_str_from_ar.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 21:38:31 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/13 17:27:00 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/13 18:41:28 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ char			**ft_del_str_from_ar(char **array, int nmb)
 	{
 		if (index == nmb)
 		{
+			free (array[nmb]);
+			array[nmb] = NULL;
 			index++;
 			continue ;
 		}

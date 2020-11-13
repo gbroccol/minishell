@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/13 17:55:16 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/13 19:46:53 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ void	lsh_loop(t_all *all)
     char    *space;
 
 	status = 1;
-	all->wait_cmd = 0;
-	all->pre_pipe = 0;
   space = ft_strdup(" ");
 	all->home = search_env(all->env, "HOME=");
 	while (all->ret_ex)
@@ -70,9 +68,11 @@ void	lsh_loop(t_all *all)
 		all->ret_pars = 0;
 		while (!all->ret_pars && !all->syntax)
 		{
+			// if (all->ps->status)
+			// 	free(all->ps->status);
 			all->ps->status = ft_itoa(all->status);
-			all->ps->ps_env->str_pos = 0;
-			all->ps->ps_env->str = NULL;
+			all->ps->env_str_pos = 0;
+			all->ps->env_str = NULL;
 			all->ret_pars = parsing(all, all->ps); // 1 - stop parsing 0 - continue parsing
 
 			// printf("**************************************************\n");
@@ -94,7 +94,10 @@ void	lsh_loop(t_all *all)
 //			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
 			// all->tok = NULL;
 			// free(all->ps->status);
-			
+			if (all->tok)
+				exit_all_tok(all->tok);
+			if (all->ps)
+				exit_all_ps(all->ps);
 		}
         status = 1;
         if (all->syntax)
@@ -107,8 +110,12 @@ void	lsh_loop(t_all *all)
 			free(all->gnl_line);
 			all->gnl_line = NULL;
 		}
+		
 	}
-	exit(all->status);
+	status = all->status;
+	free(all);
+	all = NULL;
+	exit(status);
 }
 
 void	bzero_array(char **array, int size)

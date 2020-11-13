@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/13 17:15:44 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/13 19:46:22 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,14 @@
 # define WRONG_ENV_SMB "\\|/ $%&()-:;<>?@^{}[]`~#./,*!\'\""
 # define SHARE_SMB " \t\r\a"
 
-typedef struct		s_env
-{
-	int				line;
-	int				pos;
-	int				str_pos;
-	char			*str;
-}					t_env;
-
 typedef struct		s_pars
 {
 	int				pos;
 	char			*status;
-	struct s_env	*ps_env;
+	int				env_line;
+	int				env_pos;
+	int				env_str_pos;
+	char			*env_str;
 }					t_pars;
 
 typedef struct		s_token
@@ -84,7 +79,6 @@ typedef struct		s_token
 typedef struct		s_all
 {
 	int				syntax; // bash: syntax error near unexpected token `;;'
-	int				wait_cmd;
 	int				ret_ex;
 	int				ret_pars;
 	char			*gnl_line;
@@ -143,9 +137,8 @@ void				update_home(t_all *all, char *str);
 int					print_error(char *exec, char *err_to_print, int ret);
 void				ft_eof(void);
 
-
-
 void				exit_all(t_all *all);
-
+void				exit_all_tok(t_token *tok);
+void				exit_all_ps(t_pars *ps);
 
 #endif

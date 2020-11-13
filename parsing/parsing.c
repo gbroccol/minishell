@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:33:48 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/13 17:44:28 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/13 18:20:50 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int				parsing(t_all *all, t_pars *ps)
 		ps->pos++;
 	if (all->gnl_line[ps->pos] != '\0')
 	{
-		all->wait_cmd = 0;
 		all->tok->args = NULL;
 		if (is_smb_in_str(all->gnl_line[ps->pos], "><", 0))
 			redirect(all, all->gnl_line, all->tok); 
