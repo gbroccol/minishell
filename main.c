@@ -12,33 +12,12 @@
 
 #include "minishell.h"
 
-int		check_str_pipe(char *str)
+int		loop(t_all *all)
 {
-	int	i;
-
-	i = 0;
-	if (str && str[i] != '\0')
-	{
-		while (str[i] != '\0')
-			i++;
-		while (i > 0 && (str[i] == '\0' || str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r')))
-			i--;
-		if (str[i] == '|')
-			return (1);
-		return (0);
-	}
-	return (0);
-}
-
-void	lsh_loop(t_all *all)
-{
-	// int i;
-	int status;
-    char    *space;
+	int		status;
 
 	status = 1;
-  space = ft_strdup(" ");
-	all->home = search_env(all->env, "HOME=");
+	
 	while (all->ret_ex)
 	{
 		all->gnl_tmp = NULL;
@@ -49,17 +28,11 @@ void	lsh_loop(t_all *all)
 		while (status)
 		{
 			get_next_line(0, &(all->gnl_tmp));
-            if (all->gnl_line)
-            {
-                all->gnl_line = ft_str_to_str(all->gnl_line, space);
-                space = ft_strdup(" ");
-                all->gnl_line = ft_str_to_str(all->gnl_line, all->gnl_tmp);
-            }
-            else
-			    all->gnl_line = ft_str_to_str(all->gnl_line, all->gnl_tmp);
+			if (all->gnl_line)
+				all->gnl_line = ft_str_to_str(all->gnl_line, ft_strdup(" "));
+			all->gnl_line = ft_str_to_str(all->gnl_line, all->gnl_tmp);
 			all->gnl_tmp = NULL;
-
-            if (check_gnl_line(all, all->gnl_line) == 0 || all->syntax)
+			if (check_gnl_line(all, all->gnl_line) == 0 || all->syntax)
 				status = 0;
 			else
 				write(1, "\x1b[1;32m> \x1b[0m", 13);
@@ -68,104 +41,41 @@ void	lsh_loop(t_all *all)
 		all->ret_pars = 0;
 		while (!all->ret_pars && !all->syntax)
 		{
-			// if (all->ps->status)
-			// 	free(all->ps->status);
 			all->ps->status = ft_itoa(all->status);
 			all->ps->env_str_pos = 0;
 			all->ps->env_str = NULL;
 			all->ret_pars = parsing(all, all->ps); // 1 - stop parsing 0 - continue parsing
-
-			// printf("**************************************************\n");
-			// i = 0;
-			// while (all->tok->args != NULL && all->tok->args[i])
-			// {
-			// 	printf("%s\n", all->tok->args[i]);
-			// 	i++;
-			// }
-			// i = 0;
-			// while (all->tok->redirect != NULL && all->tok->redirect[i])
-			// {
-			// 	printf("redirect* %s\n", all->tok->redirect[i]);
-			// 	i++;
-			// }
-			// printf("__________________________________________________\n");
 			if (!all->tok->er_redir)
 				all->ret_ex = execute(all);
-//			free_tok(all->tok);  // вопрос по очистке КАТЯ (обсудить)
-			// all->tok = NULL;
-			// free(all->ps->status);
 			if (all->tok)
 				exit_all_tok(all->tok);
 			if (all->ps)
 				exit_all_ps(all->ps);
 		}
-        status = 1;
-        if (all->syntax)
-        {
-            write(1, "bash: syntax error near unexpected token\n", 41);
-            all->syntax = 0;
-        }
+		status = 1;
+		if (all->syntax)
+		{
+			write(1, "bash: syntax error near unexpected token\n", 41);
+			all->syntax = 0;
+		}
 		if (all->gnl_line)
-		{
 			free(all->gnl_line);
-			all->gnl_line = NULL;
-		}
-		
+		all->gnl_line = NULL;
 	}
-	status = all->status;
-	free(all);
-	all = NULL;
-	exit(status);
-}
-
-void	bzero_array(char **array, int size)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		array[i] = NULL;
-		i++;
-	}
-	array[i] = NULL;
-	i = 0;
-}
-
-char	**save_env(char **envp, int size)
-{
-	char	**env;
-	int		i;
-
-	i = 0;
-	while (envp[i] != NULL)
-		i++;
-	size += i;
-	if (!(env = (char **)malloc(sizeof(char *) * (size + 1))))
-		return (NULL);
-	bzero_array(env, size);
-	i = 0;
-	while (i < size && envp[i])
-	{
-		if (!(env[i] = ft_strdup(envp[i])))
-		{
-			ft_free_array(env);
-			return (NULL);
-		}
-		i++;
-	}
-	return (env);
+	return (all->status);
 }
 
 int		main(int argc, char **argv, char **envp)
 {
 	t_all	*all;
+	int		exit_value;
 
-	all = clear_all();
 	if (argc == 1)
 		argv[1] = "minishell"; // костыль для argc / argv
-	if (!(all->env = save_env(envp, 0)))
-		return (EXIT_FAILURE);
-	lsh_loop(all);
+	all = clear_all(envp);
+	exit_value = loop(all);
+	free(all);
+	all = NULL;
+	exit(exit_value);
 	return (EXIT_SUCCESS);
 }

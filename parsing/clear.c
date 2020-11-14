@@ -12,6 +12,31 @@
 
 #include "../minishell.h"
 
+char	**save_env(char **envp, int size)
+{
+	char	**env;
+	int		i;
+
+	i = 0;
+	while (envp[i] != NULL)
+		i++;
+	size += i;
+	if (!(env = (char **)malloc(sizeof(char *) * (size + 1))))
+		return (NULL);
+	bzero_array(env, size);
+	i = 0;
+	while (i < size && envp[i])
+	{
+		if (!(env[i] = ft_strdup(envp[i])))
+		{
+			ft_free_array(env);
+			return (NULL);
+		}
+		i++;
+	}
+	return (env);
+}
+
 static t_pars	*clear_all_ps(void)
 {
 	t_pars	*ps;
@@ -45,7 +70,7 @@ static t_token	*clear_all_tok(void)
 	return (tok);
 }
 
-t_all			*clear_all(void)
+t_all			*clear_all(char **envp)
 {
 	t_all		*all;
 
@@ -57,6 +82,8 @@ t_all			*clear_all(void)
 	all->gnl_line = NULL;
 	all->gnl_tmp = NULL;
 	all->env = NULL;
+	if (!(all->env = save_env(envp, 0)))
+		return (NULL);
 	all->status = 0;
 	all->fds[1] = -1;
 	all->fds[0] = -1;
@@ -64,6 +91,7 @@ t_all			*clear_all(void)
 	all->temp_1 = dup(1);
 	all->pre_pipe = 0;
 	all->home = NULL;
+	all->home = search_env(all->env, "HOME=");
 	all->tok = clear_all_tok();
 	all->ps = clear_all_ps();
 	return (all);

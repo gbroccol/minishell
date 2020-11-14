@@ -137,7 +137,7 @@ int			shell_export(t_token *token, t_all *all)
 	int		i;
 	int		j;
 	int		status;
-	char *tmp;
+	// char *tmp;
 
 	i = 0;
 	j = 1;
@@ -149,7 +149,7 @@ int			shell_export(t_token *token, t_all *all)
 	{
 		while (token->args[j] != NULL)
 		{
-			tmp = token->args[j];
+			// tmp = token->args[j];
 			if ((i = replace_env(all, token->args[j])) < 0)
 				return (1);
 			if ((i != 0) || (token->args[j][0] == '='))

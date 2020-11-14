@@ -79,5 +79,6 @@ char				**ft_str_to_array(char **array, char *new_str);
 char				**ft_del_str_from_ar(char **array, int nmb);
 int					if_smb_in_str(char smb, char *str);
 char				*ft_strdup_start(const char *s, int start);
+void				bzero_array(char **array, int size);
 
 #endif

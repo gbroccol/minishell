@@ -78,7 +78,7 @@ typedef struct		s_token
 
 typedef struct		s_all
 {
-	int				syntax; // bash: syntax error near unexpected token `;;'
+	int				syntax;
 	int				ret_ex;
 	int				ret_pars;
 	char			*gnl_line;
@@ -91,7 +91,7 @@ typedef struct		s_all
 	int				pre_pipe;
 	char			*home;
 	t_token			*tok;
-	t_pars			*ps; // структура для парсинга
+	t_pars			*ps;
 }					t_all;
 
 /*
@@ -100,7 +100,7 @@ typedef struct		s_all
 
 int					arguments(t_all *all, char *line, t_pars *ps);
 int					check_gnl_line(t_all *all, char *str);
-t_all				*clear_all();
+t_all				*clear_all(char **envp);
 void				command(t_token *tok);
 int					env(char *line, t_pars *ps, char **env);
 int					parsing(t_all *all, t_pars *ps);
@@ -108,11 +108,6 @@ int					quote_no(t_all *all, char *line, t_token *tok);
 int					quote_one(char *line, t_token *tok, t_pars *ps);
 int					quote_two(t_all *all, char *line, t_token *tok, t_pars *ps);
 int					redirect(t_all *all, char *line, t_token *tok);
-// void				clear_parsing(t_pars *ps, int clear_place);
-// void				check_env(char *line, t_env *ps_env, char **env);
-// void				check_shield_no(char *line, t_pars *ps);
-// void				check_shield_two(char *line, t_pars *ps);
-// void				create_bin_tok(t_token *tok);
 
 /*
 **  execute
