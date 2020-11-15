@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 16:21:21 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/15 17:45:19 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,13 @@ int		loop(t_all *all)
 			exit(all->status);
 		while (status)
 		{
-			get_next_line(0, &(all->gnl_tmp));
+			if (get_next_line(0, &(all->gnl_tmp)) == 2)
+			{
+				exit_all(all);
+				free(all);
+				write(1, "exit\n", 5);
+				exit(0);
+			}
 			if (all->gnl_line)
 				all->gnl_line = ft_str_to_str(all->gnl_line, ft_strdup(" "));
 			all->gnl_line = ft_str_to_str(all->gnl_line, all->gnl_tmp);

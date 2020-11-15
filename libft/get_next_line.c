@@ -6,13 +6,14 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 15:24:43 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/06/22 20:15:05 by anastasiya       ###   ########.fr       */
+/*   Updated: 2020/11/15 18:39:17 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+# include <stdio.h>            // remove
 
-#define BUFFER_SIZE 1
+#define BUFFER_SIZE 32
 
 static int		mem_free(char **remember)
 {
@@ -71,6 +72,15 @@ static char		*write_surplus(char **s_fd, char *buf)
 	return (result);
 }
 
+void			rewrite_eof(char **str)
+{
+	int			i;
+
+	i = ft_strlen(*str);
+	*str[i] = '\0';
+	*str[i - 1] = '\0';
+}
+
 int				get_next_line(int fd, char **line)
 {
 	static char	*s_fd[2000];
@@ -82,12 +92,18 @@ int				get_next_line(int fd, char **line)
 		return (-1);
 	*line = NULL;
 	if (!ft_find_n(s_fd[fd]))
+	{
 		while ((line_len = read(fd, buf, BUFFER_SIZE)) >= 0)
 		{
 			buf[line_len] = '\0';
+			write(0, "  \b\b", 4);
+			if (buf[0] == '\0' && s_fd[fd][0] == '\0' && line_len == 0)
+				return (2);
 			s_fd[fd] = write_surplus(&s_fd[fd], buf);
-			if (ft_find_n(buf) || !line_len || !s_fd[fd])
+			if (ft_find_n(buf) || !s_fd[fd])
 				break ;
 		}
+	}
 	return ((line_len < 0 || !s_fd[fd]) ? (-1) : (get_line(line, &s_fd[fd])));
 }
+
