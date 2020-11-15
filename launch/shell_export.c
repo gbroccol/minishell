@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shell_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/13 17:24:37 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/15 17:05:13 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int			replace_env(t_all *all, char *str)
+int				replace_env(t_all *all, char *str)
 {
 	int	i;
 	int	size;
@@ -41,7 +41,7 @@ int			replace_env(t_all *all, char *str)
 // static int		print_env(char **env, int i, int j, int ascii_nmb)
 // {
 // 	// int			size;
-
+// 
 // 	while (ascii_nmb >= 32 && ascii_nmb <= 126)
 // 	{
 // 		while (env[i] != NULL)
@@ -67,8 +67,7 @@ int			replace_env(t_all *all, char *str)
 // 					// 	}
 // 						write(1, "\n", 1);
 // 					// }
-// 				}
-				
+// 				}		
 // 			}
 // 			i++;
 // 		}
@@ -77,7 +76,6 @@ int			replace_env(t_all *all, char *str)
 // 	}
 // 	return (0);
 // }
-
 
 static void		print_env(char **env)
 {
@@ -122,7 +120,7 @@ static void		print_env(char **env)
 // {
 // 	int			i;
 // 	// int			size;
-
+// 
 // 		i = 0;
 // 		while (env[i] != NULL)
 // 		{
@@ -132,7 +130,7 @@ static void		print_env(char **env)
 // 		}
 // }
 
-int			shell_export(t_token *token, t_all *all)
+int				shell_export(t_token *token, t_all *all)
 {
 	int		i;
 	int		j;
