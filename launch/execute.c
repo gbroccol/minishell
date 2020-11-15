@@ -147,7 +147,7 @@ int				execute(t_all *all)
 			all->status = shell_env(all->env);
 		else if (token->type_func == TYPE_UNSET)
 			all->status = shell_unset(token, all->env);
-		if (token->pipe)
+		if (ret && token->pipe == 1)
 		{
 			dup2(all->temp_1, 1);
 			if (r_redir != 0)
@@ -158,7 +158,7 @@ int				execute(t_all *all)
 			close(all->fds[0]);
 			all->pre_pipe = 1;
 		}
-		if (!token->pipe)
+		if (ret && !token->pipe)
 		{
 			dup2(all->temp_0, 0);
 			all->pre_pipe = 0;
@@ -166,7 +166,7 @@ int				execute(t_all *all)
 	}
 	else if (token->type_func == TYPE_BIN)
 		launch(all, r_redir);
-	if (token->redirect && !token->pipe /*&& all->pre_pipe > 0*/)
+	if (ret && token->redirect && !token->pipe /*&& all->pre_pipe > 0*/)
 	{
 		dup2(all->temp_1, 1);
 		dup2(all->temp_0, 0);

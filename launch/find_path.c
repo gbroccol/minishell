@@ -130,10 +130,14 @@ int			find_path(char **env, char **executable, t_all *all)
 	char	*prefix;
 
 	str = NULL;
+	path = NULL;
 	if (!(path = search_env(env, "PATH=")))
 		return (0);
 	if (ft_strlen(path) == 0)
+	{
+		free(path);
 		return (1);
+	}
 	tmp = ft_split(path, '=');
 	dirs = ft_split(tmp[0], ':');
 	ft_free_array(tmp);

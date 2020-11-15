@@ -52,6 +52,7 @@ static t_pars	*clear_all_ps(void)
 	ps->tmp = NULL;
 	ps->tmp2 = NULL;
 	ps->er_redir = 0;
+	ps->red_files = NULL;
 	return (ps);
 }
 
@@ -66,8 +67,6 @@ static t_token	*clear_all_tok(void)
 	tok->args = NULL;
 	tok->redirect = NULL;
 	tok->pipe = 0;
-	// tok->tmp = NULL;
-	// ps->tmp2 = NULL;
 	tok->flag_n = 0;
 	return (tok);
 }

@@ -193,24 +193,24 @@ ls lskdgjdhgisdoigjiredg                                                        
 echo $?                                                                         # + l
 echo $?                                                                         # + l
 unset PWD; echo $PWD                                                            # + l
-ls; unset PATH; ls     ;                                                        # - leak     КАТЯ скорректировать сообщение об ошибке
+ls; unset PATH; ls     ;                                                        # + l     КАТЯ скорректировать сообщение об ошибке
 echo $?                                                                         # + l
 echo $?                                                                         # + l
 export PATH=/  ; ls                                                             # + l
 echo $?                                                                         # + l
 export PATH=/bin  ; ls                                                          # + l
 echo $?                                                                         # + l
-echo $PWD; unset PWD                                                            # + leak
-echo $PWD; export PWD=/ ; echo $PWD;                                            # + leak
+echo $PWD; unset PWD                                                            # + l
+echo $PWD; export PWD=/ ; echo $PWD;                                            # + l
 pwd; echo $PWD                                                                  # + l
 cd; echo $PWD; cd -                                                             # + l
 echo $PWD; echo $OLDPWD                                                         # + l
 unset OLDPWD; echo $OLDPWD                                                      # + l
-cd; echo $OLDPWD                                                                # + leak
+cd; echo $OLDPWD                                                                # + l
 cd ; echo $PWD; echo $OLDPWD                                 					# + l
 cd -                                                                            # + l
 ls -la                                                                          # + l
-ls "-la" ; cd -                                                                 # + l l
+ls "-la" ; cd -                                                                 # + l
 echo '\'                                                                        # + l
 echo \hello \$PWD                                                               # + l
 echo '\hello \$PWD'                                                             # + l

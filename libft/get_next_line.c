@@ -41,12 +41,16 @@ static int		get_line(char **line, char **remember)
 	int			remember_len;
 	int			line_len;
 
+
 	tmp = NULL;
 	remember_len = ft_strlen_n(*remember, '\0');
 	if ((n_yes = ft_find_n(*remember) ? 1 : 0))
 		line_len = ft_strlen_n(*remember, '\n');
 	else
 		line_len = remember_len;
+
+	// printf("%d, ->%s.\n", line_len, *remember);
+
 	if (!(*line = ft_substr(*remember, 0, line_len)))
 		return (mem_free(remember));
 	if (n_yes)
