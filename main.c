@@ -6,11 +6,22 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 17:12:06 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/15 16:21:21 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	listener(int sig)
+{
+	if (sig == SIGINT)
+	{
+		write(0, "\b\b  \n", 5);
+		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
+	}
+	else if (sig == SIGQUIT)
+		write(0, "\b\b  \b\b", 6);
+}
 
 void		print_array(char **ar)
 {
@@ -69,7 +80,6 @@ int	check_redir_files(t_all *all, char *str, t_pars *ps)
 	return (all->ps->pos);
 }
 
-
 int		loop(t_all *all)
 {
 	int		status;
@@ -80,8 +90,7 @@ int		loop(t_all *all)
 	{
 		all->gnl_tmp = NULL;
 		write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
-		// write(1, "\b\b", 2); - для затирания символов
-		if (signal(SIGINT, SIG_IGN) == SIG_ERR || signal(SIGQUIT, SIG_IGN) == SIG_ERR) // прописать ошибки
+		if (signal(SIGINT, listener) == SIG_ERR || signal(SIGQUIT, listener) == SIG_ERR)
 			exit(all->status);
 		while (status)
 		{

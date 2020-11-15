@@ -92,24 +92,24 @@ ls                                                              # + l
 ;@@;                                                                           # + l 
 | |                                                                            # + l 
 ""                                                                             # + l
-echo " \'   \\    \$    \`  "                                                  # +
-echo ' \'   \\    \$    \`  ''                                                 # +
-echo \'                                                                        # +
-echo "\'"                                                                      # +
+echo " \'   \\    \$    \`  "                                                  # + l
+echo ' \'   \\    \$    \`  ''                                                 # + l
+echo \'                                                                        # + l
+echo "\'"                                                                      # + l
 
-echo 5 | cat -e                                                                # +
-echo 5 || cat -e                                                               # +
-echo 5 ||| cat -e                                                              # +
+echo 5 | cat -e                                                                # + l
+echo 5 || cat -e                                                               # + l
+echo 5 ||| cat -e                                                              # + l
 
-echo 5 |                                                                       # +
+echo 5 |                                                                       # + l
 |
 
-ls;;                                                                            # +
-ls; ;                                                                           # +
+ls;;                                                                            # + l
+ls; ;                                                                           # + l
 
-ls |                                                                            # +
-ls||                                                                            # +
-ls | |                                                                          # +
+ls |                                                                            # + l
+ls||                                                                            # + l
+ls | |                                                                          # + l
 
 echo $PWD                                                                       # +
 echo $321                                                                       # +
@@ -164,102 +164,108 @@ echo $? | cat - e                                                               
 echo $? | cat -e                                                                # +
 cho $? | cat -e                                                                 # +
 echo $? ; ls ; echo $?...                                                       # + l
-'e'c"h"o 5                                                                      # +
+'e'c"h"o 5                                                                      # + l
 'echo' 5                                                                        # +
 'ec"h"o' 5                                                                      # +
-...$?...                                                                        # +
-echo $? ; ls ; ...$?...                                                         # +
-...$?... ; echo $? ; ls ; ...$?...                                              # +
-export str1 2str = _3str str4=str5   ; echo $?                                  # +
- 'e'"x"p'o'r't'                                                                 # +
-ec"ho" $str1 $str4                                                              # +
- 'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # +
-  'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # +
-echo "hello;"; $q'c'"h"o $test                                                  # +
-echo "hello;"; $q'c'"h"o $test                                                  # +
-$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # +
-cd -; pwd                                                                       # +
-$lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # +
- echo         \'\"\\                                                            # +
-echo ~                                                                          # +
-echo hello sad man                                                              # +
-echo $?                                                                         # +
+
+
+
+...$?...                                                                        # + l
+echo $? ; ls ; ...$?...                                                         # + l
+...$?... ; echo $? ; ls ; ...$?...                                              # + l
+export str1 2str = _3str str4=str5   ; echo $?                                  # + l
+ 'e'"x"p'o'r't'                                                                 # + l
+ec"ho" $str1 $str4                                                              # + l 
+ 'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # + l
+  'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # + l
+echo "hello;"; $q'c'"h"o $test                                                  # + l
+echo "hello;"; $q'c'"h"o $test                                                  # + l
+$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # + l
+cd -; pwd                                                                       # + l
+$lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # + l
+ echo         \'\"\\                                                            # + l
+echo ~                                                                          # + l
+echo hello sad man                                                              # + l
+echo $?                                                                         # + l
 >fil$q'1' e$w"ho" s$i"r"ing f$r$u file1                                         # + l
-pwd ; cat file1                                                                 # +
-ls lskdgjdhgisdoigjiredg                                                        # +
-echo $?                                                                         # +
-echo $?                                                                         # +
-unset PWD; echo $PWD                                                            # +
-ls; unset PATH; ls     ;                                                        # - КАТЯ скорректировать сообщение об ошибке
-echo $?                                                                         #
-echo $?                                                                         #
-export PATH=/  ; ls                                                             # +
-echo $?                                                                         # +
-export PATH=/bin  ; ls                                                          # +
-echo $?                                                                         # +
-echo $PWD; unset PWD                                                            # +
-echo $PWD; export PWD=/ ; echo $PWD;                                            # +
-pwd; echo $PWD                                                                  # +
-cd; echo $PWD; cd -                                                             # +
-echo $PWD; echo $OLDPWD                                                         # +
-unset OLDPWD; echo $OLDPWD                                                      # +
-cd; echo $OLDPWD                                                                # +
-cd ; echo $PWD; echo $OLDPWD                                 					# +
-cd -                                                                            # +
-ls -la                                                                          # +
-ls "-la" ; cd -                                                                 # + leak
-echo '\'                                                                        # +
-echo \hello \$PWD                                                               # +
-echo '\hello \$PWD'                                                             # +
-echo "\hello \$PWD"                                                             # +
-echo \'\"\\ "\hello\$PWD"                                                       # +
-echo "\$PWD" "\PWD"                                                             # +
-echo "\""                                                                       # +
-echo "\'"                                                                       # +
-"echo f" hello                                                                  # +
+pwd ; cat file1                                                                 # + l
+ls lskdgjdhgisdoigjiredg                                                        # + l
+echo $?                                                                         # + l
+echo $?                                                                         # + l
+unset PWD; echo $PWD                                                            # + l
+ls; unset PATH; ls     ;                                                        # - leak     КАТЯ скорректировать сообщение об ошибке
+echo $?                                                                         # + l
+echo $?                                                                         # + l
+export PATH=/  ; ls                                                             # + l
+echo $?                                                                         # + l
+export PATH=/bin  ; ls                                                          # + l
+echo $?                                                                         # + l
+echo $PWD; unset PWD                                                            # + leak
+echo $PWD; export PWD=/ ; echo $PWD;                                            # + leak
+pwd; echo $PWD                                                                  # + l
+cd; echo $PWD; cd -                                                             # + l
+echo $PWD; echo $OLDPWD                                                         # + l
+unset OLDPWD; echo $OLDPWD                                                      # + l
+cd; echo $OLDPWD                                                                # + leak
+cd ; echo $PWD; echo $OLDPWD                                 					# + l
+cd -                                                                            # + l
+ls -la                                                                          # + l
+ls "-la" ; cd -                                                                 # + l l
+echo '\'                                                                        # + l
+echo \hello \$PWD                                                               # + l
+echo '\hello \$PWD'                                                             # + l
+echo "\hello \$PWD"                                                             # + l
+echo \'\"\\ "\hello\$PWD"                                                       # + l
+echo "\$PWD" "\PWD"                                                             # + l
+echo "\""                                                                       # + l
+echo "\'"                                                                       # + l
+"echo f" hello                                                                  # + l
 >"helo l" echo hell\ f                                                          # + l
 >>"helo l" echo hell\ f ; echo hell\ f                                          # + l
-export t=n; echo -$t -n "-"'n' hello                                            # +
-export t=n; echo -n "-"'n' hello                                                # +
-echo -n "-"'n' hello                                                            # +
-echo -$t "-n" '-''n' '-n;'         -n hello                                     # +
-export a=l d=s; $a$d                                                            # +
-echo $PWD > as ; cat as                                                         # +
-echo ''\''"a|"\'q'a'\a'w'                                                       # +
-echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty                              # +
+export t=n; echo -$t -n "-"'n' hello                                            # + l
+export t=n; echo -n "-"'n' hello                                                # + l
+echo -n "-"'n' hello                                                            # + l
+echo -$t "-n" '-''n' '-n;'         -n hello                                     # + l
+export a=l d=s; $a$d                                                            # + l
+echo $PWD > as ; cat as                                                         # + l
+echo ''\''"a|"\'q'a'\a'w'                                                       # + l
+echo \"\|\;\"\| cat -e > \q\w\e\r\t\y ; cat qwerty                              # + l
 pwd >a1>a2>a3                                                                   # + l
-pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2;            # + 
-echo hi >16>17                                                                 			 # - прости меня, КАТЯ НАСТЯ
-echo hi > 16 > 17                                                               # +
-echo "hi" ">" "18" '>' '19' > 20                                                # +
-echo "hi" ">" 18 '>' 19 > 20                                                    # +
-echo "hi" ">" 18 > 19 > 20                                                      # +
-echo "hi" > 18 > 19 > 20                                                        # +
+pwd >a1>a2>a3; echo s1 >q1 s2>q2 s3; cat a2; cat a3; cat q1; cat q2;            # + l 
+echo hi >16>17                                                                 	# + l
+echo hi > 16 > 17                                                               # + l
+echo "hi" ">" "18" '>' '19' > 20                                                # + l
+echo "hi" ">" 18 '>' 19 > 20                                                    # + l
+echo "hi" ">" 18 > 19 > 20                                                      # + l
+echo "hi" > 18 > 19 > 20                                                        # + l
+
+
+
 echo 123> 1                                                                     		# - прости меня, КАТЯ НАСТЯ
-echo 123jrd> 3                                                                  # +
-echo                                                                            # +
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # +
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # +
-\ls\ ;                                                                          # +
+echo 123jrd> 3                                                                  # + l
+echo                                                                            # + l
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # + l
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # + l
+\ls\ ;                                                                          # + l
 cd
 export PWD=/Users/GBroccol
 pwd
 export HOME=/Users/GBroccol
 cd
 pwd
-echo -n -nnnnn 5                                                                # +
-export N=n                                                                      # +
-echo -n -nnnnn -$N write                                                        # +
+echo -n -nnnnn 5                                                                # + l
+export N=n                                                                      # + l
+echo -n -nnnnn -$N write                                                        # + l
 123 ctrl+\abc																	# -
-/bin/ls																			# +
-/bin/ls -la 																	# +
-/bin/ls -la ~/school21															# +
+/bin/ls																			# + l
+/bin/ls -la 																	# + l
+/bin/ls -la ~/school21															# + l
 echo $XPC_FLAGS                   -> 0x0                                       	# -
-echo $XPC_FLAGS                   -> 0x#0                                       # +
-echo $XPC_FLAGS                   -> 0x||0                                      # +
-echo nsdjknv -n																	# +
-exit 42																			# +
-echo $?																			# +
+echo $XPC_FLAGS                   -> 0x#0                                       # -
+echo $XPC_FLAGS                   -> 0x||0                                      # -
+echo nsdjknv -n																	# + l
+exit 42																			# + l
+echo $?																			# + l
 bash
 #export написать по алфавиту НАСТЯ
 
@@ -358,15 +364,15 @@ wc < Makefile																	# +
 # [1]+ Done sleep 10
 
 ###############################################################################################
-cd minishell																		# +
-cd libft																			# +
-cd ..																				# +
-cd .																				# +
-cd ~																				# +
-cd Desktop																			# +
+cd minishell																		# + l
+cd libft																			# + l
+cd ..																				# + l
+cd .																				# + l
+cd ~																				# + l
+cd Desktop																			# + l
 
 ###############################################################################################
-pwd																					# +
+pwd																					# + l
  
 ###############################################################################################
 export																						# - Нужна сортировка
@@ -395,10 +401,10 @@ env																					# +
 ###############################################################################################
 exit																				# +
 exit 23																				# +
-exit 23 sdfsdf																				# - КАТЯ bash: exit: too many arguments код 1
-exit 23 45 67																				# - КАТЯ bash: exit: too many arguments код 1
-exit sdfsf sdfdsf sdfsdf																	# - КАТЯ bash: exit: sdfsf: numeric argument required | выход и код 255
-exit sdfsf 123																				# - КАТЯ bash: exit: sdfsf: numeric argument required | выход и код 255								
+exit 23 sdfsdf																		# +
+exit 23 45 67																		# +
+exit sdfsf sdfdsf sdfsdf															# +
+exit sdfsf 123																		# +						
 ###############################################################################################
 /bin/ls																				# +
 /bin/echo 12																		# +

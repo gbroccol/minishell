@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:35:26 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/13 18:25:53 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/15 17:02:55 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ char		*search_env(char **env, char *to_find)
 
 	i = 0;
 	size = ft_strlen(to_find);
+	value = NULL;
 	while (env[i] != NULL)
 	{
 		if (!ft_strncmp(env[i], to_find, size))
@@ -65,7 +66,7 @@ int			check_pwd(char **env, char **executable)
 	closedir(dir);
 	free(pwd);
 	if (err_no != 0)
-		return (print_error(*executable, strerror(err_no), 0));
+		return (print_error(*executable, "", strerror(err_no), 0));
 	return (1);
 }
 
@@ -88,7 +89,7 @@ static char	*check_subdir(DIR *dir, char *executable, char *dirs)
 	closedir(dir);
 	if (err_no != 0)
 	{
-		print_error(executable, strerror(err_no), 0);
+		print_error(executable, "", strerror(err_no), 0);
 		return (NULL);
 	}
 	return (prefix);
@@ -114,7 +115,7 @@ char		*find_prefix(char **dirs, char *executable, t_all *all)
 	}
 	if (prefix == NULL)
 	{
-		print_error(all->tok->cmd, "command not found", 0);
+		print_error(all->tok->cmd, "", "command not found", 0);
 		all->status = 127;
 	}
 	return (prefix);
@@ -135,21 +136,16 @@ int			find_path(char **env, char **executable, t_all *all)
 		return (1);
 	tmp = ft_split(path, '=');
 	dirs = ft_split(tmp[0], ':');
-	if (!(prefix = find_prefix(dirs, executable[0], all)))
-	{
-		ft_free_array(tmp);
-		free(path);
-		free(prefix);
-		ft_free_array(dirs);
-		return (1);
-	}
 	ft_free_array(tmp);
 	free(path);
+	prefix = find_prefix(dirs, executable[0], all);
+	ft_free_array(dirs);
+	if (!prefix)
+		return (1);
 	str = executable[0];
 	path = ft_strjoin(prefix, executable[0]);
 	free(str);
 	executable[0] = path;
 	free(prefix);
-	ft_free_array(dirs);
 	return (2);
 }
