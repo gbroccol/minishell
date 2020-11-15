@@ -6,6 +6,8 @@
 # unset VSCODE_GIT_ASKPASS_MAIN SHELL _ Apple_PubSub_Socket_Render PATH SSH_AUTH_SOCK PWD ORIGINAL_XDG_CURRENT_DESKTOP HOME LOGNAME VSCODE_GIT_IPC_HANDLE XPC_FLAGS COLORTERM SHLVL USER
 # unset TERM_PROGRAM TMPDIR VSCODE_GIT_ASKPASS_NODE MAKEFLAGS MFLAGS TERM_PROGRAM_VERSION XPC_SERVICE_NAME __CF_USER_TEXT_ENCODING GIT_ASKPASS LANG TERM MAKELEVEL
 
+# сортировка
+# >>>>> обработать ошибки
 
 ###############################################################################################
 'Hello World!'                                                   # + l

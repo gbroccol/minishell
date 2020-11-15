@@ -49,17 +49,17 @@ static int		get_line(char **line, char **remember)
 	else
 		line_len = remember_len;
 
-	// printf("%d, ->%s.\n", line_len, *remember);
-
 	if (!(*line = ft_substr(*remember, 0, line_len)))
 		return (mem_free(remember));
-	if (n_yes)
+	if (n_yes && (remember_len - line_len - 1) > 0)
 	{
-		if (!(tmp = ft_substr(*remember, line_len + 1,
-				remember_len - line_len - 1)))
+		if (!(tmp = ft_substr(*remember, line_len + 1, remember_len - line_len - 1)))
 			return (mem_free(remember));
 	}
+	else
+		tmp = NULL;
 	free(*remember);
+	*remember = NULL;
 	*remember = tmp;
 	return (n_yes);
 }
@@ -110,4 +110,3 @@ int				get_next_line(int fd, char **line)
 	}
 	return ((line_len < 0 || !s_fd[fd]) ? (-1) : (get_line(line, &s_fd[fd])));
 }
-
