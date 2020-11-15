@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 16:59:01 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 13:14:06 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/15 15:14:25 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@ void		exit_all_tok(t_token *tok)
 	if (tok->redirect)
 		ft_free_array(tok->redirect);
 	tok->redirect = NULL;
-	if (tok->tmp)
-		free(tok->tmp);
-	tok->tmp = NULL;
-	if (tok->tmp2)
-		free(tok->tmp2);
-	tok->tmp2 = NULL;
+	
 }
 
 void		exit_all_ps(t_pars *ps)
@@ -39,6 +34,12 @@ void		exit_all_ps(t_pars *ps)
 	if (ps->env_str)
 		free(ps->env_str);
 	ps->env_str = NULL;
+	if (ps->tmp)
+		free(ps->tmp);
+	ps->tmp = NULL;
+	if (ps->tmp2)
+		free(ps->tmp2);
+	ps->tmp2 = NULL;
 }
 
 void exit_all(t_all *all)

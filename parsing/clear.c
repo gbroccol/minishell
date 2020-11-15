@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:30:55 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/13 19:48:21 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/15 15:48:16 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ static t_pars	*clear_all_ps(void)
 	ps->env_pos = 0;
 	ps->env_str_pos = 0;
 	ps->env_str = NULL;
+	ps->tmp = NULL;
+	ps->tmp2 = NULL;
+	ps->er_redir = 0;
 	return (ps);
 }
 
@@ -63,10 +66,9 @@ static t_token	*clear_all_tok(void)
 	tok->args = NULL;
 	tok->redirect = NULL;
 	tok->pipe = 0;
-	tok->tmp = NULL;
-	tok->tmp2 = NULL;
+	// tok->tmp = NULL;
+	// ps->tmp2 = NULL;
 	tok->flag_n = 0;
-	tok->er_redir = 0;
 	return (tok);
 }
 

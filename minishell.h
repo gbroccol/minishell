@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
 /*   Updated: 2020/11/15 16:40:08 by pvivian          ###   ########.fr       */
@@ -56,11 +56,19 @@
 typedef struct		s_pars
 {
 	int				pos;
+
+	int				red_pos;
+	char			**red_files;
+	int				er_redir;
+	
+		
 	char			*status;
 	int				env_line;
 	int				env_pos;
 	int				env_str_pos;
 	char			*env_str;
+	char			*tmp; 
+	char			*tmp2;
 }					t_pars;
 
 typedef struct		s_token
@@ -70,10 +78,10 @@ typedef struct		s_token
 	char			**args;
 	char			**redirect;
 	int				pipe;
-	char			*tmp; 
-	char			*tmp2;
+	// char			*tmp; 
+	// char			*tmp2;
 	int				flag_n;
-	int				er_redir;
+	
 }					t_token;
 
 typedef struct		s_all
@@ -104,10 +112,10 @@ t_all				*clear_all(char **envp);
 void				command(t_token *tok);
 int					env(char *line, t_pars *ps, char **env);
 int					parsing(t_all *all, t_pars *ps);
-int					quote_no(t_all *all, char *line, t_token *tok);
-int					quote_one(char *line, t_token *tok, t_pars *ps);
-int					quote_two(t_all *all, char *line, t_token *tok, t_pars *ps);
-int					redirect(t_all *all, char *line, t_token *tok);
+int					quote_no(t_all *all, char *line, t_pars *ps);
+int					quote_one(char *line, t_pars *ps);
+int					quote_two(t_all *all, char *line, t_pars *ps);
+int					redirect(t_all *all, char *line, char ***red_ar, t_pars *ps);
 
 /*
 **  execute

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
 /*   Updated: 2020/11/15 16:21:21 by pvivian          ###   ########.fr       */
@@ -23,12 +23,69 @@ void	listener(int sig)
 		write(0, "\b\b  \b\b", 6);
 }
 
+void		print_array(char **ar)
+{
+	int		i;
+
+	i = 0;
+	while (ar && ar[i] != NULL)
+	{
+		write(1, ar[i], ft_strlen(ar[i]));
+		write(1, "\n", 1);
+		i++;
+	}
+}
+
+void	write_redir_files(t_all *all, char *str, t_pars *ps)
+{
+	while (is_smb_in_str(str[ps->pos], ";\'\"", 1) == 0)
+	{
+		if (is_smb_in_str(str[ps->pos], ">", 0))
+			redirect(all, str, &ps->red_files, ps);
+		else
+			ps->pos++;
+	}
+	// print_array(all->ps->red_files); // test
+	// write(1, "__________\n", 11); // test
+}
+
+int	check_redir_files(t_all *all, char *str, t_pars *ps)
+{
+	if (ps->red_files)
+		ft_free_array(ps->red_files);
+	ps->red_files = NULL;
+	while (str[ps->pos] != '\0' && str[ps->pos] != ';')
+	{
+		if (str[ps->pos] == '\'')
+		{
+			ps->pos++;
+			while (str[ps->pos] != '\'' && str[ps->pos] != '\0')
+				ps->pos++;
+			if (str[ps->pos] == '\'')
+				ps->pos++;
+		}
+		else if (str[ps->pos] == '\"')
+		{
+			ps->pos++;
+			while (str[ps->pos] != '\"' && str[ps->pos] != '\0')
+				ps->pos++;
+			if (str[ps->pos] == '\"')
+				ps->pos++;
+		}
+		else
+			write_redir_files(all, str, ps);
+	}
+	if (str[ps->pos] == ';')
+		ps->pos++;
+	return (all->ps->pos);
+}
+
 int		loop(t_all *all)
 {
 	int		status;
+	int		tmp_pos;
 
 	status = 1;
-	
 	while (all->ret_ex)
 	{
 		all->gnl_tmp = NULL;
@@ -49,13 +106,31 @@ int		loop(t_all *all)
 		}
 		all->ps->pos = 0;
 		all->ret_pars = 0;
+		all->ps->red_pos = 0;
 		while (!all->ret_pars && !all->syntax)
 		{
 			all->ps->status = ft_itoa(all->status);
 			all->ps->env_str_pos = 0;
 			all->ps->env_str = NULL;
-			all->ret_pars = parsing(all, all->ps); // 1 - stop parsing 0 - continue parsing
-			if (!all->tok->er_redir)
+			
+			if ((all->ps->red_pos == 0 && all->ps->pos == 0) || all->ps->red_pos < all->ps->pos)
+			{
+				tmp_pos = all->ps->pos;
+				all->ps->red_pos = check_redir_files(all, all->gnl_line, all->ps);
+				all->ps->pos = tmp_pos;
+
+
+				// print_array(all->ps->red_files);
+				// write(1, "__________\n", 11);
+			}
+			
+			if (!all->ps->er_redir)
+				all->ret_pars = parsing(all, all->ps); // 1 - stop parsing 0 - continue parsing
+			
+				// print_array(all->tok->redirect);
+				// write(1, "__________\n", 11);
+			
+			if (!all->ps->er_redir)
 				all->ret_ex = execute(all);
 			if (all->tok)
 				exit_all_tok(all->tok);

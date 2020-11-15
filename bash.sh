@@ -64,16 +64,16 @@ echo 42 23 | grep 4 | cat -e                                    # + l
 ls 1111111 | grep 111 | cat -e                                  # +
 
 echo 123 > 1                                                    # + l
-echo '123 > 2'                                                  # +
-echo "123 > 1"                                                  # +
-echo > 1                                                        # +
-echo "> 1"                                                      # +
+echo '123 > 2'                                                  # + l
+echo "123 > 1"                                                  # + l
+echo > 1                                                        # + l
+echo "> 1"                                                      # + l
 
 echo 42 > 2 ; echo 22 >> 2 ; cat -e  2                          # + l
-grep 2 < 1                                                      # +
-echo < 1                                                        # +
-grep < 1                                                        # +
-grep 4 < 1 | cat -e                                            	# + 
+grep 2 < 1                                                      # + l
+echo < 1                                                        # + l
+grep < 1                                                        # + l
+grep 4 < 1 | cat -e                                            	# + l
 
 export qwe=123456 ; echo $qwe                                   # + l
 
@@ -133,7 +133,7 @@ echo $fdsgbkldmbklfdsmklfmd                                                     
 echo str1"'str2'"                                                               # + l
 echo str1"'$str2'"                                                              # +
 echo 'str1'str2"str3 $PWD str4" "str5"'$PWD' $PWD "$PWD"                        # + l
-echo "hello><; world"                                                           # +
+echo "hello><; world"                                                           # + l
 echo $hfkdghldf$PWD                                                             # +
 echo ' """" '                                                                   # +
 echo " '''''' "                                                                 # +
@@ -167,6 +167,9 @@ echo $? ; ls ; echo $?...                                                       
 'e'c"h"o 5                                                                      # + l
 'echo' 5                                                                        # +
 'ec"h"o' 5                                                                      # +
+
+
+
 ...$?...                                                                        # + l
 echo $? ; ls ; ...$?...                                                         # + l
 ...$?... ; echo $? ; ls ; ...$?...                                              # + l
@@ -235,6 +238,9 @@ echo "hi" ">" "18" '>' '19' > 20                                                
 echo "hi" ">" 18 '>' 19 > 20                                                    # + l
 echo "hi" ">" 18 > 19 > 20                                                      # + l
 echo "hi" > 18 > 19 > 20                                                        # + l
+
+
+
 echo 123> 1                                                                     		# - прости меня, КАТЯ НАСТЯ
 echo 123jrd> 3                                                                  # + l
 echo                                                                            # + l
@@ -262,6 +268,10 @@ exit 42																			# + l
 echo $?																			# + l
 bash
 #export написать по алфавиту НАСТЯ
+
+ls > 66 ; ls >>>> 77
+
+ls > 3 | ls > 4 ; ls > 5
 ls > a | ls > b 																# - l
 ls > a >> b | pwd | cat -e >> b
 ls > a > b > c | cat -e < c
