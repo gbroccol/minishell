@@ -6,13 +6,13 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:44:42 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/12 12:44:44 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/15 16:27:12 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	check_file(char *str, t_token *tok)
+static int	check_file(char *str, t_pars *ps)
 {
 	int		i;
 
@@ -26,35 +26,37 @@ static int	check_file(char *str, t_token *tok)
 	write(1, "bash: syntax error near unexpected token `", 42);
 	write(1, str, ft_strlen(str));
 	write(1, "'\n", 2);
-	tok->er_redir = 1;
+	ps->er_redir = 1;
 	return (1);
 }
 
-int			redirect(t_all *all, char *line, t_token *tok)
+int			redirect(t_all *all, char *line, char ***red_ar, t_pars *ps)
 {
-	tok->tmp = NULL;
-	tok->er_redir = 0;
-	while (line[all->ps->pos] == '>' || line[all->ps->pos] == '<')
+	ps->tmp = NULL;
+	ps->er_redir = 0;
+	while (line[ps->pos] == '>' || line[ps->pos] == '<')
 	{
-		tok->tmp = ft_letter_to_str(tok->tmp, line[all->ps->pos], 0);
-		all->ps->pos++;
+		ps->tmp = ft_letter_to_str(ps->tmp, line[ps->pos], 0);
+		ps->pos++;
 	}
-	tok->redirect = ft_str_to_array(tok->redirect, tok->tmp);
-	while (is_smb_in_str(line[all->ps->pos], SHARE_SMB, 0))
-		all->ps->pos++;
-	tok->tmp = NULL;
-	while (is_smb_in_str(line[all->ps->pos], ";|<> ", 1) == 0)
+	(*red_ar) = ft_str_to_array(*red_ar, ps->tmp);
+	while (is_smb_in_str(line[ps->pos], SHARE_SMB, 0))
+		ps->pos++;
+	ps->tmp = NULL;
+	while (is_smb_in_str(line[ps->pos], ";|<> ", 1) == 0)
 	{
-		if (line[all->ps->pos] == '\'')
-			quote_one(line, tok, all->ps);
-		else if (line[all->ps->pos] == '\"')
-			quote_two(all, line, tok, all->ps);
+		if (line[ps->pos] == '\'')
+			quote_one(line, ps);
+		else if (line[ps->pos] == '\"')
+			quote_two(all, line, ps);
 		else
-			quote_no(all, line, tok);
+			quote_no(all, line, ps);
 	}
-	if (is_smb_in_str(line[all->ps->pos], "<>", 0) && check_file(tok->tmp, tok))
+	if (is_smb_in_str(line[ps->pos], "<>", 0) && check_file(ps->tmp, ps))
 		return (1);
-	tok->redirect = ft_str_to_array(tok->redirect, tok->tmp);
-	tok->tmp = NULL;
+	// if (ps->er_redir = 1)
+	// 	return (1);
+	(*red_ar) = ft_str_to_array(*red_ar, ps->tmp);
+	ps->tmp = NULL;
 	return (0);
 }

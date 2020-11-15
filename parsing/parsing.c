@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:33:48 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/13 18:20:50 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/15 16:28:08 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ static void		clear_token_again(t_token *tok)
 	tok->args = NULL;
 	tok->redirect = NULL;
 	tok->pipe = 0;
-	tok->tmp = NULL;
-	tok->tmp2 = NULL;
 	tok->flag_n = 0;
 }
 
 int				parsing(t_all *all, t_pars *ps)
 {
 	clear_token_again(all->tok);
+	ps->tmp = NULL;
+	ps->tmp2 = NULL;
 	while (is_smb_in_str(all->gnl_line[ps->pos], SHARE_SMB, 0))
 		ps->pos++;
 	if (all->gnl_line[ps->pos] != '\0')
 	{
 		all->tok->args = NULL;
 		if (is_smb_in_str(all->gnl_line[ps->pos], "><", 0))
-			redirect(all, all->gnl_line, all->tok); 
+			redirect(all, all->gnl_line, &all->tok->redirect, ps); 
 		if (arguments(all, all->gnl_line, ps))
 			return (1); // 1 - stop parsing
 	}

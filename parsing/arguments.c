@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:28:23 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/13 18:20:43 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/15 16:28:27 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ static int			arguments_finish(t_all *all, char *line, t_pars *ps)
 static int	create_line(t_all *all, char *line, t_pars *ps)
 {
 	if (line[ps->pos] == '\'')
-		quote_one(line, all->tok, ps);
+		quote_one(line, ps);
 	else if (line[ps->pos] == '\"')
-		quote_two(all, line, all->tok, ps);
+		quote_two(all, line, ps);
 	else if (line[ps->pos] == '#')
 		return (1);
 	else if (line[ps->pos] == '|' && line[ps->pos + 1] == '|')
 		return (1);
-	else if ((line[all->ps->pos] == '>' || line[all->ps->pos] == '<') && redirect(all, line, all->tok))
+	else if ((line[all->ps->pos] == '>' || line[all->ps->pos] == '<') && redirect(all, line, &all->tok->redirect, ps))
 		return (1);
 	else
-		quote_no(all, line, all->tok); //, 0);
+		quote_no(all, line, ps); //, 0);
 	return (0);
 }
 
@@ -63,10 +63,10 @@ int			arguments(t_all *all, char *line, t_pars *ps)
 			return (1); // stop parsing
 		if (is_smb_in_str(line[ps->pos], " \t;|<>", 1))
 		{
-			if (all->tok->tmp)
+			if (all->ps->tmp)
 			{
-				all->tok->args = ft_str_to_array(all->tok->args, all->tok->tmp);
-				all->tok->tmp = NULL;
+				all->tok->args = ft_str_to_array(all->tok->args, all->ps->tmp);
+				all->ps->tmp = NULL;
 			}
 		}
 		while (is_smb_in_str(line[ps->pos], " \t", 0))
