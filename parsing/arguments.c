@@ -55,19 +55,17 @@ static int	create_line(t_all *all, char *line, t_pars *ps)
 
 int			arguments(t_all *all, char *line, t_pars *ps)
 {
+	all->tok->redirect = NULL;
 	while (is_smb_in_str(line[ps->pos], ";|", 1) == 0)
 	{
 		while (is_smb_in_str(line[ps->pos], " \t", 0))
 			ps->pos++;
 		if (create_line(all, line, ps))
 			return (1); // stop parsing
-		if (is_smb_in_str(line[ps->pos], " \t;|<>", 1))
+		if (all->ps->tmp && is_smb_in_str(line[ps->pos], " \t;|<>", 1))
 		{
-			if (all->ps->tmp)
-			{
-				all->tok->args = ft_str_to_array(all->tok->args, all->ps->tmp);
-				all->ps->tmp = NULL;
-			}
+			all->tok->args = ft_str_to_array(all->tok->args, all->ps->tmp);
+			all->ps->tmp = NULL;
 		}
 		while (is_smb_in_str(line[ps->pos], " \t", 0))
 			ps->pos++;

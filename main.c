@@ -30,9 +30,28 @@ void		print_array(char **ar)
 	i = 0;
 	while (ar && ar[i] != NULL)
 	{
+		write(1, "array-> ", 8);
 		write(1, ar[i], ft_strlen(ar[i]));
 		write(1, "\n", 1);
 		i++;
+	}
+}
+
+void	creat_files(char **red_files)
+{
+	int	i;
+	int	fd;
+
+	i = 0;
+	while (red_files && red_files[i])
+	{
+		i++;
+		if (red_files[i])
+		{
+			fd = open(red_files[i], O_WRONLY | O_CREAT | O_APPEND, 0666);
+			close(fd);
+			i++;
+		}
 	}
 }
 
@@ -51,8 +70,8 @@ void	write_redir_files(t_all *all, char *str, t_pars *ps)
 
 int	check_redir_files(t_all *all, char *str, t_pars *ps)
 {
-	if (ps->red_files)
-		ft_free_array(ps->red_files);
+	// if (ps->red_files)
+	// 	ft_free_array(ps->red_files);
 	ps->red_files = NULL;
 	while (str[ps->pos] != '\0' && str[ps->pos] != ';')
 	{
@@ -77,6 +96,12 @@ int	check_redir_files(t_all *all, char *str, t_pars *ps)
 	}
 	if (str[ps->pos] == ';')
 		ps->pos++;
+	
+	creat_files(ps->red_files);
+	
+	if (ps->red_files)
+		ft_free_array(ps->red_files);
+	ps->red_files = NULL;
 	return (all->ps->pos);
 }
 
@@ -131,10 +156,16 @@ int		loop(t_all *all)
 			}
 			
 			if (!all->ps->er_redir)
+			{
 				all->ret_pars = parsing(all, all->ps); // 1 - stop parsing 0 - continue parsing
-			
-				// print_array(all->tok->redirect);
-				// write(1, "__________\n", 11);
+			}
+
+
+			// printf("cmd %s\n", all->tok->cmd);
+			// print_array(all->tok->args);
+			// write(1, "__________\n", 11);
+			// print_array(all->tok->redirect);
+			// write(1, "__________\n", 11);
 			
 			if (!all->ps->er_redir)
 				all->ret_ex = execute(all);

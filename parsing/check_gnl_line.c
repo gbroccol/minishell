@@ -57,6 +57,27 @@ static int		check_err_middle(char *str, int i)
 	return (i);
 }
 
+int				check_err_redir(char *str, int i)
+{
+	if (str[i] == '<' && str[i + 1] == '<')
+		return (1);
+	else if (str[i] == '>' && str[i + 1] == '<')
+		return (1);
+	else if (str[i] == '<' && str[i + 1] == '>')
+		return (1);
+	else if ((str[i + 1] == '>' || str[i + 2] == '<') &&
+				(str[i + 1] == '>' || str[i + 2] == '<'))
+		return (1);
+	i++;
+	if (str[i] == '>')
+		i++;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (str[i] == '|' || str[i] == ';' || str[i] == '\0' || ft_isprint(str[i]) == 0)
+		return (1);
+	return (0);
+}
+
 static void		check_err(t_all *all, char *str)
 {
 	int			i;
@@ -67,6 +88,11 @@ static void		check_err(t_all *all, char *str)
 		while (str[i] == ' ' || str[i] == '\t')
 			i++;
 		if (str[i] == ';' || str[i] == '|')
+		{
+			all->syntax = 1;
+			return ;
+		}
+		if ((str[i] == '>' || str[i] == '<') && check_err_redir(str, i))
 		{
 			all->syntax = 1;
 			return ;

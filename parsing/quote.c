@@ -51,11 +51,17 @@ static int		tilda(t_all *all, t_pars *ps)
 	return (1);
 }
 
+
 int				quote_no(t_all *all, char *line, t_pars *ps)
 {
+	int			nmb;
+
+	nmb = 1;
 	ps->tmp2 = NULL;
 	while (is_smb_in_str(line[all->ps->pos], " \t;\"\'|><", 1) == 0)
 	{
+		if (nmb == 1 && (line[all->ps->pos] < 0 || line[all->ps->pos] > 9))
+			nmb = 0;
 		if (line[all->ps->pos] == '$' && dollar(all, line, ps) == 1)
 			continue;
 		if (line[all->ps->pos] == '~' &&
@@ -69,7 +75,21 @@ int				quote_no(t_all *all, char *line, t_pars *ps)
 	if (ps->tmp2 && ps->tmp)
 		ps->tmp = ft_str_to_str(ps->tmp, ps->tmp2);
 	else if (ps->tmp2)
-		ps->tmp = ps->tmp2;
+	{
+		if (nmb && is_smb_in_str(line[all->ps->pos], "><", 0))
+		{
+			ps->tmp = ft_strdup("");
+			free(ps->tmp2);
+			while (is_smb_in_str(line[all->ps->pos], "><", 0))
+				all->ps->pos++;
+			while (is_smb_in_str(line[all->ps->pos], " ", 0))
+				all->ps->pos++;
+			while (is_smb_in_str(line[all->ps->pos], "123456789", 0)) // пропустить аргумент
+				all->ps->pos++;
+		}
+		else
+			ps->tmp = ps->tmp2;
+	}
 	ps->tmp2 = NULL;
 	return (0);
 }

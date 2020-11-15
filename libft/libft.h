@@ -80,5 +80,7 @@ char				**ft_del_str_from_ar(char **array, int nmb);
 int					if_smb_in_str(char smb, char *str);
 char				*ft_strdup_start(const char *s, int start);
 void				bzero_array(char **array, int size);
+char				**ft_sort_array(char **env);
+int					ft_array_len(char **array);
 
 #endif

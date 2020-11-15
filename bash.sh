@@ -1,13 +1,11 @@
 #! /bin/bash
 
 # malloc
-# is_smb_in_str or if_smb_in_str
 #  env // проверить символы по ASCII
 # unset VSCODE_GIT_ASKPASS_MAIN SHELL _ Apple_PubSub_Socket_Render PATH SSH_AUTH_SOCK PWD ORIGINAL_XDG_CURRENT_DESKTOP HOME LOGNAME VSCODE_GIT_IPC_HANDLE XPC_FLAGS COLORTERM SHLVL USER
 # unset TERM_PROGRAM TMPDIR VSCODE_GIT_ASKPASS_NODE MAKEFLAGS MFLAGS TERM_PROGRAM_VERSION XPC_SERVICE_NAME __CF_USER_TEXT_ENCODING GIT_ASKPASS LANG TERM MAKELEVEL
 
-# сортировка
-# >>>>> обработать ошибки
+# не работают редиректы
 
 ###############################################################################################
 'Hello World!'                                                   # + l
@@ -241,10 +239,12 @@ echo "hi" ">" 18 '>' 19 > 20                                                    
 echo "hi" ">" 18 > 19 > 20                                                      # + l
 echo "hi" > 18 > 19 > 20                                                        # + l
 
-
-
-echo 123> 1                                                                     		# - прости меня, КАТЯ НАСТЯ
+echo 123 123\> 6
+echo 123 123\>>> 6
+123>5
+echo 123> 1                                                                    # - прости меня, КАТЯ НАСТЯ
 echo 123jrd> 3                                                                  # + l
+echo 123 123> 1
 echo                                                                            # + l
 echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # + l
 echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # + l
@@ -272,7 +272,7 @@ bash
 #export написать по алфавиту НАСТЯ
 
 ls > 66 ; ls >>>> 77
-
+echo 123 > 1 ; pwd > 2 | echo $? >> 3
 ls > 3 | ls > 4 ; ls > 5
 ls > a | ls > b 																# - l
 ls > a >> b | pwd | cat -e >> b
@@ -290,7 +290,10 @@ wc < Makefile																	# +
 cd exit.o
 echo $?
 
-
+>																				# +
+>;																				# +
+> ;																				# +
+>>>>																			# +
 
 
 
