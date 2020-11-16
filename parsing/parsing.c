@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:33:48 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 16:28:08 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 13:07:06 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void		clear_token_again(t_token *tok)
 	tok->cmd = NULL;
 	tok->args = NULL;
 	tok->redirect = NULL;
+	tok->fd_red = NULL;
 	tok->pipe = 0;
 	tok->flag_n = 0;
 }

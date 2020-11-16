@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/13 17:21:51 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 14:43:31 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char		**new_env(t_all *all, char *str)
 	return (all->env);
 }
 
-static int	check_env_key(char *str)
+int	check_env_key(char *str)
 {
 	int	i;
 

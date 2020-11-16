@@ -6,29 +6,31 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/15 17:05:13 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/16 15:01:17 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int				replace_env(t_all *all, char *str)
+int				replace_env(char **array, char *str)
 {
 	int	i;
 	int	size;
 
 	i = 0;
 	size = 0;
+	if (!array)
+		return (1);
 	while (str[size] != '=' && str[size] != '\0')
 		size++;
-	while (all->env[i] != NULL)
+	while (array[i] != NULL)
 	{
-		if (!ft_strncmp(str, all->env[i], size) &&
+		if (!ft_strncmp(str, array[i], size) &&
 		ft_strchr(str, '='))
 		{
-			free(all->env[i]);
-			all->env[i] = NULL;
-			if (!(all->env[i] = ft_strdup(str)))
+			free(array[i]);
+			array[i] = NULL;
+			if (!(array[i] = ft_strdup(str)))
 				return (-1);
 			i = 0;
 			break ;
@@ -38,117 +40,55 @@ int				replace_env(t_all *all, char *str)
 	return (i);
 }
 
-// static int		print_env(char **env, int i, int j, int ascii_nmb)
-// {
-// 	// int			size;
-// 
-// 	while (ascii_nmb >= 32 && ascii_nmb <= 126)
-// 	{
-// 		while (env[i] != NULL)
-// 		{
-// 			if (env[i][j] == ascii_nmb && print_env(env, i, j + 1, ascii_nmb))
-// 			{
-// 				if (env[i][0] != '\0')
-// 				{
-// 					write(1, env[i], ft_strlen(env[i]));
-// 					// size = 0;
-// 					// while (env[i][size] != '=' && env[i][size] != '\0')
-// 					// 	size++;
-// 					// size++;
-// 					// if (size > 1)
-// 					// {
-// 					// 	write(1, "declare -x ", 11);
-// 					// 	write(1, env[i], size);
-// 					// 	if ((ft_strlen(env[i]) - size) > 0)
-// 					// 	{
-// 					// 		write(1, "\"", 1);
-// 					// 		write(1, env[i] + size, ft_strlen(env[i]) - size);
-// 					// 		write(1, "\"", 1);
-// 					// 	}
-// 						write(1, "\n", 1);
-// 					// }
-// 				}		
-// 			}
-// 			i++;
-// 		}
-// 		i = 0;
-// 		ascii_nmb++;
-// 	}
-// 	return (0);
-// }
-
 static void		print_env(char **env)
 {
 	int			i;
-	int			j;
 	int			size;
-	int			ascii_nmb;
+	char		**sort_env;
 
-	ascii_nmb = 32;
-	j = 0;
-	while (ascii_nmb >= 32 && ascii_nmb <= 126)
+	i = 0;
+	sort_env = NULL;
+	sort_env = ft_sort_array(env);
+	while (sort_env[i] != NULL)
 	{
-		i = 0;
-		while (env[i] != NULL)
+		size = 0;
+		while (sort_env[i][size] != '=' && sort_env[i][size] != '\0')
+			size++;
+		size++;
+		if (size > 1)
 		{
-			if (env[i][j] == ascii_nmb)
+			write(1, "declare -x ", 11);
+			write(1, sort_env[i], size);
+			if ((ft_strlen(sort_env[i]) - size) > 0)
 			{
-				size = 0;
-				while (env[i][size] != '=' && env[i][size] != '\0')
-					size++;
-				size++;
-				if (size > 1)
-				{
-					write(1, "declare -x ", 11);
-					write(1, env[i], size);
-					if ((ft_strlen(env[i]) - size) > 0)
-					{
-						write(1, "\"", 1);
-						write(1, env[i] + size, ft_strlen(env[i]) - size);
-						write(1, "\"", 1);
-					}
-					write(1, "\n", 1);
-				}
+				write(1, "\"", 1);
+				write(1, sort_env[i] + size, ft_strlen(sort_env[i]) - size);
+				write(1, "\"", 1);
 			}
-			i++;
+			write(1, "\n", 1);
 		}
-		ascii_nmb++;
+		i++;
 	}
+	if (sort_env)
+		ft_free_array(sort_env);
 }
-
-// static void		print_env_pre(char **env)
-// {
-// 	int			i;
-// 	// int			size;
-// 
-// 		i = 0;
-// 		while (env[i] != NULL)
-// 		{
-// 			write(1, env[i], ft_strlen(env[i]));
-// 			write(1, "\n", 1);
-// 			i++;
-// 		}
-// }
 
 int				shell_export(t_token *token, t_all *all)
 {
 	int		i;
 	int		j;
 	int		status;
-	// char *tmp;
 
 	i = 0;
 	j = 1;
 	status = 0;
-	// print_env_pre(all->env);
 	if (!token->args[j])
 		print_env(all->env);
 	else
 	{
 		while (token->args[j] != NULL)
 		{
-			// tmp = token->args[j];
-			if ((i = replace_env(all, token->args[j])) < 0)
+			if ((i = replace_env(all->env, token->args[j])) < 0)
 				return (1);
 			if ((i != 0) || (token->args[j][0] == '='))
 			{

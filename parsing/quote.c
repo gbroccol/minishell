@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:34:23 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 15:13:10 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 15:52:48 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,37 @@ static int		tilda(t_all *all, t_pars *ps)
 
 int				quote_no(t_all *all, char *line, t_pars *ps)
 {
+	int			nmb;
+
+	nmb = 1;
 	ps->tmp2 = NULL;
-	while (is_smb_in_str(line[all->ps->pos], " \t;\"\'|><", 1) == 0)
+	while (is_smb_in_str(line[ps->pos], " \t;\"\'|><", 1) == 0)
 	{
-		if (line[all->ps->pos] == '$' && dollar(all, line, ps) == 1)
+		if (nmb == 1 && ft_isdigit(line[ps->pos]) == 0)
+			nmb = 0;
+		if (line[ps->pos] == '$' && dollar(all, line, ps) == 1)
 			continue;
-		if (line[all->ps->pos] == '~' &&
-				is_smb_in_str(line[all->ps->pos + 1], " ;|/:", 1) &&
+		if (line[ps->pos] == '~' &&
+				is_smb_in_str(line[ps->pos + 1], " ;|/:", 1) &&
 				tilda(all, ps))
 			continue ;
-		if (line[all->ps->pos] == '\\')
-			all->ps->pos++;
-		ps->tmp2 = ft_letter_to_str(ps->tmp2, line[all->ps->pos++], 0);
+		if (line[ps->pos] == '\\')
+			ps->pos++;
+		ps->tmp2 = ft_letter_to_str(ps->tmp2, line[ps->pos++], 0);
 	}
 	if (ps->tmp2 && ps->tmp)
 		ps->tmp = ft_str_to_str(ps->tmp, ps->tmp2);
 	else if (ps->tmp2)
-		ps->tmp = ps->tmp2;
+	{
+		if (nmb && ps->pos > 0 && ft_isdigit(line[ps->pos - 1]) && is_smb_in_str(line[ps->pos], "><", 0))
+		{
+			all->tok->fd_red = ft_str_to_array(all->tok->fd_red, ps->tmp2);
+			ps->tmp2 = NULL;
+			redirect(all, line, &all->tok->fd_red, ps);
+		}
+		else
+			ps->tmp = ps->tmp2;
+	}
 	ps->tmp2 = NULL;
 	return (0);
 }
