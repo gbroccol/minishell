@@ -3,13 +3,13 @@
 
 #include "libft.h"
 
-static char			**ft_sort_array2(char **array)
+static char			**ft_sort_array2(char **array, int array_len)
 {
 	int			i;
 	char		*tmp;
 
 	i = 0;
-	while (i < 15)
+	while (i < array_len - 1)
 	{
 		if (ft_strcmp(array[i], array[i + 1]) > 0)
 		{
@@ -49,5 +49,5 @@ char			**ft_sort_array(char **env)
 		}
 		ascii_smb++;
 	}
-	return (ft_sort_array2(new_ar));
+	return (ft_sort_array2(new_ar, array_len));
 }

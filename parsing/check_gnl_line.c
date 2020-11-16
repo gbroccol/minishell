@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:29:50 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 19:29:51 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 16:10:37 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ static int		check_str_pipe(char *str)
 			str[i] == ' ' || (str[i] >= '\t' && str[i] <= '\r')))
 			i--;
 		if (str[i] == '|')
-			return (1);
-		return (0);
+			return (0);
+		return (1);
 	}
-	return (0);
+	return (1);
 }
 
 static int		check_err_middle(char *str, int i)
@@ -57,62 +57,98 @@ static int		check_err_middle(char *str, int i)
 	return (i);
 }
 
-int				check_err_redir(char *str, int i)
+int				check_err_redir(char *str, t_pars *ps)
 {
-	if (str[i] == '<' && str[i + 1] == '<')
+	if (str[ps->pos] == '<' && str[ps->pos + 1] == '<')
 		return (1);
-	else if (str[i] == '>' && str[i + 1] == '<')
+	else if (str[ps->pos] == '>' && str[ps->pos + 1] == '<')
 		return (1);
-	else if (str[i] == '<' && str[i + 1] == '>')
+	else if (str[ps->pos] == '<' && str[ps->pos + 1] == '>')
 		return (1);
-	else if ((str[i + 1] == '>' || str[i + 2] == '<') &&
-				(str[i + 1] == '>' || str[i + 2] == '<'))
+	else if ((str[ps->pos + 1] == '>' || str[ps->pos + 1] == '<') &&
+				(str[ps->pos + 2] == '>' || str[ps->pos + 2] == '<'))
 		return (1);
-	i++;
-	if (str[i] == '>')
-		i++;
-	while (str[i] == ' ' || str[i] == '\t')
-		i++;
-	if (str[i] == '|' || str[i] == ';' || str[i] == '\0' || ft_isprint(str[i]) == 0)
+	ps->pos++;
+	if (str[ps->pos] == '>')
+		ps->pos++;
+	while (str[ps->pos] == ' ' || str[ps->pos] == '\t')
+		ps->pos++;
+	if (str[ps->pos] == '|' || str[ps->pos] == ';' || str[ps->pos] == '\0' || ft_isprint(str[ps->pos]) == 0)
 		return (1);
 	return (0);
 }
 
-static void		check_err(t_all *all, char *str)
+static int		check_err_share_smb(t_all *all, char *str, t_pars *ps)
 {
-	int			i;
-
-	i = 0;
-	while (str[i] != '\0')
+	ps->pos = 0;
+	while (str[ps->pos] != '\0')
 	{
-		while (str[i] == ' ' || str[i] == '\t')
-			i++;
-		if (str[i] == ';' || str[i] == '|')
+		while (str[ps->pos] == ' ' || str[ps->pos] == '\t')
+			ps->pos++;
+		if (str[ps->pos] == ';' || str[ps->pos] == '|')
 		{
 			all->syntax = 1;
-			return ;
+			return (1);
 		}
-		if ((str[i] == '>' || str[i] == '<') && check_err_redir(str, i))
+		ps->pos = check_err_middle(str, ps->pos);
+		if (str[ps->pos] == ';')
+			ps->pos++;
+		else if (str[ps->pos] == '|')
 		{
-			all->syntax = 1;
-			return ;
-		}
-		i = check_err_middle(str, i);
-		if (str[i] == ';')
-			i++;
-		else if (str[i] == '|')
-		{
-			i++;
-			if (str[i] == '|')
-				i++;
+			ps->pos++;
+			if (str[ps->pos] == '|')
+				ps->pos++;
 		}
 	}
+	return (0);
+}
+
+int				check_err_red_smb(t_all *all, char *str, t_pars *ps)
+{
+	ps->pos = 0;
+	while (str[ps->pos] != '\0')
+	{
+		while (str[ps->pos] != '\'' && str[ps->pos] != '\"'
+				&& str[ps->pos] != '>' && str[ps->pos] != '<' && str[ps->pos] != '\0')
+			ps->pos++;
+		if (str[ps->pos] == '\'')
+		{
+			while (str[ps->pos] != '\'' && str[ps->pos] != '\0')
+				ps->pos++;
+			if (str[ps->pos] == '\'')
+				ps->pos++;
+		}
+		if (str[ps->pos] == '\"')
+		{
+			while (str[ps->pos] != '\"' && str[ps->pos] != '\0')
+				ps->pos++;
+			if (str[ps->pos] == '\"')
+				ps->pos++;
+		}
+		if (str[ps->pos] == '>' || str[ps->pos] == '<')
+		{
+			if (ps->pos > 0 && str[ps->pos - 1] != '\\')
+			{
+				if (check_err_redir(str, all->ps))
+				{
+					all->syntax = 1;
+					return (1);
+				}
+			}
+			else
+				ps->pos++;
+		}
+	}
+	return (0);
 }
 
 int				check_gnl_line(t_all *all, char *str)
 {
-	check_err(all, str);
-	if (check_str_pipe(str) == 0)
-		return (0);
-	return (1);
+	if (check_err_share_smb(all, str, all->ps))
+		return (1);
+	if (check_err_red_smb(all, str, all->ps))
+		return (1);
+	if (check_str_pipe(str))
+		return (1);
+	return (0);
 }

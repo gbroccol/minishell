@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/16 15:51:33 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/16 13:57:38 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,9 @@
 typedef struct		s_pars
 {
 	int				pos;
-
 	int				red_pos;
 	char			**red_files;
 	int				er_redir;
-	
-		
 	char			*status;
 	int				env_line;
 	int				env_pos;
@@ -79,8 +76,6 @@ typedef struct		s_token
 	char			**redirect;
 	char			**fd_red;
 	int				pipe;
-	// char			*tmp; 
-	// char			*tmp2;
 	int				flag_n;
 	
 }					t_token;

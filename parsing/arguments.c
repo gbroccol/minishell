@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:28:23 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 16:28:27 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 13:08:12 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ static int	create_line(t_all *all, char *line, t_pars *ps)
 	else if ((line[all->ps->pos] == '>' || line[all->ps->pos] == '<') && redirect(all, line, &all->tok->redirect, ps))
 		return (1);
 	else
-		quote_no(all, line, ps); //, 0);
+		quote_no(all, line, ps);
 	return (0);
 }
 
 int			arguments(t_all *all, char *line, t_pars *ps)
 {
 	all->tok->redirect = NULL;
+	all->tok->fd_red = NULL;
 	while (is_smb_in_str(line[ps->pos], ";|", 1) == 0)
 	{
 		while (is_smb_in_str(line[ps->pos], " \t", 0))

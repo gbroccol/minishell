@@ -66,6 +66,7 @@ static t_token	*clear_all_tok(void)
 	tok->cmd = NULL;
 	tok->args = NULL;
 	tok->redirect = NULL;
+	tok->fd_red = NULL;
 	tok->pipe = 0;
 	tok->flag_n = 0;
 	return (tok);

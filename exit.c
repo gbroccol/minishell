@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 16:59:01 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/16 14:09:32 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/16 13:07:39 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void		exit_all_tok(t_token *tok)
 	if (tok->redirect)
 		ft_free_array(tok->redirect);
 	tok->redirect = NULL;
-	
+	if (tok->fd_red)
+		ft_free_array(tok->fd_red);
+	tok->fd_red = NULL;
 }
 
 void		exit_all_ps(t_pars *ps)
