@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 15:24:43 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 18:39:17 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 19:50:41 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void			rewrite_eof(char **str)
 	*str[i - 1] = '\0';
 }
 
-int				get_next_line(int fd, char **line)
+int				get_next_line_dif(int fd, char **line)
 {
 	static char	*s_fd[2000];
 	char		buf[BUFFER_SIZE + 1];
@@ -101,9 +101,9 @@ int				get_next_line(int fd, char **line)
 		{
 			buf[line_len] = '\0';
 			write(0, "  \b\b", 4);
+			s_fd[fd] = write_surplus(&s_fd[fd], buf);
 			if (buf[0] == '\0' && s_fd[fd][0] == '\0' && line_len == 0)
 				return (2);
-			s_fd[fd] = write_surplus(&s_fd[fd], buf);
 			if (ft_find_n(buf) || !s_fd[fd])
 				break ;
 		}

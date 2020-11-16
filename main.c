@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/16 18:24:58 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 20:22:27 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,21 +141,25 @@ void	creat_files(t_pars *ps)
 	int	fd;
 
 	i = 0;
-	
-	// print_array(ps->red_files);
-	// write(1, "__________\n", 11);
-	// check if stop creating
-	
 	while (ps->red_files && ps->red_files[i])
 	{
-		// write(1, ps->red_files[i], ft_strlen(ps->red_files[i]));
-		i++;
-		if (ps->red_files[i])
+		if (ft_strcmp(ps->red_files[i], "<") == 0)
 		{
-			// write(1, ps->red_files[i], ft_strlen(ps->red_files[i]));
-			fd = open(ps->red_files[i], O_CREAT, 0666);
+			if ((fd = open(ps->red_files[i], O_RDONLY, 0666) < 0))
+				break ;
 			close(fd);
+			i = i + 2; // check sega ???
+			continue ;
+		}
+		else
+		{
 			i++;
+			if (ps->red_files[i])
+			{
+				fd = open(ps->red_files[i], O_CREAT, 0666);
+				close(fd);
+				i++;
+			}
 		}
 	}
 }
@@ -165,7 +169,7 @@ void	write_redir_files(t_all *all, char *str, t_pars *ps)
 	while (is_smb_in_str(str[ps->pos], ";\'\"", 1) == 0)
 	{
 		// if (is_smb_in_str(str[ps->pos], "<>", 0))
-		if (is_smb_in_str(str[ps->pos], ">", 0))
+		if (is_smb_in_str(str[ps->pos], "<>", 0))
 		{
 			if (ps->pos > 0 && str[ps->pos - 1] == '\\')
 				ps->pos = ps->pos + 2;
@@ -264,17 +268,21 @@ int		loop(t_all *all)
 				all->ps->red_pos = check_redir_files(all, all->gnl_line, all->ps);
 				all->ps->pos = tmp_pos;
 				
-				// print_array(all->ps->red_files);
-				// write(1, "__________\n", 11);
+				
 			}
+			
+			
 			
 			if (!all->ps->er_redir)
 			{
 				all->ret_pars = parsing(all, all->ps); // 1 - stop parsing 0 - continue parsing
 			}
 	
-			print_array(all->tok->redirect);
-			write(1, "__________\n", 11);
+			// print_array(all->tok->args);
+			// write(1, "_____ar_____\n", 13);
+			
+			// print_array(all->tok->redirect);
+			// write(1, "_____re_____\n", 13);
 			
 			if (!all->ps->er_redir)
 				all->ret_ex = execute(all);
