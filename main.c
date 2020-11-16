@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/16 16:16:15 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 18:24:58 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,21 +135,25 @@ void		print_array(char **ar)
 	}
 }
 
-void	creat_files(char **red_files)
+void	creat_files(t_pars *ps)
 {
 	int	i;
 	int	fd;
 
 	i = 0;
 	
+	// print_array(ps->red_files);
+	// write(1, "__________\n", 11);
 	// check if stop creating
 	
-	while (red_files && red_files[i])
+	while (ps->red_files && ps->red_files[i])
 	{
+		// write(1, ps->red_files[i], ft_strlen(ps->red_files[i]));
 		i++;
-		if (red_files[i])
+		if (ps->red_files[i])
 		{
-			fd = open(red_files[i], O_CREAT, 0666);
+			// write(1, ps->red_files[i], ft_strlen(ps->red_files[i]));
+			fd = open(ps->red_files[i], O_CREAT, 0666);
 			close(fd);
 			i++;
 		}
@@ -160,7 +164,8 @@ void	write_redir_files(t_all *all, char *str, t_pars *ps)
 {
 	while (is_smb_in_str(str[ps->pos], ";\'\"", 1) == 0)
 	{
-		if (is_smb_in_str(str[ps->pos], "<>", 0))
+		// if (is_smb_in_str(str[ps->pos], "<>", 0))
+		if (is_smb_in_str(str[ps->pos], ">", 0))
 		{
 			if (ps->pos > 0 && str[ps->pos - 1] == '\\')
 				ps->pos = ps->pos + 2;
@@ -170,6 +175,8 @@ void	write_redir_files(t_all *all, char *str, t_pars *ps)
 		else
 			ps->pos++;
 	}
+	while (is_smb_in_str(str[ps->pos], " \t\a", 1) == 0)
+		ps->pos++;
 }
 
 int	check_redir_files(t_all *all, char *str, t_pars *ps)
@@ -199,11 +206,16 @@ int	check_redir_files(t_all *all, char *str, t_pars *ps)
 	if (str[ps->pos] == ';')
 		ps->pos++;
 	
-	creat_files(ps->red_files);
+
+	// print_array(ps->red_files);
+	// write(1, "__________\n", 11);
 	
-	if (ps->red_files)
-		ft_free_array(ps->red_files);
-	ps->red_files = NULL;
+	
+	creat_files(ps);
+	
+	// if (ps->red_files)
+	// 	ft_free_array(ps->red_files);
+	// ps->red_files = NULL;
 	return (all->ps->pos);
 }
 
@@ -251,8 +263,7 @@ int		loop(t_all *all)
 				tmp_pos = all->ps->pos;
 				all->ps->red_pos = check_redir_files(all, all->gnl_line, all->ps);
 				all->ps->pos = tmp_pos;
-
-
+				
 				// print_array(all->ps->red_files);
 				// write(1, "__________\n", 11);
 			}
@@ -262,8 +273,8 @@ int		loop(t_all *all)
 				all->ret_pars = parsing(all, all->ps); // 1 - stop parsing 0 - continue parsing
 			}
 	
-			// print_array(all->tok->fd_red);
-			// write(1, "__________\n", 11);
+			print_array(all->tok->redirect);
+			write(1, "__________\n", 11);
 			
 			if (!all->ps->er_redir)
 				all->ret_ex = execute(all);

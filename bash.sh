@@ -68,7 +68,7 @@ echo 42 > 2 ; echo 22 >> 2 ; cat -e  2                          # + l
 grep 2 < 1                                                      # + l
 echo < 1                                                        # + l
 grep < 1                                                        # + l
-grep 4 < 1 | cat -e                                            	# + l
+grep 4 < 1 | cat -e                                            				# - l КАТЯ
 export qwe=123456 ; echo $qwe                                   # + l
 echo "qwe"'qwe'                                                 # + l
 echo "qwe" 'qwe'                                                # +
@@ -112,7 +112,7 @@ echo $fdsgbkldmbklfdsmklfmd                                                     
 echo str1"'str2'"                                                               # + l
 echo str1"'$str2'"                                                              # +
 echo 'str1'str2"str3 $PWD str4" "str5"'$PWD' $PWD "$PWD"                        # + l
-echo "hello><; world"                                                           # + l
+echo "hello><; world"                                                         				  # - l НАСТЯ
 echo $hfkdghldf$PWD                                                             # +
 echo ' """" '                                                                   # +
 echo " '''''' "                                                                 # +
@@ -216,19 +216,20 @@ echo "hi" > 18 > 19 > 20                                                        
 echo 123 123\> 6																# +
 echo 123 123\>>> 6																# +
 123>5																			# +
-echo 123> 1                                                                     # +
-echo 123jrd> 3                                                                  # -
-echo 123 123> 1																	# -
+echo 123> 1                                                                     # - КАТЯ
+echo 123jrd> 3                                                                  # +
+echo 123 123> 1																	# - КАТЯ
 echo                                                                            # + l
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # + l
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # + l
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # - l КАТЯ
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # - l КАТЯ
 \ls\ ;                                                                          # + l
-cd																				# -
-export PWD=/Users/GBroccol														# -
-pwd																				# -
-export HOME=/Users/GBroccol														# -
-cd																				# -
-pwd																				# -
+cd																				# +
+export HOME=/Users/PViVian														# +
+pwd																				# +
+export HOME=/Users/PViVian														# - КАТЯ
+export																			# - КАТЯ
+cd																				# - КАТЯ
+pwd																				# - КАТЯ
 echo -n -nnnnn 5                                                                # + l
 export N=n                                                                      # + l
 echo -n -nnnnn -$N write                                                        # + l
@@ -236,32 +237,32 @@ echo -n -nnnnn -$N write                                                        
 /bin/ls																			# + l
 /bin/ls -la 																	# + l
 /bin/ls -la ~/school21															# + l
-echo $XPC_FLAGS                   -> 0x0                                       	# -
-echo $XPC_FLAGS                   -> 0x#0                                       # -
-echo $XPC_FLAGS                   -> 0x||0                                      # -
+echo $XPC_FLAGS                   -> 0x0                                       	# +
+echo $XPC_FLAGS                   -> 0x#0                                       # +
+echo $XPC_FLAGS                   -> 0x||0                                      # +
 echo nsdjknv -n																	# + l
 exit 42																			# + l
 echo $?																			# + l
-bash																			# -
+bash																			# +
 ls > 66 ; ls >>>> 77															# +
-echo 123 > 1 ; pwd > 2 | echo $? >> 3											# -
-ls > 3 | ls > 4 ; ls > 5														# -
-ls > a | ls > b 																# - l
-ls > a >> b | pwd | cat -e >> b													# -
-ls > a > b > c | cat -e < c														# -
-ls > a > b | cat -e < b															# -
-ls | cat -e < b																	# -
-pwd | cat -e | cat -e > a >> b | pwd | cat -e >> b								# -
-cat -e < a 																		#КАТЯ cat продолжает читать
-echo 5 | exit																	# -
-exit																			# -
+echo 123 > 1 ; pwd > 2 | echo $? >> 3											# +
+ls > 3 | ls > 4 ; ls > 5														# +
+ls > a | ls > b 																# + l
+ls > a >> b | pwd | cat -e >> b													# - НАСТЯ
+ls > a > b > c | cat -e < c														# - КАТЯ
+ls > a > b | cat -e < b															# - КАТЯ
+ls | cat -e < b																	# - КАТЯ
+pwd | cat -e | cat -e > a >> b | pwd | cat -e >> b								# +
+cat -e < a 																		# +
+echo 5 | exit																	# +
+exit																			# +
 wc Makefile																		# +
 wc < Makefile																	# +
-cd exit.o 																		# -
-echo $?																			# -
->																				# +
->;																				# +
-> ;																				# +
+cd exit.o 																		# - КАТЯ
+echo $?																			# - КАТЯ
+>																				# - НАСТЯ
+>;																				# - НАСТЯ
+> ;																				# - НАСТЯ
 >>>>																			# +
 
 # >, >> - перенаправление стандартного вывода программы в файл
@@ -355,12 +356,12 @@ cd Desktop																			# + l
 pwd																					# + l
  
 ###############################################################################################
-export																						# - Нужна сортировка
+export																						# +
 
-ex $FINAL=5																					# - КАТЯ
+export $FINAL=5																				# +
 env
 
-ex $FINAL=BASH																				# - КАТЯ
+export $FINAL=BASH																			# +
 env
 
 FINAL=SUN																					# - КАТЯ
