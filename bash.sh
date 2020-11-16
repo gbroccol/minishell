@@ -13,9 +13,9 @@ echo 10 > 'abc'"f"                                               # + l
 echo 'Hello World!'                                              # + l
 echo jbkjnk                                                      # + l
 echo abc def                                                     # + l
-echo abc             def                                         # +
-     echo    890     345                                         # +
-ECHO 1223                                                        # +
+echo abc             def                                         # + l
+     echo    890     345                                         # + l
+ECHO 1223                                                        # + l
 echo "123" "456"                                                 # +
 echo "$"                                                         # +
 echo "$/"                                                        # +
@@ -45,46 +45,35 @@ echo 123 ; echo Это \# не комментарий                           
 echo $LOGNAME                                                    # + l
 echo $LOGNAME\ууу                                                # +
 echo $LOGNAME/ууу                                                # +
-
 echo "123 $LOGNAME 456"                                          # +
 echo "123 $LOGNAMEeee 456"                                       # +
 echo "$LOGNAME/eee"                                              # +
-
 echo '$LOGNAME/eee'                                              # + l
 echo '$LOGNAME\eee   |'                                          # +
 echo '$PWD'                                                      # +
 echo $PWD                                                        # +
 echo "$PWD"                                                      # +
-
 echo -n 5 | cat -e                                              # + l
 echo 5 | cat -e                                                 # + 
 echo "dd" | cat -e                                              # +
 echo '||' | cat -e                                              # +
 echo 42 23 | grep 4 | cat -e                                    # + l
 ls 1111111 | grep 111 | cat -e                                  # +
-
 echo 123 > 1                                                    # + l
 echo '123 > 2'                                                  # + l
 echo "123 > 1"                                                  # + l
 echo > 1                                                        # + l
 echo "> 1"                                                      # + l
-
 echo 42 > 2 ; echo 22 >> 2 ; cat -e  2                          # + l
 grep 2 < 1                                                      # + l
 echo < 1                                                        # + l
 grep < 1                                                        # + l
 grep 4 < 1 | cat -e                                            	# + l
-
 export qwe=123456 ; echo $qwe                                   # + l
-
 echo "qwe"'qwe'                                                 # + l
 echo "qwe" 'qwe'                                                # +
-
 ls                                                              # + l
 ./ls                                                           	# + l
-
-# bash: syntax error near unexpected token
-# start
 ;;                                                                             # + l 
 ;                                                                              # + l 
 |                                                                              # + l 
@@ -96,24 +85,17 @@ echo " \'   \\    \$    \`  "                                                  #
 echo ' \'   \\    \$    \`  ''                                                 # + l
 echo \'                                                                        # + l
 echo "\'"                                                                      # + l
-
 echo 5 | cat -e                                                                # + l
 echo 5 || cat -e                                                               # + l
 echo 5 ||| cat -e                                                              # + l
-
-echo 5 |                                                                       # + l
-|
-
+echo 5                                                                         # + l
 ls;;                                                                            # + l
 ls; ;                                                                           # + l
-
 ls |                                                                            # + l
 ls||                                                                            # + l
 ls | |                                                                          # + l
-
 echo $PWD                                                                       # +
 echo $321                                                                       # +
-
 echo $\321                                                                      # + l
 echo $|                                                                         # +
 echo $|cat                                                                      # +
@@ -125,10 +107,7 @@ echo $'321'                                                                     
 echo $ 321                                                                      # +
 echo $"321"                                                                     # +
 echo "$'321"                                                                    # +
-
-
 export qwe=123456 ; echo $qwe													# + l
-
 echo $fdsgbkldmbklfdsmklfmd                                                     # + l
 echo str1"'str2'"                                                               # + l
 echo str1"'$str2'"                                                              # +
@@ -144,7 +123,6 @@ echo """""""""",         wtf     :""                                            
 echo """""""""",         wtf     :""                                            # +
 echo '"""""""""",         wtf     :""'                                          # + l
 echo hello                       happy                               man        # +
-
 export = ; echo $?                                                              # + l
 export =  ; echo $?                                                             # + l
 export =123  ; echo $?                                                          # + l
@@ -167,9 +145,6 @@ echo $? ; ls ; echo $?...                                                       
 'e'c"h"o 5                                                                      # + l
 'echo' 5                                                                        # +
 'ec"h"o' 5                                                                      # +
-
-
-
 ...$?...                                                                        # + l
 echo $? ; ls ; ...$?...                                                         # + l
 ...$?... ; echo $? ; ls ; ...$?...                                              # + l
@@ -238,23 +213,22 @@ echo "hi" ">" "18" '>' '19' > 20                                                
 echo "hi" ">" 18 '>' 19 > 20                                                    # + l
 echo "hi" ">" 18 > 19 > 20                                                      # + l
 echo "hi" > 18 > 19 > 20                                                        # + l
-
-echo 123 123\> 6
-echo 123 123\>>> 6
-123>5
-echo 123> 1                                                                    # - прости меня, КАТЯ НАСТЯ
-echo 123jrd> 3                                                                  # + l
-echo 123 123> 1
+echo 123 123\> 6																# +
+echo 123 123\>>> 6																# +
+123>5																			# +
+echo 123> 1                                                                     # +
+echo 123jrd> 3                                                                  # -
+echo 123 123> 1																	# -
 echo                                                                            # + l
 echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # + l
 echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # + l
 \ls\ ;                                                                          # + l
-cd
-export PWD=/Users/GBroccol
-pwd
-export HOME=/Users/GBroccol
-cd
-pwd
+cd																				# -
+export PWD=/Users/GBroccol														# -
+pwd																				# -
+export HOME=/Users/GBroccol														# -
+cd																				# -
+pwd																				# -
 echo -n -nnnnn 5                                                                # + l
 export N=n                                                                      # + l
 echo -n -nnnnn -$N write                                                        # + l
@@ -268,34 +242,27 @@ echo $XPC_FLAGS                   -> 0x||0                                      
 echo nsdjknv -n																	# + l
 exit 42																			# + l
 echo $?																			# + l
-bash
-#export написать по алфавиту НАСТЯ
-
-ls > 66 ; ls >>>> 77
-echo 123 > 1 ; pwd > 2 | echo $? >> 3
-ls > 3 | ls > 4 ; ls > 5
+bash																			# -
+ls > 66 ; ls >>>> 77															# +
+echo 123 > 1 ; pwd > 2 | echo $? >> 3											# -
+ls > 3 | ls > 4 ; ls > 5														# -
 ls > a | ls > b 																# - l
-ls > a >> b | pwd | cat -e >> b
-ls > a > b > c | cat -e < c
-ls > a > b | cat -e < b
-ls | cat -e < b
-pwd | cat -e | cat -e > a >> b | pwd | cat -e >> b
-cat -e < a #КАТЯ cat продолжает читать
-echo 5 | exit
-exit
+ls > a >> b | pwd | cat -e >> b													# -
+ls > a > b > c | cat -e < c														# -
+ls > a > b | cat -e < b															# -
+ls | cat -e < b																	# -
+pwd | cat -e | cat -e > a >> b | pwd | cat -e >> b								# -
+cat -e < a 																		#КАТЯ cat продолжает читать
+echo 5 | exit																	# -
+exit																			# -
 wc Makefile																		# +
 wc < Makefile																	# +
-
-
-cd exit.o
-echo $?
-
+cd exit.o 																		# -
+echo $?																			# -
 >																				# +
 >;																				# +
 > ;																				# +
 >>>>																			# +
-
-
 
 # >, >> - перенаправление стандартного вывода программы в файл
 # < - перенаправление стандартного ввода программы из файла

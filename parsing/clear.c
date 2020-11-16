@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:30:55 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 15:48:16 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 13:05:11 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ static t_token	*clear_all_tok(void)
 	tok->cmd = NULL;
 	tok->args = NULL;
 	tok->redirect = NULL;
+	tok->fd_red = NULL;
 	tok->pipe = 0;
 	tok->flag_n = 0;
 	return (tok);

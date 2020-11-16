@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 16:59:01 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 15:14:25 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 13:07:39 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void		exit_all_tok(t_token *tok)
 	if (tok->redirect)
 		ft_free_array(tok->redirect);
 	tok->redirect = NULL;
-	
+	if (tok->fd_red)
+		ft_free_array(tok->fd_red);
+	tok->fd_red = NULL;
 }
 
 void		exit_all_ps(t_pars *ps)
