@@ -220,8 +220,8 @@ echo 123> 1                                                                     
 echo 123jrd> 3                                                                  # +
 echo 123 123> 1																	# - КАТЯ
 echo                                                                            # + l
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # - l НАСТЯ
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # - l НАСТЯ
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # - l КАТЯ
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # - l КАТЯ
 \ls\ ;                                                                          # + l
 cd																				# +
 export HOME=/Users/PViVian														# +
