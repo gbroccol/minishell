@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/16 16:16:15 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 16:37:49 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,8 @@ void	write_redir_files(t_all *all, char *str, t_pars *ps)
 {
 	while (is_smb_in_str(str[ps->pos], ";\'\"", 1) == 0)
 	{
-		if (is_smb_in_str(str[ps->pos], "<>", 0))
+		// if (is_smb_in_str(str[ps->pos], "<>", 0))
+		if (is_smb_in_str(str[ps->pos], ">", 0))
 		{
 			if (ps->pos > 0 && str[ps->pos - 1] == '\\')
 				ps->pos = ps->pos + 2;

@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/16 16:24:45 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/16 16:53:57 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,31 +119,31 @@ int				execute(t_all *all)
 	t_token		*token;
 	int			r_redir;
 	int			*tmp;
-	// int i = 0;
-	// int j = 0;
-	// int size = 0;
+	int i = 0;
+	int j = 0;
+	int size = 0;
 	
 	token = all->tok;
 	ret = 1;
 	r_redir = 0;
 	if (token->type_func == -1)
 		return (ret);
-	// if (token->fd_red)
-	// {
-	// 	while (token->fd_red[i] != NULL)
-	// 		size++;
-	// 	size = size / 3;
-	// 	if (!(tmp = (int *)malloc(sizeof(int) * size)))
-	// 		return (ret);
-	// 	i = 0;
-	// 	while (token->fd_red[i] != NULL)
-	// 	{
-	// 		tmp[j] = dup(ft_atoi(token->fd_red[i]));
-	// 		dup2(ft_atoi(token->fd_red[i + 2]), ft_atoi(token->fd_red[i]));
-	// 		j++;
-	// 		i += 3;
-	// 	}
-	// }
+	if (token->fd_red)
+	{
+		while (token->fd_red[size] != NULL)
+			size++;
+		size = size / 3;
+		if (!(tmp = (int *)malloc(sizeof(int) * size)))
+			return (ret);
+		i = 0;
+		while (token->fd_red[i] != NULL)
+		{
+			tmp[j] = dup(ft_atoi(token->fd_red[i]));
+			dup2(ft_atoi(token->fd_red[i + 2]), ft_atoi(token->fd_red[i]));
+			j++;
+			i += 3;
+		}
+	}
 	if (token->redirect)
 		if (check_redir(all, &r_redir) == -1)
 			return (ret);
@@ -193,18 +193,18 @@ int				execute(t_all *all)
 		close(all->fds[1]);
 		close(all->fds[0]);
 	}
-	// if (token->fd_red)
-	// {
-	// 	i = 0;
-	// 	j = 0;
-	// 	while (token->fd_red[i] != NULL)
-	// 	{
-	// 		dup2(tmp[j], ft_atoi(token->fd_red[i]));
-	// 		j++;
-	// 		i += 3;
-	// 	}
-	// 	free(tmp);
-	// }
+	if (token->fd_red)
+	{
+		i = 0;
+		j = 0;
+		while (token->fd_red[i] != NULL)
+		{
+			dup2(tmp[j], ft_atoi(token->fd_red[i]));
+			j++;
+			i += 3;
+		}
+		free(tmp);
+	}
 
 	return (ret);
 }
