@@ -401,3 +401,70 @@ export PATH=/bin																	# +
 ls																					# +
 
 #################################################################################
+
+
+echo bonjour > test                                                                                                                                                                                                                 [FAIL]
+echo > test bonjour                                                                                                                                                                                                                 [FAIL]
+> test echo bonjour                                                                                                                                                                                                                 [FAIL]
+echo bonjour >> test                                                                                                                                                                                                                [FAIL]
+echo >> test bonjour                                                                                                                                                                                                                [FAIL]
+>> test echo bonjour                                                                                                                                                                                                                [FAIL]
+[SETUP echo bonjour > test] cat < test                                                                                                                                                                                              [FAIL]
+echo bonjour > test                                                                                                                                                                                                                 [FAIL]
+echo > test'sticked' bonjour                                                                                                                                                                                                        [FAIL]
+> test'sticked' echo bonjour                                                                                                                                                                                                        [FAIL]
+echo bonjour >> test'sticked'                                                                                                                                                                                                       [FAIL]
+echo >> test'sticked' bonjour                                                                                                                                                                                                       [FAIL]
+>> test'sticked' echo bonjour                                                                                                                                                                                                       [FAIL]
+[SETUP echo bonjour > test'sticked'] cat < test'sticked'                                                                                                                                                                            [FAIL]
+[SETUP echo bonjour > test'sticked'] < test'sticked' cat                                                                                                                                                                            [FAIL]
+echo > test"sticked" bonjour                                                                                                                                                                                                        [FAIL]
+> test"sticked" echo bonjour                                                                                                                                                                                                        [FAIL]
+echo bonjour >> test"sticked"                                                                                                                                                                                                       [FAIL]
+echo >> test"sticked" bonjour                                                                                                                                                                                                       [FAIL]
+>> test"sticked" echo bonjour                                                                                                                                                                                                       [FAIL]
+[SETUP echo bonjour > test"sticked"] cat < test"sticked"                                                                                                                                                                            [FAIL]
+[SETUP echo bonjour > test"sticked"] < test"sticked" cat                                                                                                                                                                            [FAIL]
+echo > test'yo'"sticked" bonjour                                                                                                                                                                                                    [FAIL]
+> test'yo'"sticked" echo bonjour                                                                                                                                                                                                    [FAIL]
+echo bonjour >> test'yo'"sticked"                                                                                                                                                                                                   [FAIL]
+echo >> test'yo'"sticked" bonjour                                                                                                                                                                                                   [FAIL]
+>> test'yo'"sticked" echo bonjour                                                                                                                                                                                                   [FAIL]
+[SETUP echo bonjour > test'yo'"sticked"] cat < test'yo'"sticked"                                                                                                                                                                    [FAIL]
+[SETUP echo bonjour > test'yo'"sticked"] < test'yo'"sticked" cat                                                                                                                                                                    [FAIL]
+echo bonjour > test > je > suis                                                                                                                                                                                                     [FAIL]
+echo > test > je bonjour > suis                                                                                                                                                                                                     [FAIL]
+> test echo bonjour > je > suis                                                                                                                                                                                                     [FAIL]
+echo bonjour >> test > je >> suis                                                                                                                                                                                                   [FAIL]
+echo >> test bonjour > je > suis                                                                                                                                                                                                    [FAIL]
+>> test echo > je bonjour > suis                                                                                                                                                                                                    [FAIL]
+[SETUP echo bonjour > test; echo salut > je] cat < test < je                                                                                                                                                                        [FAIL]
+echo bonjour>test>je>suis                                                                                                                                                                                                           [FAIL]
+>test echo bonjour>je>suis                                                                                                                                                                                                          [FAIL]
+echo bonjour>>test>je>>suis                                                                                                                                                                                                         [FAIL]
+[SETUP echo bonjour > test; echo salut > je] cat<test<je                                                                                                                                                                            [FAIL]
+echo bonjour > a'b'c'd'e'f'g'h'i'j'k'l'm'n'o'p'q'r's't'u'v'w'x'y'z'                                                                                                                                                                 [FAIL]
+echo bonjour > a"b"c"d"e"f"g"h"i"j"k"l"m"n"o"p"q"r"s"t"u"v"w"x"y"z"                                                                                                                                                                 [FAIL]
+echo bonjour > a'b'c"d"e'f'g"h"i'j'k"l"m'n'o"p'q'r"s't'u"v"w"x"y'z'                                                                                                                                                                 [FAIL]
+> file                                                                                                                                                                                                                              [FAIL]
+[SETUP echo bonjour > file] < file                                                                                                                                                                                                  [FAIL]
+>                                                                                                                                                                                                                                   [FAIL]
+>>                                                                                                                                                                                                                                  [FAIL]
+<                                                                                                                                                                                                                                   [FAIL]
+echo >
+echo >>
+echo <
+> test
+>> test
+[SETUP touch test] < test
+echo foo >>> bar
+echo foo >>>> bar
+echo foo >>>>> bar
+[SETUP echo bonjour > bar] cat << < bar
+[SETUP echo bonjour > bar] cat << << bar
+[SETUP echo bonjour > bar] cat <<<<< bar
+cat < doesnotexist
+[SETUP echo a > a] echo bonjour >> a
+[SETUP echo a > a] echo bonjour >> a >> a
+[SETUP echo a > a] echo bonjour > a
+[SETUP echo a > a] echo bonjour > a >> a

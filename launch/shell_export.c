@@ -6,29 +6,31 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/15 17:05:13 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/16 15:01:17 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int				replace_env(t_all *all, char *str)
+int				replace_env(char **array, char *str)
 {
 	int	i;
 	int	size;
 
 	i = 0;
 	size = 0;
+	if (!array)
+		return (1);
 	while (str[size] != '=' && str[size] != '\0')
 		size++;
-	while (all->env[i] != NULL)
+	while (array[i] != NULL)
 	{
-		if (!ft_strncmp(str, all->env[i], size) &&
+		if (!ft_strncmp(str, array[i], size) &&
 		ft_strchr(str, '='))
 		{
-			free(all->env[i]);
-			all->env[i] = NULL;
-			if (!(all->env[i] = ft_strdup(str)))
+			free(array[i]);
+			array[i] = NULL;
+			if (!(array[i] = ft_strdup(str)))
 				return (-1);
 			i = 0;
 			break ;
@@ -86,7 +88,7 @@ int				shell_export(t_token *token, t_all *all)
 	{
 		while (token->args[j] != NULL)
 		{
-			if ((i = replace_env(all, token->args[j])) < 0)
+			if ((i = replace_env(all->env, token->args[j])) < 0)
 				return (1);
 			if ((i != 0) || (token->args[j][0] == '='))
 			{
