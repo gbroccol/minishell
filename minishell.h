@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/15 16:40:08 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/16 15:51:33 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct		s_token
 	char			*cmd;
 	char			**args;
 	char			**redirect;
+	char			**fd_red;
 	int				pipe;
 	// char			*tmp; 
 	// char			*tmp2;
@@ -98,6 +99,7 @@ typedef struct		s_all
 	int				temp_1;
 	int				pre_pipe;
 	char			*home;
+	char			**local;
 	t_token			*tok;
 	t_pars			*ps;
 }					t_all;
@@ -133,9 +135,11 @@ int					shell_export(t_token *token, t_all *all);
 int					shell_env(char **env);
 int					shell_unset(t_token *token, char **env);
 int					check_pwd(char **env, char **executable);
-int					find_path(char **env, char **executable, t_all *all);
+int					find_path(char **env, char **executable);
 char				**new_env(t_all *all, char *str);
 int					check_new_env(t_all *all, char *str);
+int					check_env_key(char *str);
+int					replace_env(char **array, char *str);
 void				update_home(t_all *all, char *str);
 int					print_error(char *exec, char *exec2, char *err_to_print, int ret);
 void				ft_eof(void);

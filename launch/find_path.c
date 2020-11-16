@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:35:26 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/15 17:02:55 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/16 14:06:43 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ static char	*check_subdir(DIR *dir, char *executable, char *dirs)
 	return (prefix);
 }
 
-char		*find_prefix(char **dirs, char *executable, t_all *all)
+char		*find_prefix(char **dirs, char *executable)
 {
 	char			*prefix;
 	DIR				*dir;
@@ -113,15 +113,10 @@ char		*find_prefix(char **dirs, char *executable, t_all *all)
 			break ;
 		i++;
 	}
-	if (prefix == NULL)
-	{
-		print_error(all->tok->cmd, "", "command not found", 0);
-		all->status = 127;
-	}
 	return (prefix);
 }
 
-int			find_path(char **env, char **executable, t_all *all)
+int			find_path(char **env, char **executable)
 {
 	char	*path;
 	char	**dirs;
@@ -142,7 +137,7 @@ int			find_path(char **env, char **executable, t_all *all)
 	dirs = ft_split(tmp[0], ':');
 	ft_free_array(tmp);
 	free(path);
-	prefix = find_prefix(dirs, executable[0], all);
+	prefix = find_prefix(dirs, executable[0]);
 	ft_free_array(dirs);
 	if (!prefix)
 		return (1);

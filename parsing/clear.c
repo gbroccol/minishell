@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:30:55 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 15:48:16 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 14:19:23 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_all			*clear_all(char **envp)
 	all->pre_pipe = 0;
 	all->home = NULL;
 	all->home = search_env(all->env, "HOME=");
+	all->local = NULL;
 	all->tok = clear_all_tok();
 	all->ps = clear_all_ps();
 	return (all);

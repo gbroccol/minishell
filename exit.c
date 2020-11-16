@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 16:59:01 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 15:14:25 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 14:09:32 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void exit_all(t_all *all)
 	if (all->home)
 		free(all->home);
 	all->home = NULL;
+	if (all->local)
+		free(all->local);
+	all->local = NULL;
 	exit_all_tok(all->tok);
 	free(all->tok);
 	all->tok = NULL;
