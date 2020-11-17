@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   launch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/16 15:32:59 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 13:46:01 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 int		check_local(t_all *all)
 {

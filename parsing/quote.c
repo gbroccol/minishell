@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:34:23 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/16 15:52:48 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/17 13:30:19 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int		dollar(t_all *all, char *line, t_pars *ps)
 	}
 	if (line[all->ps->pos] == '$' && line[all->ps->pos + 1] != '=')
 	{
-		if (env(line, all->ps, all->env) == 0)
+		if (env(line, all->ps, all) == 0)
 		{
 			if (all->ps->env_str != NULL)
 				ps->tmp2 = ft_str_to_str(ps->tmp2, all->ps->env_str);
