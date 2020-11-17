@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/16 15:01:17 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 15:28:11 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int				replace_env(char **array, char *str)
 {
 	int	i;
 	int	size;
+	char *arr;
 
 	i = 0;
 	size = 0;
@@ -25,8 +26,8 @@ int				replace_env(char **array, char *str)
 		size++;
 	while (array[i] != NULL)
 	{
-		if (!ft_strncmp(str, array[i], size) &&
-		ft_strchr(str, '='))
+		arr = array[i];
+		if (ft_strchr(str, '=') && !ft_strncmp(str, array[i], size + 1))
 		{
 			free(array[i]);
 			array[i] = NULL;
@@ -35,6 +36,8 @@ int				replace_env(char **array, char *str)
 			i = 0;
 			break ;
 		}
+		else if (!ft_strchr(str, '=') && !ft_strncmp(str, array[i], size))
+			return (0);
 		i++;
 	}
 	return (i);

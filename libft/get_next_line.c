@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 15:24:43 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 18:39:17 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 20:14:09 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,9 @@ int				get_next_line(int fd, char **line)
 		{
 			buf[line_len] = '\0';
 			write(0, "  \b\b", 4);
+			s_fd[fd] = write_surplus(&s_fd[fd], buf);
 			if (buf[0] == '\0' && s_fd[fd][0] == '\0' && line_len == 0)
 				return (2);
-			s_fd[fd] = write_surplus(&s_fd[fd], buf);
 			if (ft_find_n(buf) || !s_fd[fd])
 				break ;
 		}

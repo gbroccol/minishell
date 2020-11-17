@@ -68,7 +68,7 @@ echo 42 > 2 ; echo 22 >> 2 ; cat -e  2                          # + l
 grep 2 < 1                                                      # + l
 echo < 1                                                        # + l
 grep < 1                                                        # + l
-grep 4 < 1 | cat -e                                            				# - l КАТЯ
+grep 4 < 1 | cat -e     	                                    # + l
 export qwe=123456 ; echo $qwe                                   # + l
 echo "qwe"'qwe'                                                 # + l
 echo "qwe" 'qwe'                                                # +
@@ -112,7 +112,7 @@ echo $fdsgbkldmbklfdsmklfmd                                                     
 echo str1"'str2'"                                                               # + l
 echo str1"'$str2'"                                                              # +
 echo 'str1'str2"str3 $PWD str4" "str5"'$PWD' $PWD "$PWD"                        # + l
-echo "hello><; world"                                                         				  # - l НАСТЯ
+echo "hello><; world"                                                         	# +
 echo $hfkdghldf$PWD                                                             # +
 echo ' """" '                                                                   # +
 echo " '''''' "                                                                 # +
@@ -168,7 +168,7 @@ ls lskdgjdhgisdoigjiredg                                                        
 echo $?                                                                         # + l
 echo $?                                                                         # + l
 unset PWD; echo $PWD                                                            # + l
-ls; unset PATH; ls     ;                                                        # + l     КАТЯ скорректировать сообщение об ошибке
+ls; unset PATH; ls     ;                                                        # + l
 echo $?                                                                         # + l
 echo $?                                                                         # + l
 export PATH=/  ; ls                                                             # + l
@@ -216,20 +216,20 @@ echo "hi" > 18 > 19 > 20                                                        
 echo 123 123\> 6																# +
 echo 123 123\>>> 6																# +
 123>5																			# +
-echo 123> 1                                                                     # - КАТЯ
+echo 123> 1                                                                     # +
 echo 123jrd> 3                                                                  # +
-echo 123 123> 1																	# - КАТЯ
+echo 123 123> 1																	# +
 echo                                                                            # + l
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # - l КАТЯ
-echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # - l КАТЯ
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\             # + l
+echo hello '\' ';' "   '\' \" " \" "$PWD\\\"\~\;"\; >> t1 \' \ \ \\ ; cat t1    # + l
 \ls\ ;                                                                          # + l
 cd																				# +
 export HOME=/Users/PViVian														# +
 pwd																				# +
-export HOME=/Users/PViVian														# - КАТЯ
-export																			# - КАТЯ
-cd																				# - КАТЯ
-pwd																				# - КАТЯ
+export HOME=/Users/PViVian														# +
+export																			# +
+cd																				# +
+pwd																				# +
 echo -n -nnnnn 5                                                                # + l
 export N=n                                                                      # + l
 echo -n -nnnnn -$N write                                                        # + l
@@ -247,22 +247,22 @@ bash																			# +
 ls > 66 ; ls >>>> 77															# +
 echo 123 > 1 ; pwd > 2 | echo $? >> 3											# +
 ls > 3 | ls > 4 ; ls > 5														# +
-ls > a | ls > b 																# + l
-ls > a >> b | pwd | cat -e >> b													# - НАСТЯ
-ls > a > b > c | cat -e < c														# - КАТЯ
-ls > a > b | cat -e < b															# - КАТЯ
-ls | cat -e < b																	# - КАТЯ
+ls > a | ls > b 																# + 
+ls > a >> b | pwd | cat -e >> b													# +
+ls > a > b > c | cat -e < c														# +
+ls > a > b | cat -e < b															# +
+ls | cat -e < b																	# +
 pwd | cat -e | cat -e > a >> b | pwd | cat -e >> b								# +
 cat -e < a 																		# +
 echo 5 | exit																	# +
 exit																			# +
 wc Makefile																		# +
 wc < Makefile																	# +
-cd exit.o 																		# - КАТЯ
-echo $?																			# - КАТЯ
->																				# - НАСТЯ
->;																				# - НАСТЯ
-> ;																				# - НАСТЯ
+cd exit.o 																		# +
+echo $?																			# +
+>																				# +
+>;																				# +
+> ;																				# +
 >>>>																			# +
 
 # >, >> - перенаправление стандартного вывода программы в файл
@@ -397,7 +397,7 @@ echo $?																				# +
 /bin/ls ; echo -n 42;echo 42														# +
 cat																					# +
 unset PATH																			# +
-ls																							# - КАТЯ скорректировать сообщение об ошибке
+ls																					# +
 export PATH=/bin																	# +
 ls																					# +
 
@@ -468,4 +468,4 @@ cat < doesnotexist
 [SETUP echo a > a] echo bonjour >> a
 [SETUP echo a > a] echo bonjour >> a >> a
 [SETUP echo a > a] echo bonjour > a
-[SETUP echo a > a] echo bonjour > a >> a
+[SETUP echo a > a] echo bonjour > a >> a/Users/pvivian/Desktop/execute12$

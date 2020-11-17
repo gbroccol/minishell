@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:44:42 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/15 16:27:12 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/17 12:35:09 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int			redirect(t_all *all, char *line, char ***red_ar, t_pars *ps)
 	while (is_smb_in_str(line[ps->pos], SHARE_SMB, 0))
 		ps->pos++;
 	ps->tmp = NULL;
-	while (is_smb_in_str(line[ps->pos], ";|<> ", 1) == 0)
+	while (is_smb_in_str(line[ps->pos], ";|<> \t", 1) == 0)
 	{
 		if (line[ps->pos] == '\'')
 			quote_one(line, ps);

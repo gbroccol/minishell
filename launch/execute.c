@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/16 16:53:57 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 15:12:09 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ static int		check_redir(t_all *all, int *r_redir)
 				close(all->fds[0]);
 				return (print_error(token->redirect[i + 1], "", "No such file or directory", -1));
 			}
-			// close(all->fds[1]);
 			all->fds[1] = fd;
 			dup2(all->fds[1], 1);
 			*r_redir = 1;
+			close(fd);
 			i++;
 		}
 		else if (!ft_strcmp(token->redirect[i], "<"))
@@ -93,9 +93,12 @@ static int		check_redir(t_all *all, int *r_redir)
 				close(all->fds[0]);
 				return (print_error(token->redirect[i], "", "No such file or directory", -1));
 			}
-			// close(all->fds[0]);
-			all->fds[0] = fd;
-			dup2(all->fds[0], 0);
+			if (all->pre_pipe == 0)
+			{
+				all->fds[0] = fd;
+				dup2(all->fds[0], 0);
+			}
+			close(fd);
 		}
 		i++;
 	}
@@ -122,6 +125,7 @@ int				execute(t_all *all)
 	int i = 0;
 	int j = 0;
 	int size = 0;
+	int fd = 0;
 	
 	token = all->tok;
 	ret = 1;
@@ -139,14 +143,25 @@ int				execute(t_all *all)
 		while (token->fd_red[i] != NULL)
 		{
 			tmp[j] = dup(ft_atoi(token->fd_red[i]));
-			dup2(ft_atoi(token->fd_red[i + 2]), ft_atoi(token->fd_red[i]));
+			fd = open(token->fd_red[i + 2], O_WRONLY);
+			dup2(fd, ft_atoi(token->fd_red[i]));
+			close(fd);
 			j++;
 			i += 3;
 		}
 	}
 	if (token->redirect)
+	{
 		if (check_redir(all, &r_redir) == -1)
-			return (ret);
+		{
+			if (token->pipe)
+			{
+				ft_eof();
+				all->pre_pipe = 1;
+			}
+			return (1);
+		}
+	}
 	if (token->pipe && r_redir == 0)
 		pipe(all->fds);
 	if (token->type_func >= TYPE_CD && token->type_func <= TYPE_UNSET)
@@ -156,7 +171,7 @@ int				execute(t_all *all)
 		if (token->type_func == TYPE_CD)
 			all->status = shell_cd(token, all->env, all);
 		else if (token->type_func == TYPE_PWD)
-			all->status = shell_pwd();
+			all->status = shell_pwd(all);
 		else if (token->type_func == TYPE_ECHO)
 			all->status = shell_echo(token);
 		else if (token->type_func == TYPE_EXIT)
@@ -199,6 +214,7 @@ int				execute(t_all *all)
 		j = 0;
 		while (token->fd_red[i] != NULL)
 		{
+			close(ft_atoi(token->fd_red[i]));
 			dup2(tmp[j], ft_atoi(token->fd_red[i]));
 			j++;
 			i += 3;
