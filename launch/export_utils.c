@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/16 14:43:31 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 17:45:39 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char		**new_env(t_all *all, char *str)
 	return (all->env);
 }
 
-int	check_env_key(char *str)
+int			check_env_key(char *str)
 {
 	int	i;
 

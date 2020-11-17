@@ -144,15 +144,15 @@ echo $? ; ls ; echo $?...                                                       
 ...$?...                                                                        # + l
 echo $? ; ls ; ...$?...                                                         # + l
 ...$?... ; echo $? ; ls ; ...$?...                                              # + l
-export str1 2str = _3str str4=str5   ; echo $?                                  # + leaks
- 'e'"x"p'o'r't'                                                                 # + leaks
-ec"ho" $str1 $str4                                                              # + leaks 
- 'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # + leaks
-  'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # + leaks
-echo "hello;"; $q'c'"h"o $test                                                  # + leaks
-echo "hello;"; $q'c'"h"o $test                                                  # + leaks
-$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # + leaks
-cd -; pwd                                                                       # + leaks
+export str1 2str = _3str str4=str5   ; echo $?                                  # + l
+ 'e'"x"p'o'r't'                                                                 # + l
+ec"ho" $str1 $str4                                                              # + l 
+ 'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # + l
+  'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # + l
+echo "hello;"; $q'c'"h"o $test                                                  # + l
+echo "hello;"; $q'c'"h"o $test                                                  # + l
+$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # + l
+cd -; pwd                                                                       # + l
 $lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # + l
  echo         \'\"\\                                                            # + l
 echo ~                                                                          # + l

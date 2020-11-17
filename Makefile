@@ -6,7 +6,7 @@
 #    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/11/13 18:10:36 by pvivian          ###   ########.fr        #
+#    Updated: 2020/11/17 20:31:23 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,8 +34,12 @@ SRC			= \
 				launch/shell_exit.c \
 				launch/shell_export.c \
 				launch/launch.c \
+				launch/processes.c \
 				launch/find_path.c \
 				launch/export_utils.c \
+				launch/check_env.c \
+				launch/export_new_env.c \
+				launch/fd_redirection.c \
 				exit.c
 					
 OBJ			= $(SRC:.c=.o)
