@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:31:56 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/11 19:32:05 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/17 13:00:40 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,17 @@ void			command(t_token *tok)
 	{
 		tok->cmd = ft_strdup(tok->args[0]);
 		index = 0;
-		while (tok->args[0][index] != '\0')
+		
+		if (tok->args[0][0] == '=' ||
+				ft_isdigit(tok->args[0][0]) ||
+				check_env_key(tok->args[0]) ||
+				!strchr(tok->args[0], '='))
 		{
-			tok->args[0][index] = ft_tolower(tok->args[0][index]);
-			index++;
+			while (tok->args[0][index] != '\0')
+			{
+				tok->args[0][index] = ft_tolower(tok->args[0][index]);
+				index++;
+			}
 		}
 		choose_com(tok, tok->args[0]);
 	}

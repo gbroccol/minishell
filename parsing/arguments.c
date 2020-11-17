@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:28:23 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/16 13:08:12 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 19:21:17 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	create_line(t_all *all, char *line, t_pars *ps)
 
 int			arguments(t_all *all, char *line, t_pars *ps)
 {
-	all->tok->redirect = NULL;
+	
 	all->tok->fd_red = NULL;
 	while (is_smb_in_str(line[ps->pos], ";|", 1) == 0)
 	{

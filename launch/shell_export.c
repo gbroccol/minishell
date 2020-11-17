@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   shell_export.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
 /*   Updated: 2020/11/17 15:28:11 by pvivian          ###   ########.fr       */
@@ -11,6 +11,44 @@
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+static int		check_line_to_smb(char *ar, char *str, int smb)
+{
+	int			i;
+
+	i = 0;
+	while (ar[i] == str[i] && ar[i] != '\0')
+		i++;
+	if (smb == 1)
+	{
+		if (ar[i] == '=')
+			return (0);
+	}
+	else if (smb == 2)
+	{
+		if (ar[i] == '=' || ar[i] == '\0')
+			return (0);
+	}
+	return (1);
+}
+
+static int		find_env(char *line, char **ar, int smb)
+{
+	int			l_line;
+
+	l_line = 0;
+	while (ar && ar[l_line] != NULL)
+	{
+		if (check_line_to_smb(ar[l_line], line, smb)) // no
+		{
+			l_line++;
+			continue ;
+		}
+		else
+			return (l_line);
+	}
+	return (-1);
+}
 
 int				replace_env(char **array, char *str)
 {
@@ -81,6 +119,7 @@ int				shell_export(t_token *token, t_all *all)
 	int		i;
 	int		j;
 	int		status;
+	int		line;
 
 	i = 0;
 	j = 1;
@@ -91,6 +130,17 @@ int				shell_export(t_token *token, t_all *all)
 	{
 		while (token->args[j] != NULL)
 		{
+			if (!strchr(token->args[j], '=') && find_env(token->args[j], all->env, 2))
+			{
+				if ((line = find_env(token->args[j], all->local, 1)) >= 0)
+				{
+					if (!(new_env(all, all->local[line])))
+						return (1);
+					all->local = ft_del_str_from_ar(all->local, line);
+					j++;
+					continue ;
+				}
+			}
 			if ((i = replace_env(all->env, token->args[j])) < 0)
 				return (1);
 			if ((i != 0) || (token->args[j][0] == '='))

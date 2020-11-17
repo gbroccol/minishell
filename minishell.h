@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
 /*   Updated: 2020/11/17 15:11:57 by pvivian          ###   ########.fr       */
@@ -88,13 +88,14 @@ typedef struct		s_all
 	char			*gnl_line;
 	char			*gnl_tmp;
 	char			**env;
+	char			**local;
 	int				status;
 	int				fds[2];
 	int				temp_0;
 	int				temp_1;
 	int				pre_pipe;
 	char			*home;
-	char			**local;
+	
 	t_token			*tok;
 	t_pars			*ps;
 }					t_all;
@@ -107,7 +108,7 @@ int					arguments(t_all *all, char *line, t_pars *ps);
 int					check_gnl_line(t_all *all, char *str);
 t_all				*clear_all(char **envp);
 void				command(t_token *tok);
-int					env(char *line, t_pars *ps, char **env);
+int					env(char *line, t_pars *ps, t_all *all);
 int					parsing(t_all *all, t_pars *ps);
 int					quote_no(t_all *all, char *line, t_pars *ps);
 int					quote_one(char *line, t_pars *ps);

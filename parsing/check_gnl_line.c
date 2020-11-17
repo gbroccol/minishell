@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:29:50 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/16 16:10:37 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/16 20:23:51 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,19 @@ static int		check_err_share_smb(t_all *all, char *str, t_pars *ps)
 			all->syntax = 1;
 			return (1);
 		}
+		if (str[ps->pos] == '>' || str[ps->pos] == '<')
+		{
+			while (str[ps->pos] == '>' || str[ps->pos] == '<')
+				ps->pos++;
+			while (str[ps->pos] == ' ' || str[ps->pos] == '\t')
+				ps->pos++;
+			if (str[ps->pos] == '\0' || str[ps->pos] == '|' || str[ps->pos] == ';')
+			{
+				all->syntax = 1;
+				return (1);
+			}
+			// ps->pos++;
+		}
 		ps->pos = check_err_middle(str, ps->pos);
 		if (str[ps->pos] == ';')
 			ps->pos++;
@@ -113,6 +126,7 @@ int				check_err_red_smb(t_all *all, char *str, t_pars *ps)
 			ps->pos++;
 		if (str[ps->pos] == '\'')
 		{
+			ps->pos++;
 			while (str[ps->pos] != '\'' && str[ps->pos] != '\0')
 				ps->pos++;
 			if (str[ps->pos] == '\'')
@@ -120,6 +134,7 @@ int				check_err_red_smb(t_all *all, char *str, t_pars *ps)
 		}
 		if (str[ps->pos] == '\"')
 		{
+			ps->pos++;
 			while (str[ps->pos] != '\"' && str[ps->pos] != '\0')
 				ps->pos++;
 			if (str[ps->pos] == '\"')

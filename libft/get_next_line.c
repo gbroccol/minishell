@@ -85,7 +85,7 @@ void			rewrite_eof(char **str)
 	*str[i - 1] = '\0';
 }
 
-int				get_next_line(int fd, char **line)
+int				get_next_line_dif(int fd, char **line)
 {
 	static char	*s_fd[2000];
 	char		buf[BUFFER_SIZE + 1];
