@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:28:23 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/16 19:21:17 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/17 16:58:23 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ int			arguments(t_all *all, char *line, t_pars *ps)
 		while (is_smb_in_str(line[ps->pos], " \t", 0))
 			ps->pos++;
 		if (create_line(all, line, ps))
+		{
+			command(all->tok);
 			return (1); // stop parsing
+		}
 		if (all->ps->tmp && is_smb_in_str(line[ps->pos], " \t;|<>", 1))
 		{
 			all->tok->args = ft_str_to_array(all->tok->args, all->ps->tmp);

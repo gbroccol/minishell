@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_cd_pwd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 15:23:02 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 17:19:51 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,21 @@ int			shell_cd(t_token *tokens, char **env, t_all *all)
 	t_token tmp;
 	char	dir[MAXPATHLEN];
 	int		home;
+	char	*pwd;
 
 	home = 0;
 	if (define_path(tokens, env, &home) == 1)
 		return (1);
 	if (ft_strlen(tokens->args[1]) == 0)
 		return (0);
-	if (!(tmp.args = (char **)malloc(sizeof(char *) * 3)))
+	if (!(pwd = search_env(env, "PWD=")))
 		return (1);
+	if (!(tmp.args = (char **)malloc(sizeof(char *) * 3)))
+		return (1);												// free
 	tmp.args[0] = ft_strdup("export");
 	tmp.args[2] = NULL;
-	tmp.args[1] = ft_strjoin("OLDPWD=", search_env(env, "PWD="));
+	tmp.args[1] = ft_strjoin("OLDPWD=", pwd);
+	free(pwd);
 	if (chdir(tokens->args[1]) != 0)
 	{
 		print_error(all->tok->cmd, tokens->args[1], strerror(errno), 0);
@@ -88,6 +92,17 @@ char	*ft_tolower_str(char *str)
 	return (str);
 }
 
+static int ft_free(char *s1, char *s2, char *s3)
+{
+	if (s1)
+		free(s1);
+	if (s2)
+		free(s2);
+	if (s3)
+		free(s3);
+	return (1);
+}
+
 int			shell_pwd(t_all *all)
 {
 	char	dir[MAXPATHLEN];
@@ -95,18 +110,22 @@ int			shell_pwd(t_all *all)
 	char	*path;
 	char	*pwd;
 
+	home = NULL;
+	path = NULL;
+	pwd = NULL;
 	if (!(home = ft_tolower_str(ft_strdup(all->home))))
-		return (1);
+		return (ft_free(home, path, pwd));
 	if (getcwd(dir, MAXPATHLEN) == NULL)
-		return (1);
+		return (ft_free(home, path, pwd));
 	if (!(path = ft_tolower_str(ft_strdup(dir))))
-		return (1);
+		return (ft_free(home, path, pwd));
 	if (!(pwd = search_env(all->env, "PWD=")))
-		return (1);
+		return (ft_free(home, path, pwd));
 	if (!ft_strcmp(home, path))
 		write(1, all->home, ft_strlen(all->home));
 	else	
 		write(1, pwd, ft_strlen(pwd));
 	write(1, "\n", 1);
+	ft_free(home, path, pwd);
 	return (0);
 }

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 15:24:43 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/16 20:14:09 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 16:14:07 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-# include <stdio.h>            // remove
 
 #define BUFFER_SIZE 32
 
@@ -85,7 +84,7 @@ void			rewrite_eof(char **str)
 	*str[i - 1] = '\0';
 }
 
-int				get_next_line_dif(int fd, char **line)
+int				get_next_line(int fd, char **line)
 {
 	static char	*s_fd[2000];
 	char		buf[BUFFER_SIZE + 1];

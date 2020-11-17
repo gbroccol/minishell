@@ -29,18 +29,18 @@ echo "42 ;" ; echo "24 24"                                       # +
 echo -n -n -n 23                                                 # + l
 echo "\$ \#     |$/\n"                                           # +    
 echo "\$|$/"                                                     # +
-echo "Это #не комментарий"                                       # +
-echo Это # Вот комментарий.                                      # +
+echo "Это #не комментарий"                                       # + l
+echo Это # Вот комментарий.                                      # + l
 echo This              is # comment                              # +
 echo Это \# не комментарий                                       # +
 echo 567t6 ; 890 -n mk ; echo 123                                # +
 echo 567t6 ; 890                                                 # +
-echo Это # комментарий                                           # -
+echo Это # комментарий                                           # + l
 echo 123 ; echo Это \# не комментарий                            # + l
 # пустая строка                                                  # +
 echo $LOGNAME                                                    # + l
-echo $LOGNAME\ууу                                                # +
-echo $LOGNAME/ууу                                                # +
+echo $LOGNAME\ууу                                                # + l
+echo $LOGNAME/ууу                                                # + l
 echo "123 $LOGNAME 456"                                          # +
 echo "123 $LOGNAMEeee 456"                                       # +
 echo "$LOGNAME/eee"                                              # +
@@ -144,15 +144,15 @@ echo $? ; ls ; echo $?...                                                       
 ...$?...                                                                        # + l
 echo $? ; ls ; ...$?...                                                         # + l
 ...$?... ; echo $? ; ls ; ...$?...                                              # + l
-export str1 2str = _3str str4=str5   ; echo $?                                  # + l
- 'e'"x"p'o'r't'                                                                 # + l
-ec"ho" $str1 $str4                                                              # + l 
- 'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # + l
-  'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # + l
-echo "hello;"; $q'c'"h"o $test                                                  # + l
-echo "hello;"; $q'c'"h"o $test                                                  # + l
-$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # + l
-cd -; pwd                                                                       # + l
+export str1 2str = _3str str4=str5   ; echo $?                                  # + leaks
+ 'e'"x"p'o'r't'                                                                 # + leaks
+ec"ho" $str1 $str4                                                              # + leaks 
+ 'export' 'q'=e "w"=c e="h" r='o' 't'='x' "y"="p" u=r i=t                       # + leaks
+  'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # + leaks
+echo "hello;"; $q'c'"h"o $test                                                  # + leaks
+echo "hello;"; $q'c'"h"o $test                                                  # + leaks
+$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # + leaks
+cd -; pwd                                                                       # + leaks
 $lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # + l
  echo         \'\"\\                                                            # + l
 echo ~                                                                          # + l

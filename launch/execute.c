@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 15:12:09 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 16:59:04 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,22 @@ void	ft_eof(void)
 	close(fd[0]);
 }
 
+
+// static void		print_array(char **ar)
+// {
+// 	int		i;
+
+// 	i = 0;
+// 	while (ar && ar[i] != NULL)
+// 	{
+// 		write(1, "array-> ", 8);
+// 		write(1, ar[i], ft_strlen(ar[i]));
+// 		write(1, "\n", 1);
+// 		i++;
+// 	}
+// }
+
+
 int				execute(t_all *all)
 {
 	int			ret;
@@ -127,6 +143,11 @@ int				execute(t_all *all)
 	int size = 0;
 	int fd = 0;
 	
+
+	// print_array(all->tok->args);
+	// write(1, "_____a2_____\n", 13);
+
+
 	token = all->tok;
 	ret = 1;
 	r_redir = 0;

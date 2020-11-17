@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/17 14:07:18 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 16:59:09 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,19 @@ void	listener(int sig)
 		write(0, "\b\b  \b\b", 6);
 }
 
-void		print_array(char **ar)
-{
-	int		i;
+// static void		print_array(char **ar)
+// {
+// 	int		i;
 
-	i = 0;
-	while (ar && ar[i] != NULL)
-	{
-		write(1, "array-> ", 8);
-		write(1, ar[i], ft_strlen(ar[i]));
-		write(1, "\n", 1);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (ar && ar[i] != NULL)
+// 	{
+// 		write(1, "array-> ", 8);
+// 		write(1, ar[i], ft_strlen(ar[i]));
+// 		write(1, "\n", 1);
+// 		i++;
+// 	}
+// }
 
 void	creat_files(t_pars *ps)
 {
@@ -119,9 +119,9 @@ int	check_redir_files(t_all *all, char *str, t_pars *ps)
 	
 	creat_files(ps);
 	
-	// if (ps->red_files)
-	// 	ft_free_array(ps->red_files);
-	// ps->red_files = NULL;
+	if (ps->red_files)
+		ft_free_array(ps->red_files);
+	ps->red_files = NULL;
 	return (all->ps->pos);
 }
 
@@ -181,7 +181,7 @@ int		loop(t_all *all)
 	
 
 			// print_array(all->tok->args);
-			// write(1, "_____ar_____\n", 13);
+			// write(1, "_____a1_____\n", 13);
 			
 			// print_array(all->tok->redirect);
 			// write(1, "_____re_____\n", 13);
