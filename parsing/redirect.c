@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 12:44:42 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/17 12:35:09 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 18:34:11 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ int			redirect(t_all *all, char *line, char ***red_ar, t_pars *ps)
 	}
 	if (is_smb_in_str(line[ps->pos], "<>", 0) && check_file(ps->tmp, ps))
 		return (1);
-	// if (ps->er_redir = 1)
-	// 	return (1);
 	(*red_ar) = ft_str_to_array(*red_ar, ps->tmp);
 	ps->tmp = NULL;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:29:08 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/17 15:56:21 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/17 18:49:45 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ static int		find_env(char *line, t_pars *ps, char **env)
 				return (0);
 			else if (env[ps->env_line][ps->env_pos] == '=')
 				break ;
-			if (line[pos] == '\0')
-				break ;
-			if (env[ps->env_line][ps->env_pos] != line[pos])
+			if (line[pos] == '\0' ||
+					env[ps->env_line][ps->env_pos] != line[pos])
 				break ;
 			ps->env_pos++;
 		}
@@ -46,8 +45,6 @@ static void		check_env(char *line, t_pars *ps, t_all *all)
 {
 	if (find_env(line, ps, all->env) == 0)
 	{
-		// while (is_smb_in_str(line[ps->env_str_pos], "/\\ \t|?.,\'\"=:;$", 1) == 0)
-		// 	ps->env_str_pos++;
 		if (ps->env_pos != 0)
 		{
 			ps->env_pos++;
@@ -56,20 +53,15 @@ static void		check_env(char *line, t_pars *ps, t_all *all)
 	}
 	else if (find_env(line, ps, all->local) == 0)
 	{
-		// while (is_smb_in_str(line[ps->env_str_pos], "/\\ \t|?.,\'\"=:;$", 1) == 0)
-		// 	ps->env_str_pos++;
 		if (ps->env_pos != 0)
 		{
 			ps->env_pos++;
-			ps->env_str = ft_strdup_start(all->local[ps->env_line], ps->env_pos);
+			ps->env_str = ft_strdup_start(all->local[ps->env_line],
+									ps->env_pos);
 		}
 	}
-	// else
-	// {
-		while (is_smb_in_str(line[ps->env_str_pos], "/\\ \t|?.,\'\"=:;$", 1) == 0)
-			ps->env_str_pos++;
-	// }
-	
+	while (is_smb_in_str(line[ps->env_str_pos], "/\\ \t|?.,\'\"=:;$", 1) == 0)
+		ps->env_str_pos++;
 }
 
 int				env(char *line, t_pars *ps, t_all *all)
