@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 13:46:01 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/17 14:01:07 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,13 @@ int		launch(t_all *all, int r_redir)
 				return (0);
 			else if (ret == 1)
 			{
+				print_error(all->tok->cmd, "", "No such file or directory", 0);
+				all->status = 127;
+				return (1);
+			}
+			else if (ret == 2)
+			{
+				all->status = 0;
 				if (tok->pipe)
 					ft_eof();
 				else if (!tok->pipe)
@@ -103,9 +110,13 @@ int		launch(t_all *all, int r_redir)
 		if (tok->pipe)
 		{
 			if (r_redir > 0)
+			{
 				ft_eof();
+				dup2(all->temp_1, 1);
+			}
 			else
 				dup2(all->fds[0], 0);
+			all->pre_pipe = 1;
 		}
 		close(all->fds[1]);
 		waitpid(pid, &status, WUNTRACED);

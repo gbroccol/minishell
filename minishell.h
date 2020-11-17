@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 13:21:16 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/17 15:11:57 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void				ft_free_array(char **to_free);
 int					launch(t_all *all,  int r_redir);
 int					shell_exit(t_all *all);
 int					shell_cd(t_token *token, char **env, t_all *all);
-int					shell_pwd(void);
+int					shell_pwd(t_all *all);
 int					shell_echo(t_token *token);
 int					shell_export(t_token *token, t_all *all);
 int					shell_env(char **env);
