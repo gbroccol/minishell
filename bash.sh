@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ###############################################################################################
-cd .                                                                       #-
+cd .                                                             # - ?
 'Hello World!'                                                   # + l
 echo 10 > 'abc'"f"                                               # + l
 echo 'Hello World!'                                              # + l
@@ -52,7 +52,7 @@ echo 5 | cat -e                                                 # +
 echo "dd" | cat -e                                              # +
 echo '||' | cat -e                                              # +
 echo 42 23 | grep 4 | cat -e                                    # + l
-ls 1111111 | grep 111 | cat -e                                             # -
+ls 1111111 | grep 111 | cat -e                                  # + l?
 echo 123 > 1                                                    # + l
 echo '123 > 2'                                                  # + l
 echo "123 > 1"                                                  # + l
@@ -67,7 +67,7 @@ export qwe=123456 ; echo $qwe                                   # + l
 echo "qwe"'qwe'                                                 # + l
 echo "qwe" 'qwe'                                                # +
 ls                                                              # + l
-./ls                                                           	# - leak
+./ls                                                           	# - leak?
 ;;                                                                             # + l 
 ;                                                                              # + l 
 |                                                                              # + l 
@@ -149,7 +149,7 @@ ec"ho" $str1 $str4                                                              
   'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # + l
 echo "hello;"; $q'c'"h"o $test                                                  # + l
 echo "hello;"; $q'c'"h"o $test                                                  # + l
-$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                                     # - leak
+$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                                     # - leak?
 cd -; pwd                                                                       # + l
 $lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # + l
  echo         \'\"\\                                                            # + l

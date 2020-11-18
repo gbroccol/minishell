@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 18:32:40 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 18:34:04 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 20:10:20 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char		*search_env(char **env, char *to_find, t_all *all)
 	}
 	if (i != 0)
 	{
-		if (ft_strncmp(to_find, "PATH", 4))
+		if (ft_strncmp(to_find, "PATH", 4) && ft_strncmp(to_find, "PWD", 3))
 			print_find_error(all->tok->cmd, to_find, size);
 		return (ft_strdup(""));
 	}

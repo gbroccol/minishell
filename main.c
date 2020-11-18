@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/18 19:23:37 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 20:02:31 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int			main(int argc, char **argv, char **envp)
 	t_all	*all;
 	int		exit_value;
 
+	all = NULL;
 	if (argc > 0 && argv && (all = clear_all(envp)) == NULL)
 	{
 		write(1, "bash: malloc error\n", 19);
