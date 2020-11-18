@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_new_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:32:07 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 10:48:48 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 11:42:01 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int			check_vars_and_export(t_token *token, t_all *all, int *status)
 	while (token->args[i] != NULL)
 	{
 		if (!strchr(token->args[i], '=') && \
-		find_env(token->args[i], all->env, 2))
+		find_env(token->args[i], all->env, 2)) // strchr -> ft_strchr
 		{
 			if ((line = find_env(token->args[i], all->local, 1)) >= 0)
 			{

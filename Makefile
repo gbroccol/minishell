@@ -6,7 +6,7 @@
 #    By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/11/17 18:30:29 by gbroccol         ###   ########.fr        #
+#    Updated: 2020/11/18 16:56:57 by gbroccol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ RM			= rm -rf
 SRC			= \
 				main.c \
 				parsing/clear.c \
+				parsing/save_env.c \
 				parsing/parsing.c \
 				parsing/command.c \
 				parsing/arguments.c \
@@ -29,6 +30,7 @@ SRC			= \
 				parsing/check_gnl_line.c \
 				parsing/check_err_share_smb.c \
 				parsing/check_err_red_smb.c \
+				parsing/check_redir_files.c \
 				parsing/env.c \
 				launch/execute.c \
 				launch/shell_cd_pwd.c \

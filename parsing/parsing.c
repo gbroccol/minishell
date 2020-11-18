@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:33:48 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/17 18:33:34 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 13:07:35 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void		clear_token_again(t_token *tok)
 
 int				parsing(t_all *all, t_pars *ps)
 {
+	int			arg_ret;
+
 	clear_token_again(all->tok);
 	ps->tmp = NULL;
 	ps->tmp2 = NULL;
@@ -36,8 +38,9 @@ int				parsing(t_all *all, t_pars *ps)
 		all->tok->args = NULL;
 		if (is_smb_in_str(all->gnl_line[ps->pos], "><", 0))
 			redirect(all, all->gnl_line, &all->tok->redirect, ps);
-		if (arguments(all, all->gnl_line, ps))
-			return (1); // 1 - stop parsing
+		arg_ret = arguments(all, all->gnl_line, ps);	
+		if (arg_ret == 1 || arg_ret == -1)
+			return (arg_ret == 1 ? 1 : -1); // 1 - stop pars // -1 - error // 0 - continue parsing
 	}
 	else
 		return (1);

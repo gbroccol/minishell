@@ -3,38 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:30:55 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/17 18:48:52 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 16:13:11 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char			**save_env(char **envp, int size)
+static t_all	*error_malloc(t_all *all)
 {
-	char		**env;
-	int			i;
-
-	i = 0;
-	while (envp[i] != NULL)
-		i++;
-	size += i;
-	if (!(env = (char **)malloc(sizeof(char *) * (size + 1))))
-		return (NULL);
-	bzero_array(env, size);
-	i = 0;
-	while (i < size && envp[i])
-	{
-		if (!(env[i] = ft_strdup(envp[i])))
-		{
-			ft_free_array(env);
-			return (NULL);
-		}
-		i++;
-	}
-	return (env);
+	if (all->ps)
+		free (all->ps);
+	if (all->tok)
+		free (all->tok);
+	if (all->home)
+		free (all->home);
+	if (all->env)
+		ft_free_array(all->env);
+	if (all)
+		free (all);
+	return (NULL);
 }
 
 static t_pars	*clear_all_ps(void)
@@ -72,20 +62,13 @@ static t_token	*clear_all_tok(void)
 	return (tok);
 }
 
-t_all			*clear_all(char **envp)
+void			clear_all_in(t_all *all)
 {
-	t_all		*all;
-
-	if (!(all = malloc(sizeof(t_all))))
-		return (NULL);
 	all->syntax = 0;
 	all->ret_ex = 1;
 	all->ret_pars = 1;
 	all->gnl_line = NULL;
 	all->gnl_tmp = NULL;
-	all->env = NULL;
-	if (!(all->env = save_env(envp, 0)))
-		return (NULL);
 	all->local = NULL;
 	all->status = 0;
 	all->fds[1] = -1;
@@ -93,9 +76,27 @@ t_all			*clear_all(char **envp)
 	all->temp_0 = dup(0);
 	all->temp_1 = dup(1);
 	all->pre_pipe = 0;
+}
+
+t_all			*clear_all(char **envp)
+{
+	t_all		*all;
+
+	all = NULL;
+	if (!(all = malloc(sizeof(t_all))))
+		return (NULL);
+	all->env = NULL;
 	all->home = NULL;
-	all->home = search_env(all->env, "HOME=", all);
-	all->tok = clear_all_tok();
-	all->ps = clear_all_ps();
+	all->tok = NULL;
+	all->ps = NULL;
+	clear_all_in(all);
+	if (!(all->env = save_env(envp, 0)))
+		return (error_malloc(all));
+	if (!(all->home = search_env(all->env, "HOME=", all)))
+		return (error_malloc(all));
+	if (!(all->tok = clear_all_tok()))
+		return (error_malloc(all));
+	if (!(all->ps = clear_all_ps()))
+		return (error_malloc(all));
 	return (all);
 }

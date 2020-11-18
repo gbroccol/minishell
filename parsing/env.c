@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:29:08 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/17 18:49:45 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 13:55:10 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int		find_env(char *line, t_pars *ps, char **env)
 	return (1);
 }
 
-static void		check_env(char *line, t_pars *ps, t_all *all)
+static int		check_env(char *line, t_pars *ps, t_all *all)
 {
 	if (find_env(line, ps, all->env) == 0)
 	{
@@ -49,6 +49,8 @@ static void		check_env(char *line, t_pars *ps, t_all *all)
 		{
 			ps->env_pos++;
 			ps->env_str = ft_strdup_start(all->env[ps->env_line], ps->env_pos);
+			if (ps->env_str == NULL)
+				return (-1);
 		}
 	}
 	else if (find_env(line, ps, all->local) == 0)
@@ -58,15 +60,18 @@ static void		check_env(char *line, t_pars *ps, t_all *all)
 			ps->env_pos++;
 			ps->env_str = ft_strdup_start(all->local[ps->env_line],
 									ps->env_pos);
+			if (ps->env_str == NULL)
+				return (-1);
 		}
 	}
 	while (is_smb_in_str(line[ps->env_str_pos], "/\\ \t|?.,\'\"=:;$", 1) == 0)
 		ps->env_str_pos++;
+	return (0);
 }
 
 int				env(char *line, t_pars *ps, t_all *all)
 {
-	if (is_smb_in_str(line[ps->pos + 1], "/\\ \t|?.,\'\"=:;$", 1) == 0)
+	if (is_smb_in_str(line[ps->pos + 1], "/\\ \t|?.,=:;$", 1) == 0)
 	{
 		ps->pos++;
 		if (ft_isdigit(line[ps->pos]))
@@ -76,7 +81,8 @@ int				env(char *line, t_pars *ps, t_all *all)
 		}
 		ps->env_str_pos = ps->pos;
 		ps->env_str = NULL;
-		check_env(line, ps, all);
+		if (check_env(line, ps, all) == -1)
+			return (-1);
 		ps->pos = ps->env_str_pos;
 		return (0);
 	}

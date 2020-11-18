@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 20:19:09 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 11:42:22 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				check_local(t_all *all)
 	while (all->tok->args[++i] != NULL)
 	{
 		if (all->tok->args[i][j] == '=' || ft_isdigit(all->tok->args[i][j]) || \
-		check_env_key(all->tok->args[i]) || !strchr(all->tok->args[i], '='))
+		check_env_key(all->tok->args[i]) || !strchr(all->tok->args[i], '=')) // strchr -> ft_strchr
 			return (1);
 	}
 	i = -1;

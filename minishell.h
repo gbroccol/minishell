@@ -3,12 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 18:31:58 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 16:56:36 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// 1 - stop pars // -1 - error // 0 - continue parsing
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -110,11 +113,13 @@ int					arguments(t_all *all, char *line, t_pars *ps);
 int					check_gnl_line(t_all *all, char *str);
 int					check_err_share_smb(t_all *all, char *str, t_pars *ps);
 int					check_err_red_smb(t_all *all, char *str, t_pars *ps);
+int					check_redir_files(t_all *all, char *str, t_pars *ps);
 t_all				*clear_all(char **envp);
-void				command(t_token *tok);
+char				**save_env(char **envp, int size);
+int					command(t_token *tok);
 int					env(char *line, t_pars *ps, t_all *all);
 int					parsing(t_all *all, t_pars *ps);
-int					quote_no(t_all *all, char *line, t_pars *ps);
+int					quote_no(t_all *all, char *line, t_pars *ps, int red_ignor);
 int					quote_one(char *line, t_pars *ps);
 int					quote_two(t_all *all, char *line, t_pars *ps);
 int					dollar(t_all *all, char *line, t_pars *ps);
