@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/18 16:52:37 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 18:17:02 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	listener(int sig)
+static void	listener(int sig)
 {
 	if (sig == SIGINT)
 	{
@@ -23,11 +23,12 @@ void	listener(int sig)
 		write(0, "\b\b  \b\b", 6);
 }
 
-int	read_check_str(t_all *all, int status)
+int			read_check_str(t_all *all, int status)
 {
 	all->gnl_tmp = NULL;
 	write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
-	if (signal(SIGINT, listener) == SIG_ERR || signal(SIGQUIT, listener) == SIG_ERR)
+	if (signal(SIGINT, listener) == SIG_ERR || \
+	signal(SIGQUIT, listener) == SIG_ERR)
 		exit(all->status);
 	while (status)
 	{
@@ -50,42 +51,17 @@ int	read_check_str(t_all *all, int status)
 	return (status);
 }
 
-int		loop(t_all *all)
+int			loop(t_all *all)
 {
 	int		status;
-	int		tmp_pos;
 
 	status = 1;
 	all->ret_pars = 0;
 	while (all->ret_ex && all->ret_pars != -1)
 	{
 		status = read_check_str(all, status);
-		all->ps->pos = 0;
-		all->ret_pars = 0;
-		all->ps->red_pos = 0;
-		all->ps->er_redir = 0;
-		while (all->ret_pars == 0 && !all->syntax)
-		{
-			all->ps->status = ft_itoa(all->status);
-			all->ps->env_str_pos = 0;
-			all->ps->env_str = NULL;
-			if ((all->ps->red_pos == 0 && all->ps->pos == 0) || all->ps->red_pos < all->ps->pos)
-			{
-				tmp_pos = all->ps->pos;
-				all->ps->red_pos = check_redir_files(all, all->gnl_line, all->ps);
-				if (all->ps->red_pos == -1)
-					all->ret_pars = 1;
-				all->ps->pos = tmp_pos;
-			}
-			if (!all->ps->er_redir && all->ret_pars == 0)
-				all->ret_pars = parsing(all, all->ps);
-			if (!all->ps->er_redir && all->ret_pars != -1)
-				all->ret_ex = execute(all);
-			if (all->tok)
-				exit_all_tok(all->tok);
-			if (all->ps)
-				exit_all_ps(all->ps);
-		}
+		init_parse(all);
+		parse_and_exec(all);
 		status = 1;
 		if (all->syntax)
 		{
@@ -104,7 +80,7 @@ int		loop(t_all *all)
 	return (all->status);
 }
 
-int		main(int argc, char **argv, char **envp)
+int			main(int argc, char **argv, char **envp)
 {
 	t_all	*all;
 	int		exit_value;

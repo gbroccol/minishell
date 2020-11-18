@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 17:09:54 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 18:31:49 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/param.h>
+# include <sys/stat.h>
 # include <math.h>
 # include <fcntl.h>
 # include <errno.h>
@@ -100,6 +101,8 @@ typedef struct	s_all
 	t_pars		*ps;
 }				t_all;
 
+void			parse_and_exec(t_all *all);
+void			init_parse(t_all *all);
 /*
 **  parsing
 */
