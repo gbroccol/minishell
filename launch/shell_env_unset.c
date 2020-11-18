@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   shell_env_unset.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:29:03 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/13 17:24:23 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 15:46:29 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		shell_env(char **env)
+int			shell_env(char **env)
 {
 	int i;
 
@@ -27,7 +27,14 @@ int		shell_env(char **env)
 	return (0);
 }
 
-int		shell_unset(t_token *token, char **env)
+static int	malloc_err(int *ret)
+{
+	write(2, "bash: malloc error\n", 19);
+	ret = 0;
+	return (1);
+}
+
+int			shell_unset(t_token *token, t_all *all, int *ret)
 {
 	int	i;
 	int j;
@@ -38,14 +45,13 @@ int		shell_unset(t_token *token, char **env)
 	{
 		while (token->args[j] != NULL)
 		{
-			while (env[i] != NULL)
+			while (all->env[i] != NULL)
 			{
-				if (ft_strcmp(env[i], token->args[j]) == '=' ||
-				!ft_strcmp(env[i], token->args[j]))
+				if (ft_strcmp(all->env[i], token->args[j]) == '=' ||
+				!ft_strcmp(all->env[i], token->args[j]))
 				{
-					free(env[i]);
-					env[i] = NULL;
-					env[i] = ft_strdup("");
+					if (!(all->env = ft_del_str_from_ar(all->env, i)))
+						return (malloc_err(ret));
 					break ;
 				}
 				i++;

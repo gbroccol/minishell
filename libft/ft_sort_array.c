@@ -1,9 +1,18 @@
-
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_sort_array.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/18 16:12:22 by pvivian           #+#    #+#             */
+/*   Updated: 2020/11/18 16:12:33 by pvivian          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
-static char			**ft_sort_array2(char **array, int array_len)
+static char	**ft_sort_array2(char **array, int array_len)
 {
 	int			i;
 	char		*tmp;
@@ -24,7 +33,7 @@ static char			**ft_sort_array2(char **array, int array_len)
 	return (array);
 }
 
-char			**ft_sort_array(char **env)
+char		**ft_sort_array(char **env)
 {
 	int			ascii_smb;
 	int			i;

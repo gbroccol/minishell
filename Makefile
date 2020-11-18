@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/11/17 18:30:29 by gbroccol         ###   ########.fr        #
+#    Updated: 2020/11/18 16:28:54 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRC			= \
 				parsing/check_err_red_smb.c \
 				parsing/env.c \
 				launch/execute.c \
-				launch/shell_cd_pwd.c \
+				launch/shell_cd.c \
+				launch/shell_pwd.c \
 				launch/shell_echo.c \
 				launch/shell_env_unset.c \
 				launch/shell_exit.c \
@@ -43,6 +44,8 @@ SRC			= \
 				launch/check_env.c \
 				launch/export_new_env.c \
 				launch/fd_redirection.c \
+				launch/check_redir.c \
+				launch/utils.c \
 				exit.c
 					
 OBJ			= $(SRC:.c=.o)
@@ -68,4 +71,4 @@ libft_fclean:
 test: all
 	@./minishell
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re libft_all libft_clean libft_fclean test

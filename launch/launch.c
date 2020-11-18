@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 20:19:09 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 12:58:09 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,6 @@ int				check_local(t_all *all)
 		update_home(all, all->tok->args[i]);
 	}
 	return (0);
-}
-
-static	void	fork_error(t_all *all)
-{
-	print_error(all->tok->cmd, "", strerror(errno), 0);
-	if (all->fds[0] >= 3)
-		close(all->fds[0]);
-	if (all->fds[1] >= 3)
-		close(all->fds[1]);
 }
 
 static	int		print_cmd_err(t_all *all, char *error, int ret)
@@ -97,9 +88,12 @@ int				launch(t_all *all, int r_redir)
 		return (ret);
 	pid = fork();
 	if (pid == 0)
-		daughter(all, tok);
+		child(all, tok);
 	else if (pid < 0)
-		fork_error(all);
+	{
+		print_error(all->tok->cmd, "", strerror(errno), 1);
+		close_fd(all);
+	}
 	else
 		parent(all, tok, pid, r_redir);
 	return (1);
