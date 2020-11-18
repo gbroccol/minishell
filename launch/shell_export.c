@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 19:37:19 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 15:47:43 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static void	print_env(char **env)
 		ft_free_array(sort_env);
 }
 
-int			shell_export(t_token *token, t_all *all)
+int			shell_export(t_token *token, t_all *all, int *ret)
 {
 	int		status;
 
@@ -62,7 +62,11 @@ int			shell_export(t_token *token, t_all *all)
 	else
 	{
 		if (check_vars_and_export(token, all, &status) != 0)
+		{
+			write(2, "bash: malloc error\n", 19);
+			ret = 0;
 			return (1);
+		}
 	}
 	return (status);
 }

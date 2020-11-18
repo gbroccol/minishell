@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:32:07 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 11:42:01 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 17:06:43 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ int			check_vars_and_export(t_token *token, t_all *all, int *status)
 	i = 1;
 	while (token->args[i] != NULL)
 	{
-		if (!strchr(token->args[i], '=') && \
-		find_env(token->args[i], all->env, 2)) // strchr -> ft_strchr
+		if (!ft_strchr(token->args[i], '=') && \
+		find_env(token->args[i], all->env, 2))
 		{
 			if ((line = find_env(token->args[i], all->local, 1)) >= 0)
 			{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 15:24:43 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/17 16:14:07 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 16:18:03 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,20 @@ static int		get_line(char **line, char **remember)
 {
 	int			n_yes;
 	char		*tmp;
-	int			remember_len;
+	int			rmb_len;
 	int			line_len;
 
-
 	tmp = NULL;
-	remember_len = ft_strlen_n(*remember, '\0');
+	rmb_len = ft_strlen_n(*remember, '\0');
 	if ((n_yes = ft_find_n(*remember) ? 1 : 0))
 		line_len = ft_strlen_n(*remember, '\n');
 	else
-		line_len = remember_len;
-
+		line_len = rmb_len;
 	if (!(*line = ft_substr(*remember, 0, line_len)))
 		return (mem_free(remember));
-	if (n_yes && (remember_len - line_len - 1) > 0)
+	if (n_yes && (rmb_len - line_len - 1) > 0)
 	{
-		if (!(tmp = ft_substr(*remember, line_len + 1, remember_len - line_len - 1)))
+		if (!(tmp = ft_substr(*remember, line_len + 1, rmb_len - line_len - 1)))
 			return (mem_free(remember));
 	}
 	else
@@ -73,15 +71,6 @@ static char		*write_surplus(char **s_fd, char *buf)
 	result = ft_strjoin(*s_fd, buf);
 	free(*s_fd);
 	return (result);
-}
-
-void			rewrite_eof(char **str)
-{
-	int			i;
-
-	i = ft_strlen(*str);
-	*str[i] = '\0';
-	*str[i - 1] = '\0';
 }
 
 int				get_next_line(int fd, char **line)

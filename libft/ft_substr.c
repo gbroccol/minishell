@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/06 20:46:33 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/05/20 00:38:55 by anastasiya       ###   ########.fr       */
+/*   Updated: 2020/11/18 16:13:57 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len) // exit // 0 // 4
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char		*str;
 	size_t		len_s;
 
 	if (!s)
 		return (ft_strdup(""));
-	len_s = ft_strlen(s); // 5
-	if (len_s < start) // 5 < 0
+	len_s = ft_strlen(s);
+	if (len_s < start)
 		return (ft_strdup(""));
 	if (len_s - start < len)
 	{

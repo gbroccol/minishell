@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 11:42:22 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 17:05:41 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int				check_local(t_all *all)
 	while (all->tok->args[++i] != NULL)
 	{
 		if (all->tok->args[i][j] == '=' || ft_isdigit(all->tok->args[i][j]) || \
-		check_env_key(all->tok->args[i]) || !strchr(all->tok->args[i], '=')) // strchr -> ft_strchr
+		check_env_key(all->tok->args[i]) || !ft_strchr(all->tok->args[i], '='))
 			return (1);
 	}
 	i = -1;
@@ -39,15 +39,6 @@ int				check_local(t_all *all)
 		update_home(all, all->tok->args[i]);
 	}
 	return (0);
-}
-
-static	void	fork_error(t_all *all)
-{
-	print_error(all->tok->cmd, "", strerror(errno), 0);
-	if (all->fds[0] >= 3)
-		close(all->fds[0]);
-	if (all->fds[1] >= 3)
-		close(all->fds[1]);
 }
 
 static	int		print_cmd_err(t_all *all, char *error, int ret)
@@ -97,9 +88,12 @@ int				launch(t_all *all, int r_redir)
 		return (ret);
 	pid = fork();
 	if (pid == 0)
-		daughter(all, tok);
+		child(all, tok);
 	else if (pid < 0)
-		fork_error(all);
+	{
+		print_error(all->tok->cmd, "", strerror(errno), 1);
+		close_fd(all);
+	}
 	else
 		parent(all, tok, pid, r_redir);
 	return (1);

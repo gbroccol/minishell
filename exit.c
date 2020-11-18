@@ -6,13 +6,13 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 16:59:01 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/18 10:29:48 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 16:49:39 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void		exit_all_tok(t_token *tok)
+void	exit_all_tok(t_token *tok)
 {
 	if (tok->cmd)
 		free(tok->cmd);
@@ -28,7 +28,7 @@ void		exit_all_tok(t_token *tok)
 	tok->fd_red = NULL;
 }
 
-void		exit_all_ps(t_pars *ps)
+void	exit_all_ps(t_pars *ps)
 {
 	if (ps->status)
 		free(ps->status);
@@ -44,7 +44,7 @@ void		exit_all_ps(t_pars *ps)
 	ps->tmp2 = NULL;
 }
 
-void exit_all(t_all *all)
+void	exit_all(t_all *all)
 {
 	if (all->gnl_line)
 		free(all->gnl_line);
@@ -55,10 +55,7 @@ void exit_all(t_all *all)
 	if (all->env)
 		ft_free_array(all->env);
 	all->env = NULL;
-	if ((all->fds[0]) >= 3)
-		close(all->fds[0]);
-	if ((all->fds[1]) >= 3)
-		close(all->fds[1]);
+	close_fd(all);
 	if (all->home)
 		free(all->home);
 	all->home = NULL;

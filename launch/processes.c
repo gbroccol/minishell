@@ -6,13 +6,13 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 20:14:40 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 10:35:27 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 12:38:10 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void			daughter(t_all *all, t_token *tok)
+void			child(t_all *all, t_token *tok)
 {
 	if (signal(SIGINT, SIG_DFL) == SIG_ERR || \
 	signal(SIGQUIT, SIG_DFL) == SIG_ERR)

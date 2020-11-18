@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   ft_str_to_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 21:46:11 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/13 17:29:07 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 16:26:52 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static void	ft_free(char *s1, char *s2)
+{
+	if (s1)
+		free(s1);
+	s1 = NULL;
+	if (s2)
+		free(s2);
+	s2 = NULL;
+}
 
 char		*ft_str_to_str(char *s1, char *s2)
 {
@@ -35,11 +45,6 @@ char		*ft_str_to_str(char *s1, char *s2)
 		s1_size++;
 	}
 	res[s1_size] = '\0';
-	if (s1)
-		free(s1);
-	s1 = NULL;
-	if (s2)
-		free(s2);
-	s2 = NULL;
+	ft_free(s1, s2);
 	return (res);
 }
