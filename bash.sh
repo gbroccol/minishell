@@ -1,8 +1,5 @@
 #! /bin/bash
 
-# malloc
-#  env // проверить символы по ASCII
-
 ###############################################################################################
 'Hello World!'                                                   # + l
 echo 10 > 'abc'"f"                                               # + l
@@ -255,12 +252,12 @@ echo 5 | exit																	# +
 exit																			# +
 wc Makefile																		# +
 wc < Makefile																	# +
-cd exit.o 																		# - КАТЯ
-echo $?																			# - КАТЯ
+cd exit.o 																		# +
+echo $?																			# +
 >																				# +
 >;																				# +
 > ;																				# +
->>>>																			# +
+>>>>																			# - error 258  NASTYA
 
 > g |																			# - КАТЯ
 g
