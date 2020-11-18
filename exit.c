@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/13 16:59:01 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/16 13:07:39 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 10:29:48 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ void exit_all(t_all *all)
 	if (all->env)
 		ft_free_array(all->env);
 	all->env = NULL;
-	close(all->fds[0]);
-	close(all->fds[1]);
+	if ((all->fds[0]) >= 3)
+		close(all->fds[0]);
+	if ((all->fds[1]) >= 3)
+		close(all->fds[1]);
 	if (all->home)
 		free(all->home);
 	all->home = NULL;

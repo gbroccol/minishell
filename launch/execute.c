@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 20:49:32 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 10:39:26 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,10 @@ void		ft_eof(void)
 	pipe(fd);
 	write(fd[1], "", 0);
 	dup2(fd[0], 0);
-	close(fd[1]);
-	close(fd[0]);
+	if (fd[1] >= 3)
+		close(fd[1]);
+	if (fd[0] >= 3)
+		close(fd[0]);
 }
 
 static void	launch_builtins(t_all *all, t_token *token, int *ret)
@@ -162,8 +164,10 @@ int			execute(t_all *all)
 				ft_eof();
 			else
 				dup2(all->fds[0], 0);
-			close(all->fds[1]);
-			close(all->fds[0]);
+			if (all->fds[1] >= 3)
+				close(all->fds[1]);
+			if (all->fds[0] >= 3)
+				close(all->fds[0]);
 			all->pre_pipe = 1;
 		}
 		if (ret && !token->pipe)
@@ -178,10 +182,12 @@ int			execute(t_all *all)
 	{
 		dup2(all->temp_1, 1);
 		dup2(all->temp_0, 0);
-		close(all->fds[1]);
-		close(all->fds[0]);
+		if (all->fds[1] >= 3)
+			close(all->fds[1]);
+		if (all->fds[0] >= 3)
+			close(all->fds[0]);
 	}
-	if (token->fd_red)
+	if (all->tok && token->fd_red)
 		clear_fd_redir(token, &tmp);
 	return (ret);
 }

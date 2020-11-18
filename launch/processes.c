@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 20:14:40 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 20:14:42 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 10:35:27 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,16 @@ void			daughter(t_all *all, t_token *tok)
 	if (tok->pipe)
 	{
 		dup2(all->fds[1], 1);
-		close(all->fds[0]);
+		if (all->fds[0] >= 3)
+			close(all->fds[0]);
 	}
 	if (execve(tok->args[0], tok->args, all->env) == -1)
 	{
 		print_error(all->tok->cmd, "", strerror(errno), 0);
 		exit(EXIT_FAILURE);
 	}
-	close(all->fds[1]);
+	if (all->fds[1] >= 3)
+		close(all->fds[1]);
 }
 
 static	void	parent_wait(t_all *all, pid_t pid)
@@ -69,9 +71,11 @@ void			parent(t_all *all, t_token *tok, pid_t pid, int r_redir)
 			dup2(all->fds[0], 0);
 		all->pre_pipe = 1;
 	}
-	close(all->fds[1]);
+	if (all->fds[1] >= 3)
+		close(all->fds[1]);
 	parent_wait(all, pid);
-	close(all->fds[0]);
+	if (all->fds[0] >= 3)
+		close(all->fds[0]);
 	if (!tok->pipe)
 	{
 		dup2(all->temp_0, 0);

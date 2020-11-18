@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 18:44:20 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 10:45:19 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ int			shell_cd(t_token *tokens, char **env, t_all *all)
 	tmp.args[1] = ft_strjoin("OLDPWD=", pwd);
 	free(pwd);
 	if (chdir(tokens->args[1]) != 0)
+	{
+		ft_free_array(tmp.args);
 		return (print_error(all->tok->cmd, tokens->args[1], strerror(errno), 1));
+	}
 	shell_export(&tmp, all);
 	free(tmp.args[1]);
 	tmp.args[1] = NULL;
