@@ -262,7 +262,7 @@ echo $?																			# +
 > g |																			# - КАТЯ
 g
 
-< test2																			# - КАТЯ
+< test2																			# +
 
 tgr=gd,
 echo $?
@@ -370,12 +370,12 @@ env
 export $FINAL=BASH																			# +
 env
 
-FINAL=SUN																					# - КАТЯ
-export FINAL																				# - КАТЯ
+FINAL=SUN																					# +
+export FINAL																				# +
 env
 
-final=sun																					# - КАТЯ
-export final																				# - КАТЯ
+final=sun																					# +
+export final																				# +
 env
 
 ###############################################################################################

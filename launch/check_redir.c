@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:47:27 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 16:09:41 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 17:32:34 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,10 @@ int			check_all_redirs(t_token *tok, int **tmp, t_all *all, int *r_red)
 {
 	if (tok->fd_red)
 		if (fd_redir(tok, tmp) != 0)
+		{
+			clear_fd_redir(tok, tmp);
 			return (1);
+		}
 	if (tok->redirect)
 	{
 		if (check_redir(all, r_red) == -1)
@@ -102,6 +105,7 @@ int			check_all_redirs(t_token *tok, int **tmp, t_all *all, int *r_red)
 				ft_eof();
 				all->pre_pipe = 1;
 			}
+			clear_fd_redir(tok, tmp);
 			return (1);
 		}
 	}

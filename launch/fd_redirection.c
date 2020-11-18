@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 20:30:07 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 20:52:34 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 17:32:51 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,5 @@ void		clear_fd_redir(t_token *token, int **tmp)
 		i += 3;
 	}
 	free(*tmp);
+	*tmp = NULL;
 }

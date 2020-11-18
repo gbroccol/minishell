@@ -3,7 +3,7 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
 #    Updated: 2020/11/18 18:16:49 by gbroccol         ###   ########.fr        #
@@ -19,6 +19,7 @@ RM			= rm -rf
 
 SRC			= \
 				main.c \
+				parse_and_exec.c \
 				parsing/clear.c \
 				parsing/save_env.c \
 				parsing/parsing.c \
