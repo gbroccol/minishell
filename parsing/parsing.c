@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:33:48 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/18 13:07:35 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 18:00:59 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int				parsing(t_all *all, t_pars *ps)
 		all->tok->args = NULL;
 		if (is_smb_in_str(all->gnl_line[ps->pos], "><", 0))
 			redirect(all, all->gnl_line, &all->tok->redirect, ps);
-		arg_ret = arguments(all, all->gnl_line, ps);	
+		arg_ret = arguments(all, all->gnl_line, ps);
 		if (arg_ret == 1 || arg_ret == -1)
-			return (arg_ret == 1 ? 1 : -1); // 1 - stop pars // -1 - error // 0 - continue parsing
+			return (arg_ret == 1 ? 1 : -1);
 	}
 	else
 		return (1);
-	return (0); // 0 - continue parsing
+	return (0);
 }

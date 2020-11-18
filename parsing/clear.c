@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:30:55 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/18 16:13:11 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 18:03:51 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 static t_all	*error_malloc(t_all *all)
 {
 	if (all->ps)
-		free (all->ps);
+		free(all->ps);
 	if (all->tok)
-		free (all->tok);
+		free(all->tok);
 	if (all->home)
-		free (all->home);
+		free(all->home);
 	if (all->env)
 		ft_free_array(all->env);
 	if (all)
-		free (all);
+		free(all);
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 16:52:43 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/18 16:56:07 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 18:03:19 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ static void		creat_files(t_pars *ps)
 
 	i = 0;
 	while (ps->red_files && ps->red_files[i])
-	{
 		if (ft_strcmp(ps->red_files[i], "<") == 0)
 		{
 			if ((fd = open(ps->red_files[i], O_RDONLY, 0666) < 0))
 				break ;
 			close(fd);
-			i = i + 2; // check sega ???
+			i++;
+			if (ps->red_files[i] != NULL)
+				i++;
 			continue ;
 		}
 		else
@@ -38,7 +39,6 @@ static void		creat_files(t_pars *ps)
 				i++;
 			}
 		}
-	}
 }
 
 static int		write_redir_files(t_all *all, char *str, t_pars *ps)
@@ -63,7 +63,7 @@ static int		write_redir_files(t_all *all, char *str, t_pars *ps)
 	return (0);
 }
 
-static void			skip_space(char *str, t_pars *ps, char smb)
+static void		skip_space(char *str, t_pars *ps, char smb)
 {
 	if (str[ps->pos] == smb)
 	{

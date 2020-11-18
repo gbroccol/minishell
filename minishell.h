@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 17:09:54 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 18:15:55 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct	s_pars
 	int			red_pos;
 	char		**red_files;
 	int			er_redir;
+	int			red_nmb;
 	char		*status;
 	int			env_line;
 	int			env_pos;
@@ -116,7 +117,8 @@ int				parsing(t_all *all, t_pars *ps);
 int				quote_no(t_all *all, char *line, t_pars *ps, int red_ignor);
 int				quote_one(char *line, t_pars *ps);
 int				quote_two(t_all *all, char *line, t_pars *ps);
-int				dollar(t_all *all, char *line, t_pars *ps);
+int				dollar_no(t_all *all, char *line, t_pars *ps);
+int				dollar_two(t_all *all, char *line, t_pars *ps);
 int				redirect(t_all *all, char *line, char ***red_ar, t_pars *ps);
 
 /*

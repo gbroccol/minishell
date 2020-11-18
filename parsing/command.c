@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:31:56 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/18 13:16:46 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 18:05:03 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void		choose_com(t_token *tok, char *cmd)
 		tok->type_func = TYPE_BIN;
 }
 
-int			command(t_token *tok)
+int				command(t_token *tok)
 {
 	int			index;
 
@@ -46,7 +46,7 @@ int			command(t_token *tok)
 		if (tok->args[0][0] == '=' ||
 				ft_isdigit(tok->args[0][0]) ||
 				check_env_key(tok->args[0]) ||
-				!ft_strchr(tok->args[0], '=')) // check cases
+				!ft_strchr(tok->args[0], '='))
 		{
 			while (tok->args[0][index] != '\0')
 			{
@@ -54,7 +54,7 @@ int			command(t_token *tok)
 				index++;
 			}
 		}
-		choose_com(tok, tok->args[0]); // fbf
+		choose_com(tok, tok->args[0]);
 	}
 	return (0);
 }
