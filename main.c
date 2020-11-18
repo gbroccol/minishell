@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/18 18:17:02 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 19:05:58 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,17 @@ int			read_check_str(t_all *all, int status)
 
 int			loop(t_all *all)
 {
-	int		status;
-
-	status = 1;
 	all->ret_pars = 0;
 	while (all->ret_ex && all->ret_pars != -1)
 	{
-		status = read_check_str(all, status);
+		read_check_str(all, 1);
 		init_parse(all);
 		parse_and_exec(all);
-		status = 1;
 		if (all->syntax)
 		{
 			write(1, "bash: syntax error near unexpected token\n", 41);
 			all->syntax = 0;
+			all->status = 258;
 		}
 		if (all->ret_pars == -1)
 		{
@@ -85,9 +82,7 @@ int			main(int argc, char **argv, char **envp)
 	t_all	*all;
 	int		exit_value;
 
-	if (argc == 1)
-		argv[1] = "minishell"; // костыль для argc / argv
-	if ((all = clear_all(envp)) == NULL)
+	if (argc > 0 && argv && (all = clear_all(envp)) == NULL)
 	{
 		write(1, "bash: malloc error\n", 19);
 		return (1);

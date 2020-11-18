@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 18:15:55 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/18 19:06:39 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 /*
 **  commands
 */
-// # define TYPE_ERROR -2 // error(MSG_CMD_NOT_FOUND);
 # define TYPE_NO 0
 # define TYPE_CD 1
 # define TYPE_PWD 2
@@ -40,16 +39,9 @@
 # define TYPE_UNSET 7
 # define TYPE_BIN 8
 
-// # define TYPE_PIPE 9
-// # define TYPE_RD_DB_OUT 10
-// # define TYPE_RD_S_OUT 11
-// # define TYPE_RD_INPUT 12
-
 /*
 **  vars
 */
-// # define VAR_PWD 1
-
 # define WRONG_ENV_SMB "\\|/ $%&()-:;<>?@^{}[]`~#./,*!\'\""
 # define SHARE_SMB " \t\r\a"
 
