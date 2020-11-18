@@ -6,7 +6,7 @@
 /*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:28:23 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/17 16:58:23 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/17 18:47:04 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int			arguments_finish(t_all *all, char *line, t_pars *ps)
 	return (0);  // continue parsing
 }
 
-static int	create_line(t_all *all, char *line, t_pars *ps)
+static int			create_line(t_all *all, char *line, t_pars *ps)
 {
 	if (line[ps->pos] == '\'')
 		quote_one(line, ps);
@@ -46,16 +46,16 @@ static int	create_line(t_all *all, char *line, t_pars *ps)
 		return (1);
 	else if (line[ps->pos] == '|' && line[ps->pos + 1] == '|')
 		return (1);
-	else if ((line[all->ps->pos] == '>' || line[all->ps->pos] == '<') && redirect(all, line, &all->tok->redirect, ps))
+	else if ((line[all->ps->pos] == '>' || line[all->ps->pos] == '<') &&
+			redirect(all, line, &all->tok->redirect, ps))
 		return (1);
 	else
 		quote_no(all, line, ps);
 	return (0);
 }
 
-int			arguments(t_all *all, char *line, t_pars *ps)
+int					arguments(t_all *all, char *line, t_pars *ps)
 {
-	
 	all->tok->fd_red = NULL;
 	while (is_smb_in_str(line[ps->pos], ";|", 1) == 0)
 	{

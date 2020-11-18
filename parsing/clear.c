@@ -6,16 +6,16 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/11 19:30:55 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/17 18:02:59 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 18:48:52 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**save_env(char **envp, int size)
+char			**save_env(char **envp, int size)
 {
-	char	**env;
-	int		i;
+	char		**env;
+	int			i;
 
 	i = 0;
 	while (envp[i] != NULL)
@@ -39,7 +39,7 @@ char	**save_env(char **envp, int size)
 
 static t_pars	*clear_all_ps(void)
 {
-	t_pars	*ps;
+	t_pars		*ps;
 
 	if (!(ps = (t_pars *)(malloc(sizeof(t_pars)))))
 		return (NULL);
@@ -95,7 +95,6 @@ t_all			*clear_all(char **envp)
 	all->pre_pipe = 0;
 	all->home = NULL;
 	all->home = search_env(all->env, "HOME=", all);
-	
 	all->tok = clear_all_tok();
 	all->ps = clear_all_ps();
 	return (all);

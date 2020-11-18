@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 20:50:41 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 18:31:58 by gbroccol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,8 @@ typedef struct		s_all
 
 int					arguments(t_all *all, char *line, t_pars *ps);
 int					check_gnl_line(t_all *all, char *str);
+int					check_err_share_smb(t_all *all, char *str, t_pars *ps);
+int					check_err_red_smb(t_all *all, char *str, t_pars *ps);
 t_all				*clear_all(char **envp);
 void				command(t_token *tok);
 int					env(char *line, t_pars *ps, t_all *all);
@@ -115,6 +117,7 @@ int					parsing(t_all *all, t_pars *ps);
 int					quote_no(t_all *all, char *line, t_pars *ps);
 int					quote_one(char *line, t_pars *ps);
 int					quote_two(t_all *all, char *line, t_pars *ps);
+int					dollar(t_all *all, char *line, t_pars *ps);
 int					redirect(t_all *all, char *line, char ***red_ar, t_pars *ps);
 
 /*

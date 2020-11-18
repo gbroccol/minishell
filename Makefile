@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
+#    By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/11/17 20:31:23 by pvivian          ###   ########.fr        #
+#    Updated: 2020/11/17 18:30:29 by gbroccol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,11 @@ SRC			= \
 				parsing/command.c \
 				parsing/arguments.c \
 				parsing/quote.c \
+				parsing/quote_no.c \
 				parsing/redirect.c \
 				parsing/check_gnl_line.c \
+				parsing/check_err_share_smb.c \
+				parsing/check_err_red_smb.c \
 				parsing/env.c \
 				launch/execute.c \
 				launch/shell_cd_pwd.c \
