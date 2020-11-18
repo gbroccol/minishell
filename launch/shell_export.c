@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 15:47:43 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 19:17:55 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int			shell_export(t_token *token, t_all *all, int *ret)
 		if (check_vars_and_export(token, all, &status) != 0)
 		{
 			write(2, "bash: malloc error\n", 19);
-			ret = 0;
+			*ret = 0;
 			return (1);
 		}
 	}

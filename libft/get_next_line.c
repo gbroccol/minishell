@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/02 15:24:43 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/18 16:18:03 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 19:30:58 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ static int		get_line(char **line, char **remember)
 		tmp = NULL;
 	free(*remember);
 	*remember = NULL;
-	*remember = tmp;
 	return (n_yes);
 }
+
 
 static char		*write_surplus(char **s_fd, char *buf)
 {

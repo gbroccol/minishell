@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 13:27:50 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 14:27:57 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 19:16:39 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ft_free_three_str(char *s1, char *s2, char *s3, int *ret)
 		free(s2);
 	if (s3)
 		free(s3);
-	ret = 0;
+	*ret = 0;
 	write(2, "bash: malloc error\n", 19);
 	return (1);
 }

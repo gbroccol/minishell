@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:29:03 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 15:46:29 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 19:17:15 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int			shell_env(char **env)
 static int	malloc_err(int *ret)
 {
 	write(2, "bash: malloc error\n", 19);
-	ret = 0;
+	*ret = 0;
 	return (1);
 }
 

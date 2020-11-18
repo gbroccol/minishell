@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 14:31:25 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/18 19:16:06 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	ft_free(char *pwd, char **tmp, int *ret)
 	if (tmp)
 		ft_free_array(tmp);
 	write(2, "bash: malloc error\n", 19);
-	ret = 0;
+	*ret = 0;
 	return (1);
 }
 
