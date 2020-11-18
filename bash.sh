@@ -2,6 +2,23 @@
 
 ###############################################################################################
 cd .                                                             # - ?
+export a a a a=b
+
+dsfugsdfgsdfg ctrl+\ -> ctrl+\ -> ctrl+\ -> echo $? --->>> 258 ??? 	
+dsfugsdfgsdfg ctrl+\ -> free line -> echo $? --->>> 258 ??? 	
+
+ps -> kill 7605 --->>>  Terminated: 15 ???
+
+ls > ">"
+
+ls -la > a -> chmod 111 a -> ls > a > b > c | cat < c --->>> Segmentation fault: 11
+
+export > a | grep > b > c USER < a -> cat c -> ls 
+
+cat -e < a
+
+chmod 111 b -> ls > b
+
 'Hello World!'                                                   # + l
 echo 10 > 'abc'"f"                                               # + l
 echo 'Hello World!'                                              # + l
