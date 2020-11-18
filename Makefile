@@ -6,7 +6,7 @@
 #    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/11/18 18:16:39 by pvivian          ###   ########.fr        #
+#    Updated: 2020/11/18 18:16:49 by gbroccol         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,9 +24,12 @@ SRC			= \
 				parsing/save_env.c \
 				parsing/parsing.c \
 				parsing/command.c \
+				parsing/dollar_no.c \
+				parsing/dollar_two.c \
 				parsing/arguments.c \
-				parsing/quote.c \
 				parsing/quote_no.c \
+				parsing/quote_one.c \
+				parsing/quote_two.c \
 				parsing/redirect.c \
 				parsing/check_gnl_line.c \
 				parsing/check_err_share_smb.c \
