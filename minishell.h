@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
 /*   Updated: 2020/11/17 18:31:58 by gbroccol         ###   ########.fr       */
@@ -12,7 +12,6 @@
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include "errors.h"
 # include "./libft/libft.h"
 # include <unistd.h>
 # include <stdlib.h>
@@ -52,6 +51,9 @@
 
 # define WRONG_ENV_SMB "\\|/ $%&()-:;<>?@^{}[]`~#./,*!\'\""
 # define SHARE_SMB " \t\r\a"
+
+# define ERR_SYN "syntax error near unexpected token"
+# define ERR_NO_F_D "No such file or directory"
 
 typedef struct		s_pars
 {
@@ -123,9 +125,11 @@ int					redirect(t_all *all, char *line, char ***red_ar, t_pars *ps);
 */
 int					execute(t_all *all);
 char				**save_env(char **envp, int size);
-char				*search_env(char **env, char *to_find);
+char				*search_env(char **env, char *to_find, t_all *all);
 void				ft_free_array(char **to_free);
 int					launch(t_all *all,  int r_redir);
+void				parent(t_all *all, t_token *tok, pid_t pid, int r_redir);
+void				daughter(t_all *all, t_token *tok);
 int					shell_exit(t_all *all);
 int					shell_cd(t_token *token, char **env, t_all *all);
 int					shell_pwd(t_all *all);
@@ -133,16 +137,20 @@ int					shell_echo(t_token *token);
 int					shell_export(t_token *token, t_all *all);
 int					shell_env(char **env);
 int					shell_unset(t_token *token, char **env);
-int					check_pwd(char **env, char **executable);
-int					find_path(char **env, char **executable);
+char				*search_env(char **env, char *to_find, t_all *all);
+int					check_pwd(char **env, char **executable, t_all *all);
+int					find_path(char **env, char **executable, t_all *all);
 char				**new_env(t_all *all, char *str);
 int					check_new_env(t_all *all, char *str);
 int					check_env_key(char *str);
 int					replace_env(char **array, char *str);
+int					ft_strlen_env(char *str);
+int					check_vars_and_export(t_token *token, t_all *all, int *status);
 void				update_home(t_all *all, char *str);
 int					print_error(char *exec, char *exec2, char *err_to_print, int ret);
 void				ft_eof(void);
-
+int					fd_redir(t_token *token, int **tmp);
+void				clear_fd_redir(t_token *token, int **tmp);
 void				exit_all(t_all *all);
 void				exit_all_tok(t_token *tok);
 void				exit_all_ps(t_pars *ps);

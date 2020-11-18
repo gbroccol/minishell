@@ -3,65 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   launch.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 14:01:07 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/17 20:19:09 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int		check_local(t_all *all)
+int				check_local(t_all *all)
 {
 	int		i;
 	int		j;
-	
-	i = 0;
+
+	i = -1;
 	j = 0;
-	while (all->tok->args[i] != NULL)
+	while (all->tok->args[++i] != NULL)
 	{
-		if (all->tok->args[i][j] == '=' || ft_isdigit(all->tok->args[i][j] ) || check_env_key(all->tok->args[i]) || !strchr(all->tok->args[i], '='))
+		if (all->tok->args[i][j] == '=' || ft_isdigit(all->tok->args[i][j]) || \
+		check_env_key(all->tok->args[i]) || !strchr(all->tok->args[i], '='))
 			return (1);
-		i++;
 	}
-	i = 0;
-	while (all->tok->args[i] != NULL)
+	i = -1;
+	while (all->tok->args[++i] != NULL)
 	{
 		if ((j = replace_env(all->local, all->tok->args[i])) < 0)
 			return (-1);
 		if (j != 0)
-			if(!(all->local = ft_str_to_array(all->local, ft_strdup(all->tok->args[i]))))
+			if (!(all->local = ft_str_to_array(all->local, \
+			ft_strdup(all->tok->args[i]))))
 				return (-1);
 		if ((j = replace_env(all->env, all->tok->args[i])) < 0)
 			return (-1);
 		update_home(all, all->tok->args[i]);
-		i++;
 	}
 	return (0);
 }
 
-int		launch(t_all *all, int r_redir)
+static	void	fork_error(t_all *all)
 {
-	pid_t		pid;
-	int			status;
-	int			ret;
-	t_token		*tok;
+	print_error(all->tok->cmd, "", strerror(errno), 0);
+	if (all->fds[0] >= 3)
+		close(all->fds[0]);
+	if (all->fds[1] >= 3)
+		close(all->fds[1]);
+}
 
-	tok = all->tok;
+static	int		print_cmd_err(t_all *all, char *error, int ret)
+{
+	print_error(all->tok->cmd, "", error, ret);
+	all->status = 127;
+	return (ret);
+}
+
+static	int		find_command(t_all *all, t_token *tok)
+{
+	int ret;
+
 	if (tok->args[0][0] != '/' && ft_strncmp(tok->args[0], "./", 2) && \
 	ft_strncmp(tok->args[0], "../", 3))
 	{
-		if ((ret = check_pwd(all->env, tok->args)) != 0)
+		if ((ret = check_pwd(all->env, tok->args, all)) != 0)
 		{
-			if (!(ret = find_path(all->env, tok->args)))
+			if (!(ret = find_path(all->env, tok->args, all)))
 				return (0);
 			else if (ret == 1)
-			{
-				print_error(all->tok->cmd, "", "No such file or directory", 0);
-				all->status = 127;
-				return (1);
-			}
+				return (print_cmd_err(all, "No such file or directory", 1));
 			else if (ret == 2)
 			{
 				all->status = 0;
@@ -70,79 +78,29 @@ int		launch(t_all *all, int r_redir)
 				else if (!tok->pipe)
 					dup2(all->temp_0, 0);
 				if (check_local(all) > 0)
-				{
-					print_error(all->tok->cmd, "", "command not found", 0);
-					all->status = 127;
-				}
+					print_cmd_err(all, "command not found", 1);
 				return (1);
 			}
 		}
 	}
+	return (2);
+}
+
+int				launch(t_all *all, int r_redir)
+{
+	pid_t		pid;
+	int			ret;
+	t_token		*tok;
+
+	tok = all->tok;
+	if ((ret = find_command(all, tok)) == 0 || ret == 1)
+		return (ret);
 	pid = fork();
 	if (pid == 0)
-	{
-		if (signal(SIGINT, SIG_DFL) == SIG_ERR || \
-		signal(SIGQUIT, SIG_DFL) == SIG_ERR)
-			exit(EXIT_FAILURE);
-		if (tok->pipe)
-		{
-			dup2(all->fds[1], 1);
-			close(all->fds[0]);
-		}
-		if (execve(tok->args[0], tok->args, all->env) == -1)
-		{
-			print_error(all->tok->cmd, "", strerror(errno), 0);
-			exit(EXIT_FAILURE);
-		}
-		close(all->fds[1]);
-	}
+		daughter(all, tok);
 	else if (pid < 0)
-	{
-		print_error(all->tok->cmd, "", strerror(errno), 0);
-		close(all->fds[0]);
-		close(all->fds[1]);
-	}
+		fork_error(all);
 	else
-	{
-		if (signal(SIGINT, SIG_IGN) == SIG_ERR || \
-		signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-			return (0);
-		if (tok->pipe)
-		{
-			if (r_redir > 0)
-			{
-				ft_eof();
-				dup2(all->temp_1, 1);
-			}
-			else
-				dup2(all->fds[0], 0);
-			all->pre_pipe = 1;
-		}
-		close(all->fds[1]);
-		waitpid(pid, &status, WUNTRACED);
-		while (!WIFEXITED(status) && !WIFSIGNALED(status))
-			waitpid(pid, &status, WUNTRACED);
-		all->status = WEXITSTATUS(status);
-		if (WIFSIGNALED(status))
-		{
-			if (WTERMSIG(status) == 2)
-			{
-				all->status = 130;
-				write(1, "\n", 1);
-			}
-			else if (WTERMSIG(status) == 3)
-			{
-				all->status = 131;
-				write(1, "Quit: 3\n", 8);
-			}
-		}
-		close(all->fds[0]);
-		if (!tok->pipe)
-		{
-			dup2(all->temp_0, 0);
-			dup2(all->temp_1, 1);
-			all->pre_pipe = 0;
-		}
-	}
+		parent(all, tok, pid, r_redir);
 	return (1);
 }

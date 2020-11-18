@@ -37,8 +37,12 @@ SRC			= \
 				launch/shell_exit.c \
 				launch/shell_export.c \
 				launch/launch.c \
+				launch/processes.c \
 				launch/find_path.c \
 				launch/export_utils.c \
+				launch/check_env.c \
+				launch/export_new_env.c \
+				launch/fd_redirection.c \
 				exit.c
 					
 OBJ			= $(SRC:.c=.o)
