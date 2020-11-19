@@ -6,19 +6,20 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:47:27 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 17:32:34 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/19 18:56:28 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	redir_err(t_all *all, char *exec, char *error, int status)
+static int	redir_err(t_all *all, char *exec, int status)
 {
 	all->status = status;
 	dup2(all->temp_1, 1);
 	dup2(all->temp_0, 0);
 	close_fd(all);
-	return (print_error(exec, "", error, -1));
+	// return (print_error(exec, "", "No such file or directory", -1));
+	return (print_error(exec, "", strerror(errno), -1));
 }
 
 static int	check_r_redir(t_all *all, t_token *token, int *r_red, int i)
@@ -26,15 +27,12 @@ static int	check_r_redir(t_all *all, t_token *token, int *r_red, int i)
 	int	fd;
 
 	fd = 0;
-	if (!token->redirect[i + 1] || \
-	ft_strchr("><", token->redirect[i + 1][0]))
-		return (redir_err(all, "", ERR_SYN, 258));
 	if (!ft_strcmp(token->redirect[i], ">"))
 		fd = open(token->redirect[i + 1], O_WRONLY | O_TRUNC);
 	else
 		fd = open(token->redirect[i + 1], O_WRONLY | O_APPEND);
 	if (fd < 0)
-		return (redir_err(all, token->redirect[i + 1], ERR_NO_F_D, 1));
+		return (redir_err(all, token->redirect[i + 1], 1));
 	all->fds[1] = fd;
 	dup2(all->fds[1], 1);
 	*r_red = 1;
@@ -47,16 +45,14 @@ static int	check_l_redir(t_all *all, t_token *token, int i)
 	int	fd;
 
 	fd = 0;
-	if (!token->redirect[i] || ft_strchr("><", token->redirect[i][0]))
-		return (redir_err(all, "", ERR_SYN, 258));
 	fd = open(token->redirect[i], O_RDONLY);
 	if (fd < 0)
-		return (redir_err(all, token->redirect[i], ERR_NO_F_D, 1));
-	if (all->pre_pipe == 0)
-	{
+		return (redir_err(all, token->redirect[i], 1));
+	// if (all->pre_pipe == 0)
+	// {
 		all->fds[0] = fd;
 		dup2(all->fds[0], 0);
-	}
+	// }
 	close(fd);
 	return (0);
 }

@@ -7,17 +7,18 @@ export a a a a=b
 dsfugsdfgsdfg ctrl+\ -> ctrl+\ -> ctrl+\ -> echo $? --->>> 258 ??? 	
 dsfugsdfgsdfg ctrl+\ -> free line -> echo $? --->>> 258 ??? 	
 
-ps -> kill 7605 --->>>  Terminated: 15 ???
+ps -> kill 7605 --->>>  Terminated: 15 ???                       # + l пока закомменчено
 
-ls > ">"
+ls > ">"                                                         # + l
 
-ls -la > a -> chmod 111 a -> ls > a > b > c | cat < c --->>> Segmentation fault: 11
+ls -la > a -> chmod 111 a -> ls > a > b > c | cat < c --->>> Segmentation fault: 11 # проверить вывод на маке
 
-export > a | grep > b > c USER < a -> cat c -> ls 
+export a -> export > a | grep > b > c USER < a -> cat c 
+export > a | grep > b > c USER < a -> cat c -> ls  # проверить вывод на маке в ситуации echo > 5 | cat < 5
 
-cat -e < a
+cat -e < a                                                       # + l
 
-chmod 111 b -> ls > b
+chmod 111 b -> ls > b                                            # проверить код ошибки на маке
 
 'Hello World!'                                                   # + l
 echo 10 > 'abc'"f"                                               # + l

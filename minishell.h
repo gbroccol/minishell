@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 19:06:39 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/19 16:38:07 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,6 @@
 */
 # define WRONG_ENV_SMB "\\|/ $%&()-:;<>?@^{}[]`~#./,*!\'\""
 # define SHARE_SMB " \t\r\a"
-
-# define ERR_SYN "syntax error near unexpected token"
-# define ERR_NO_F_D "No such file or directory"
 
 typedef struct	s_pars
 {

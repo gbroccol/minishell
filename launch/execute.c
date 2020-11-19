@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/27 15:11:35 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 17:25:04 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/19 16:36:47 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ int			execute(t_all *all)
 	r_redir = 0;
 	tmp = NULL;
 	if (token->type_func == -1 && !token->redirect)
+	{
+		// all->status = 0;
 		return (ret);
+	}
 	if (check_all_redirs(token, &tmp, all, &r_redir) != 0)
 		return (ret);
 	execute_command(all, token, &ret, r_redir);

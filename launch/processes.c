@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 20:14:40 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 12:38:10 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/19 18:37:14 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void			child(t_all *all, t_token *tok)
 {
-	if (signal(SIGINT, SIG_DFL) == SIG_ERR || \
-	signal(SIGQUIT, SIG_DFL) == SIG_ERR)
-		exit(EXIT_FAILURE);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGTERM, SIG_DFL);
 	if (tok->pipe)
 	{
 		dup2(all->fds[1], 1);
@@ -57,9 +57,9 @@ static	void	parent_wait(t_all *all, pid_t pid)
 
 void			parent(t_all *all, t_token *tok, pid_t pid, int r_redir)
 {
-	if (signal(SIGINT, SIG_IGN) == SIG_ERR || \
-	signal(SIGQUIT, SIG_IGN) == SIG_ERR)
-		exit(EXIT_FAILURE);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+//	signal(SIGTERM, SIG_IGN);
 	if (tok->pipe)
 	{
 		if (r_redir > 0)

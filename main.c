@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/19 17:41:00 by gbroccol          #+#    #+#             */
-/*   Updated: 2020/11/18 20:02:31 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/19 18:32:44 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@ int			read_check_str(t_all *all, int status)
 {
 	all->gnl_tmp = NULL;
 	write(1, "\x1b[1;32mminishell> \x1b[0m", 22);
-	if (signal(SIGINT, listener) == SIG_ERR || \
-	signal(SIGQUIT, listener) == SIG_ERR)
-		exit(all->status);
+	signal(SIGINT, listener);
+	signal(SIGQUIT, listener);
 	while (status)
 	{
 		if (get_next_line(0, &(all->gnl_tmp)) == 2 && all->pre_pipe == 0)

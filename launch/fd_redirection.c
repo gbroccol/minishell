@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 20:30:07 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 17:32:51 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/19 16:41:17 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,16 @@ void		clear_fd_redir(t_token *token, int **tmp)
 
 	i = 0;
 	j = 0;
-	while (token->fd_red[i] != NULL)
+	if (*tmp)
 	{
-		close(ft_atoi(token->fd_red[i]));
-		dup2(*tmp[j], ft_atoi(token->fd_red[i]));
-		j++;
-		i += 3;
+		while (token->fd_red[i] != NULL)
+		{
+			close(ft_atoi(token->fd_red[i]));
+			dup2(*tmp[j], ft_atoi(token->fd_red[i]));
+			j++;
+			i += 3;
+		}
+		free(*tmp);
+		*tmp = NULL;
 	}
-	free(*tmp);
-	*tmp = NULL;
 }
