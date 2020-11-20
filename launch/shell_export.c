@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 19:17:55 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/20 13:24:02 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int			ft_strlen_env(char *str)
 	size = 0;
 	while (str[size] != '=' && str[size] != '\0')
 		size++;
-	size++;
+	if (str[size] == '=')
+		size++;
 	return (size);
 }
 
@@ -35,18 +36,15 @@ static void	print_env(char **env)
 	while (sort_env[++i] != NULL)
 	{
 		size = ft_strlen_env(sort_env[i]);
-		if (size > 1)
+		write(1, "declare -x ", 11);
+		write(1, sort_env[i], size);
+		if ((ft_strlen(sort_env[i]) - size) > 0)
 		{
-			write(1, "declare -x ", 11);
-			write(1, sort_env[i], size);
-			if ((ft_strlen(sort_env[i]) - size) > 0)
-			{
-				write(1, "\"", 1);
-				write(1, sort_env[i] + size, ft_strlen(sort_env[i]) - size);
-				write(1, "\"", 1);
-			}
-			write(1, "\n", 1);
+			write(1, "\"", 1);
+			write(1, sort_env[i] + size, ft_strlen(sort_env[i]) - size);
+			write(1, "\"", 1);
 		}
+		write(1, "\n", 1);
 	}
 	if (sort_env)
 		ft_free_array(sort_env);

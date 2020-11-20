@@ -6,52 +6,32 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:30:52 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/17 17:45:39 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/20 12:57:39 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static char	**new_str(t_all *all, char *str)
+char	**new_str(t_all *all, char *str)
 {
 	int		i;
 	char	**tmp;
 
-	i = 0;
 	tmp = NULL;
 	if (!(tmp = save_env(all->env, 1)))
 		return (NULL);
 	ft_free_array(all->env);
 	all->env = tmp;
+	i = 0;
 	while (all->env[i] != NULL)
 		i++;
 	if (!(all->env[i] = ft_strdup(str)))
 		return (NULL);
+	all->env[i + 1] = NULL;
 	return (all->env);
 }
 
-char		**new_env(t_all *all, char *str)
-{
-	int		i;
-
-	i = 0;
-	while (all->env[i] != NULL)
-	{
-		if (ft_strlen(all->env[i]) == 0)
-		{
-			if (!(all->env[i] = ft_strdup(str)))
-				return (NULL);
-			i = 0;
-			break ;
-		}
-		i++;
-	}
-	if (i != 0)
-		return (new_str(all, str));
-	return (all->env);
-}
-
-int			check_env_key(char *str)
+int		check_env_key(char *str)
 {
 	int	i;
 
@@ -65,7 +45,7 @@ int			check_env_key(char *str)
 	return (0);
 }
 
-int			check_new_env(t_all *all, char *str)
+int		check_new_env(t_all *all, char *str)
 {
 	int	i;
 
@@ -81,7 +61,7 @@ int			check_new_env(t_all *all, char *str)
 	return (0);
 }
 
-void		update_home(t_all *all, char *str)
+void	update_home(t_all *all, char *str)
 {
 	if (!ft_strncmp(str, "HOME=", 5))
 	{

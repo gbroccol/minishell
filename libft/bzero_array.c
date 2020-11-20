@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 16:10:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 16:10:52 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/20 12:42:42 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,4 @@ void	bzero_array(char **array, int size)
 		i++;
 	}
 	array[i] = NULL;
-	i = 0;
 }

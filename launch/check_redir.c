@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:47:27 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/19 18:56:28 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/20 14:41:39 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 static int	redir_err(t_all *all, char *exec, int status)
 {
+	int err_no;
+
+	err_no = errno;
 	all->status = status;
 	dup2(all->temp_1, 1);
 	dup2(all->temp_0, 0);
 	close_fd(all);
-	// return (print_error(exec, "", "No such file or directory", -1));
-	return (print_error(exec, "", strerror(errno), -1));
+	return (print_error(exec, "", strerror(err_no), -1));
 }
 
 static int	check_r_redir(t_all *all, t_token *token, int *r_red, int i)
@@ -27,6 +29,7 @@ static int	check_r_redir(t_all *all, t_token *token, int *r_red, int i)
 	int	fd;
 
 	fd = 0;
+	errno = 0;
 	if (!ft_strcmp(token->redirect[i], ">"))
 		fd = open(token->redirect[i + 1], O_WRONLY | O_TRUNC);
 	else
@@ -45,14 +48,12 @@ static int	check_l_redir(t_all *all, t_token *token, int i)
 	int	fd;
 
 	fd = 0;
+	errno = 0;
 	fd = open(token->redirect[i], O_RDONLY);
 	if (fd < 0)
 		return (redir_err(all, token->redirect[i], 1));
-	// if (all->pre_pipe == 0)
-	// {
-		all->fds[0] = fd;
-		dup2(all->fds[0], 0);
-	// }
+	all->fds[0] = fd;
+	dup2(all->fds[0], 0);
 	close(fd);
 	return (0);
 }

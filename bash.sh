@@ -1,24 +1,24 @@
 #! /bin/bash
 
 ###############################################################################################
-cd .                                                             # - ?
-export a a a a=b
+cd .															# +
+export a a a a=b											 	# +
 
 dsfugsdfgsdfg ctrl+\ -> ctrl+\ -> ctrl+\ -> echo $? --->>> 258 ??? 	
 dsfugsdfgsdfg ctrl+\ -> free line -> echo $? --->>> 258 ??? 	
 
-ps -> kill 7605 --->>>  Terminated: 15 ???                       # + l пока закомменчено
+ps -> kill 7605 --->>>  Terminated: 15 ???                      # + signal(SIGTERM, SIG_IGN),  но в этом случае процесс не убивается даже извне
 
-ls > ">"                                                         # + l
+ls > ">"          	                                            # + l
 
-ls -la > a -> chmod 111 a -> ls > a > b > c | cat < c --->>> Segmentation fault: 11 # проверить вывод на маке
+ls -la > a -> chmod 111 a -> ls > a > b > c | cat < c  			# не совпадает с баш. Логика не понятна
 
-export a -> export > a | grep > b > c USER < a -> cat c 
-export > a | grep > b > c USER < a -> cat c -> ls  # проверить вывод на маке в ситуации echo > 5 | cat < 5
+export a -> export > a | grep > b > c USER < a -> cat c 		# + l
+export > a | grep > b > c USER < a -> cat c -> ls  				# + l
 
 cat -e < a                                                       # + l
 
-chmod 111 b -> ls > b                                            # проверить код ошибки на маке
+chmod 111 b -> ls > b                                            # + l
 
 'Hello World!'                                                   # + l
 echo 10 > 'abc'"f"                                               # + l
@@ -83,9 +83,9 @@ grep < 1                                                        # + l
 grep 4 < 1 | cat -e     	                                    # + l
 export qwe=123456 ; echo $qwe                                   # + l
 echo "qwe"'qwe'                                                 # + l
-echo "qwe" 'qwe'                                                # +
+echo "qwe" 'qwe'                                                # + l
 ls                                                              # + l
-./ls                                                           	# - leak?
+./ls                                                           	# + l
 ;;                                                                             # + l 
 ;                                                                              # + l 
 |                                                                              # + l 
@@ -167,7 +167,7 @@ ec"ho" $str1 $str4                                                              
   'e'"x"p'o'r't' "t"$q's'$i='h'"e"'l'l$r                                        # + l
 echo "hello;"; $q'c'"h"o $test                                                  # + l
 echo "hello;"; $q'c'"h"o $test                                                  # + l
-$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                                     # - leak?
+$q$w$e'o' $PWD;   cd .. ;    $q"c"$e'o' $PWD    ;                               # + l
 cd -; pwd                                                                       # + l
 $lkjlkjllkdfs$q$w$e$r "$e"$q"l"'l'$r;                                           # + l
  echo         \'\"\\                                                            # + l
@@ -179,8 +179,8 @@ pwd ; cat file1                                                                 
 ls lskdgjdhgisdoigjiredg                                                        # + l
 echo $?                                                                         # + l
 echo $?                                                                         # + l
-unset PWD; echo $PWD                                                            # - КАТЯ
-ls; unset PATH; ls     ;                                                        # - КАТЯ
+unset PWD; echo $PWD                                                            # + l
+ls; unset PATH; ls     ;                                                        # + l
 echo $?                                                                         # + l
 echo $?                                                                         # + l
 export PATH=/  ; ls                                                             # + l
@@ -193,7 +193,7 @@ pwd; echo $PWD                                                                  
 cd; echo $PWD; cd -                                                             # + l
 echo $PWD; echo $OLDPWD                                                         # + l
 unset OLDPWD; echo $OLDPWD                                                      # + l
-cd; echo $OLDPWD                                                                # + leak
+cd; echo $OLDPWD                                                                # + l
 cd ; echo $PWD; echo $OLDPWD                                 					# + l
 cd -                                                                            # + l
 ls -la                                                                          # + l
@@ -276,7 +276,7 @@ echo $?																			# +
 >																				# +
 >;																				# +
 > ;																				# +
->>>>																			# - error 258  NASTYA
+>>>>																			# + l
 
 > g |																			# - КАТЯ
 g

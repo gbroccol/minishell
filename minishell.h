@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:59:46 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/19 16:38:07 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/20 12:17:13 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int				shell_unset(t_token *token, t_all *all, int *ret);
 char			*search_env(char **env, char *to_find, t_all *all);
 int				check_pwd(char **env, char **executable, t_all *all);
 int				find_path(char **env, char **executable, t_all *all);
-char			**new_env(t_all *all, char *str);
+char			**new_str(t_all *all, char *str);
 int				check_new_env(t_all *all, char *str);
 int				check_env_key(char *str);
 int				replace_env(char **array, char *str);

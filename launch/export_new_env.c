@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_new_env.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gbroccol <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 19:32:07 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 17:06:43 by gbroccol         ###   ########.fr       */
+/*   Updated: 2020/11/20 14:51:06 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,32 +50,6 @@ static int	find_env(char *line, char **ar, int smb)
 	return (-1);
 }
 
-int			replace_env(char **array, char *str)
-{
-	int		i;
-	int		size;
-
-	i = -1;
-	if (!array)
-		return (1);
-	size = ft_strlen_env(str) - 1;
-	while (array[++i] != NULL)
-	{
-		if (ft_strchr(str, '=') && !ft_strncmp(str, array[i], size + 1))
-		{
-			free(array[i]);
-			array[i] = NULL;
-			if (!(array[i] = ft_strdup(str)))
-				return (-1);
-			i = 0;
-			break ;
-		}
-		else if (!ft_strchr(str, '=') && !ft_strncmp(str, array[i], size))
-			return (0);
-	}
-	return (i);
-}
-
 static	int	export_new_env(t_all *all, char *env, int *status)
 {
 	int i;
@@ -87,7 +61,7 @@ static	int	export_new_env(t_all *all, char *env, int *status)
 	{
 		if (check_new_env(all, env) == 0)
 		{
-			if (!(new_env(all, env)))
+			if (!(new_str(all, env)))
 				return (1);
 		}
 		else
@@ -109,7 +83,7 @@ int			check_vars_and_export(t_token *token, t_all *all, int *status)
 		{
 			if ((line = find_env(token->args[i], all->local, 1)) >= 0)
 			{
-				if (!(new_env(all, all->local[line])))
+				if (!(new_str(all, all->local[line])))
 					return (1);
 				all->local = ft_del_str_from_ar(all->local, line);
 				i++;

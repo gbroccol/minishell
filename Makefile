@@ -6,7 +6,7 @@
 #    By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/10/15 13:22:23 by gbroccol          #+#    #+#              #
-#    Updated: 2020/11/18 18:16:49 by gbroccol         ###   ########.fr        #
+#    Updated: 2020/11/20 14:51:28 by pvivian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ SRC			= \
 				launch/export_utils.c \
 				launch/check_env.c \
 				launch/export_new_env.c \
+				launch/replace_env.c \
 				launch/fd_redirection.c \
 				launch/check_redir.c \
 				launch/utils.c \
