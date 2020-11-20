@@ -6,40 +6,11 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/12 11:35:26 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 17:47:58 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/20 16:30:44 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int			check_pwd(char **env, char **executable, t_all *all)
-{
-	char			*pwd;
-	DIR				*dir;
-	struct dirent	*subdir;
-	int				err_no;
-
-	if (!(pwd = search_env(env, "PWD=", all)))
-		return (1);
-	dir = opendir(pwd);
-	errno = 0;
-	free(pwd);
-	if (!dir)
-		return (1);
-	while ((subdir = readdir(dir)) != NULL)
-	{
-		if (!ft_strcmp(subdir->d_name, *executable))
-		{
-			closedir(dir);
-			return (0);
-		}
-	}
-	err_no = errno;
-	closedir(dir);
-	if (err_no != 0)
-		return (print_error(*executable, "", strerror(err_no), 0));
-	return (1);
-}
 
 static char	*check_subdir(DIR *dir, char *executable, char *dirs)
 {

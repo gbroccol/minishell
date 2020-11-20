@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 20:14:40 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/20 14:31:38 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/20 15:31:36 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void			child(t_all *all, t_token *tok)
 		if (all->fds[0] >= 3)
 			close(all->fds[0]);
 	}
-	errno = 0;
 	if (execve(tok->args[0], tok->args, all->env) == -1)
 	{
 		print_error(all->tok->cmd, "", strerror(errno), 0);

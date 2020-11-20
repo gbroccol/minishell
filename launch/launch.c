@@ -6,7 +6,7 @@
 /*   By: pvivian <pvivian@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/05 18:37:39 by pvivian           #+#    #+#             */
-/*   Updated: 2020/11/18 18:42:14 by pvivian          ###   ########.fr       */
+/*   Updated: 2020/11/20 16:59:36 by pvivian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,19 @@ static	int		print_cmd_err(t_all *all, char *error, int ret)
 	return (ret);
 }
 
+static int		check_relative(t_token *tok, t_all *all)
+{
+	int	fd;
+
+	if ((fd = open(tok->args[0], O_RDWR)) < 0)
+	{
+		all->status = errno;
+		return (1);
+	}
+	close(fd);
+	return (0);
+}
+
 static	int		find_command(t_all *all, t_token *tok)
 {
 	int ret;
@@ -55,7 +68,7 @@ static	int		find_command(t_all *all, t_token *tok)
 	if (tok->args[0][0] != '/' && ft_strncmp(tok->args[0], "./", 2) && \
 	ft_strncmp(tok->args[0], "../", 3))
 	{
-		if ((ret = check_pwd(all->env, tok->args, all)) != 0)
+		if ((check_relative(tok, all)) != 0)
 		{
 			if (!(ret = find_path(all->env, tok->args, all)))
 				return (0);
