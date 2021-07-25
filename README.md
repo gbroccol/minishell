@@ -8,3 +8,8 @@ To clone and compile code and launch minishell:
 2. cd minishell
 3. make
 4. ./minishell
+
+Contributors:
+
+https://github.com/kate-eversunny - commands handling, piping and redirection.
+me - all the parsing
