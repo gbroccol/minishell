@@ -11,5 +11,5 @@ To clone and compile code and launch minishell:
 
 Contributors:
 
-https://github.com/kate-eversunny - commands handling, piping and redirection.
-me - all the parsing
+* https://github.com/kate-eversunny - commands handling, piping and redirection.
+* me - all the parsing
